@@ -42,6 +42,11 @@ public final class ReplenishEnchantment extends JavaPlugin {
         else
             getLogger().log(Level.WARNING, "Enchantment already registered!");
 
+        getLogger().log(Level.INFO, "Arrays.stream(Enchantment.values()).collect(Collectors.toList()).contains(enchantment): " + Arrays.stream(Enchantment.values()).collect(Collectors.toList()).contains(enchantment));
+
+        Bukkit.getPluginManager().registerEvents(new Replenisher(this), this);
+        Bukkit.getPluginManager().registerEvents(new ItemWatcher(this), this);
+
         /*Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             isUpdateAvailable = checkUpdate();
             if (isUpdateAvailable != null) {
