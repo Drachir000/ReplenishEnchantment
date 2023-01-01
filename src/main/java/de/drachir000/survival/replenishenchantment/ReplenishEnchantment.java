@@ -2,6 +2,7 @@ package de.drachir000.survival.replenishenchantment;
 
 import de.drachir000.survival.replenishenchantment.config.MainConfiguration;
 import de.drachir000.survival.replenishenchantment.enchantment.Replenish;
+import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -15,6 +16,7 @@ public final class ReplenishEnchantment extends JavaPlugin {
     private Enchantment enchantment;
     private MainConfiguration mainConfiguration;
     public static int CONFIG_VERSION = 1;
+    public static String isUpdateAvailable = null;
 
     @Override
     public void onEnable() {
@@ -40,7 +42,35 @@ public final class ReplenishEnchantment extends JavaPlugin {
         else
             getLogger().log(Level.WARNING, "Enchantment already registered!");
 
+        /*Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+            isUpdateAvailable = checkUpdate();
+            if (isUpdateAvailable != null) {
+                Bukkit.getPluginManager().registerEvents(new Updater.UpdateNotify(), this);
+                getLogger().log(Level.WARNING, "[UPDATER] An update for ReplenishEnchantment is available. Download it here: " + Updater.link);
+            }
+        });*/
+
     }
+
+    /*private String checkUpdate() {
+
+        String re = new Updater(this, 00000).getVersion(); //TODO set id
+        String[] spigotVersion = re.split("\\.");
+        String[] serverVersion = getDescription().getVersion().split("\\.");
+
+        for (int i = 0; i < serverVersion.length; i++) {
+            if (i < spigotVersion.length) {
+                if (Integer.parseInt(spigotVersion[i]) > Integer.parseInt(serverVersion[i])) {
+                    return re;
+                }
+            } else {
+                return null;
+            }
+        }
+
+        return null;
+
+    }*/
 
     public Enchantment getEnchantment() {
         return enchantment;
