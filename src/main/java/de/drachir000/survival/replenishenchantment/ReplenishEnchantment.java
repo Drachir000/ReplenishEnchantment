@@ -14,6 +14,7 @@ public final class ReplenishEnchantment extends JavaPlugin {
 
     private Enchantment enchantment;
     private MainConfiguration mainConfiguration;
+    public static int CONFIG_VERSION = 1;
 
     @Override
     public void onEnable() {
