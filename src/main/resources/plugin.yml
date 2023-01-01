@@ -1,0 +1,7 @@
+name: ReplenishEnchantment
+version: '${project.version}'
+main: de.drachir000.survival.replenishenchantment.ReplenishEnchantment
+api-version: 1.19
+authors: [ Drachir000 ]
+description: Adds a Replenish Enchantment to the game, which automatically replants seeds while farming
+website: https://drachir000.de
