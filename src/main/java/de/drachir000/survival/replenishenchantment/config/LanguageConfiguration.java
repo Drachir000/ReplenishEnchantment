@@ -46,19 +46,19 @@ public class LanguageConfiguration extends ConfigFile {
         private String UPDATE_1 = """
                 # Placeholders:
                 # None
-                player-only-command: &cThis is a player-only command!
+                player-only-command: §cThis is a player-only command!
 
                 # Placeholders:
                 # None
-                no-permission: &cYou are not allowed to do that!
+                no-permission: §cYou are not allowed to do that!
 
                 # Placeholders:
                 # None
-                get-book-success: &aThe Enchanted Book was successfully added to your Inventory
+                get-book-success: §aThe Enchanted Book was successfully added to your Inventory
 
                 # Placeholders:
                 # None
-                get-book-inv-full: &cYour Inventory doesn't have enough space for the Enchanted Book!
+                get-book-inv-full: §cYour Inventory doesn't have enough space for the Enchanted Book!
                 """;
 
         private String getUpdates() {
