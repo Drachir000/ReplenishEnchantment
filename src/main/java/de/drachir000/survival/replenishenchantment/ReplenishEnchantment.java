@@ -1,6 +1,7 @@
 package de.drachir000.survival.replenishenchantment;
 
 import de.drachir000.survival.replenishenchantment.command.CommandHandler;
+import de.drachir000.survival.replenishenchantment.config.LanguageConfiguration;
 import de.drachir000.survival.replenishenchantment.config.MainConfiguration;
 import de.drachir000.survival.replenishenchantment.enchantment.Replenish;
 import org.bukkit.Bukkit;
@@ -19,13 +20,19 @@ public final class ReplenishEnchantment extends JavaPlugin {
 
     private Enchantment enchantment;
     private MainConfiguration mainConfiguration;
+    private LanguageConfiguration languageConfiguration;
+    private MessageBuilder messageBuilder;
     public static int CONFIG_VERSION = 1;
+    public static int LANGUAGE_VERSION = 1;
     public static String isUpdateAvailable = null;
 
     @Override
     public void onEnable() {
 
         this.mainConfiguration = new MainConfiguration(this, "config.yml");
+
+        this.languageConfiguration = new LanguageConfiguration(this, "language.yml");
+        this.messageBuilder = new MessageBuilder(this, this.languageConfiguration);
 
         this.enchantment = new Replenish("replenish", this, mainConfiguration.getEnchantmentName(), mainConfiguration.getEnchantmentRarity());
         if (!Arrays.stream(Enchantment.values()).collect(Collectors.toList()).contains(enchantment))
@@ -87,6 +94,10 @@ public final class ReplenishEnchantment extends JavaPlugin {
 
     public MainConfiguration getMainConfiguration() {
         return mainConfiguration;
+    }
+
+    public MessageBuilder getMessageBuilder() {
+        return messageBuilder;
     }
 
     @Override public void onDisable() {

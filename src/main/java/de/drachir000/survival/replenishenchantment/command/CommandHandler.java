@@ -1,5 +1,6 @@
 package de.drachir000.survival.replenishenchantment.command;
 
+import de.drachir000.survival.replenishenchantment.MessageBuilder;
 import de.drachir000.survival.replenishenchantment.ReplenishEnchantment;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -18,16 +19,17 @@ import java.util.List;
 
 public class CommandHandler implements CommandExecutor {
 
-    private ReplenishEnchantment inst;
+    private final ReplenishEnchantment inst;
+    private final MessageBuilder messageBuilder;
 
     public CommandHandler(ReplenishEnchantment inst) {
         this.inst = inst;
+        this.messageBuilder = inst.getMessageBuilder();
     }
 
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    private boolean getBook(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Component.text("Only-Player Command!").color(TextColor.color(Color.RED.asRGB())));
+            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.PLAYER_ONLY_COMMAND));
             return false;
         }
         ItemStack book = new ItemStack(Material.ENCHANTED_BOOK, 1);
@@ -35,13 +37,23 @@ public class CommandHandler implements CommandExecutor {
         meta.addStoredEnchant(inst.getEnchantment(), 1, false);
         List<Component> lore = List.of(
                 inst.getEnchantment().displayName(1).color(TextColor.color(170, 170, 170))
-                .decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, false).decoration(TextDecoration.OBFUSCATED, false)
-                .decoration(TextDecoration.STRIKETHROUGH, false).decoration(TextDecoration.UNDERLINED, false)
+                        .decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, false).decoration(TextDecoration.OBFUSCATED, false)
+                        .decoration(TextDecoration.STRIKETHROUGH, false).decoration(TextDecoration.UNDERLINED, false)
         );
         meta.lore(lore);
         book.setItemMeta(meta);
         ((Player) sender).getPlayer().getInventory().addItem(book);
         return true;
+    }
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        switch (command.getName()) {
+            case "replenish-getbook":
+                return getBook(sender, args);
+            default:
+                return false;
+        }
     }
 
 }
