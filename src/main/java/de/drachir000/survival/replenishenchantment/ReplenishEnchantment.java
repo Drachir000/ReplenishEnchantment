@@ -57,6 +57,9 @@ public final class ReplenishEnchantment extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ItemWatcher(this), this);
 
         Objects.requireNonNull(getCommand("replenish-getbook")).setExecutor(new CommandHandler(this));
+        Objects.requireNonNull(getCommand("replenish-givebook")).setExecutor(new CommandHandler(this));
+        Objects.requireNonNull(getCommand("replenish-gethoe")).setExecutor(new CommandHandler(this));
+        Objects.requireNonNull(getCommand("replenish-givehoe")).setExecutor(new CommandHandler(this));
 
         /*Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             isUpdateAvailable = checkUpdate();

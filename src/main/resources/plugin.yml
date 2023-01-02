@@ -8,4 +8,17 @@ website: https://drachir000.de
 commands:
   replenish-getbook:
     description: gives you the Enchantment-Book
-    aliases: [r-book]
+    usage: /replenish-getbook
+    aliases: [r-getbook]
+  replenish-givebook:
+    description: gives a player the Enchantment-Book
+    usage: /replenish-givebook <Player>
+    aliases: [r-givebook]
+  replenish-gethoe:
+    description: gives you a Enchanted Hoe
+    usage: /replenish-gethoe [<Material(WOOD/IRON/etc.)>] [<full-enchanted(true/false)>]
+    aliases: [r-gethoe]
+  replenish-givehoe:
+    description: gives you a Enchanted Hoe
+    usage: /replenish-givehoe <Player> <Material(WOOD/IRON/etc.)> [<full-enchanted(true/false)>]
+    aliases: [r-givehoe]
