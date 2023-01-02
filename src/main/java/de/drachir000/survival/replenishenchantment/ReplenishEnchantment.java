@@ -25,9 +25,7 @@ public final class ReplenishEnchantment extends JavaPlugin {
 
         this.mainConfiguration = new MainConfiguration(this, "config.yml");
 
-        this.enchantment = new Replenish("replenish", this, mainConfiguration.getEnchantmentName(),
-                mainConfiguration.isTreasure(), mainConfiguration.isTradeable(), mainConfiguration.isDiscoverable(),
-                mainConfiguration.getEnchantmentRarity());
+        this.enchantment = new Replenish("replenish", this, mainConfiguration.getEnchantmentName(), mainConfiguration.getEnchantmentRarity());
         if (!Arrays.stream(Enchantment.values()).collect(Collectors.toList()).contains(enchantment))
             try {
                 Field fieldAcceptingNew = Enchantment.class.getDeclaredField("acceptingNew");
@@ -48,6 +46,8 @@ public final class ReplenishEnchantment extends JavaPlugin {
 
         Bukkit.getPluginManager().registerEvents(new Replenisher(this), this);
         Bukkit.getPluginManager().registerEvents(new ItemWatcher(this), this);
+
+        //Objects.requireNonNull(getCommand("replenish-getbook")).setExecutor(new CommandHandler(this));
 
         /*Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             isUpdateAvailable = checkUpdate();

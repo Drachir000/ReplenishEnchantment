@@ -23,12 +23,12 @@ public class Replenish extends Enchantment {
     private final boolean DISCOVERABLE;
     private final EnchantmentRarity RARITY;
 
-    public Replenish(String namespace, ReplenishEnchantment plugin, String name, boolean treasure, boolean tradeable, boolean discoverable, EnchantmentRarity rarity) {
+    public Replenish(String namespace, ReplenishEnchantment plugin, String name, EnchantmentRarity rarity) {
         super(Objects.requireNonNull(NamespacedKey.fromString(namespace, plugin)));
         this.NAME = name;
-        this.TREASURE = treasure;
-        this.TRADEABLE = tradeable;
-        this.DISCOVERABLE = discoverable;
+        this.TREASURE = true;
+        this.TRADEABLE = false;
+        this.DISCOVERABLE = false;
         this.RARITY = rarity;
     }
 
