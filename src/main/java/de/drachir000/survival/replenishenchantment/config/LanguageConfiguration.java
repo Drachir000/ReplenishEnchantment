@@ -44,6 +44,16 @@ public class LanguageConfiguration extends ConfigFile {
         private final String UPDATE_ALERT = "\n###################### THIS IS AUTOMATICALLY UPDATED BY THE PLUGIN, IT IS RECOMMENDED TO MOVE THESE VALUES TO THEIR APPROPRIATE PLACES. ######################\n";
 
         private String UPDATE_1 = """
+                # ColorCodes-Info:
+                # Vanilla:
+                # Colors:           §f §9 §a §3 §4 §5 §e §7
+                #                   §0 §1 §2 §b §c §d §6 §8
+                # Formatting:       §l §o §i §k §m §n §r
+                # See also https://minecraft.fandom.com/wiki/Formatting_codes for vanilla color/formatting codes
+                #
+                # Hex Colors (e.g.):§f = §#ffffff
+                # Hex Structure:    ( '§' + '#' + whatever hex code you want, you can find some here: https://g.co/kgs/SWX72Y )
+                
                 # Placeholders:
                 # None
                 player-only-command: §cThis is a player-only command!
