@@ -14,7 +14,7 @@ public class Replenisher implements Listener {
     }
 
     @EventHandler
-    public void onBlockBreak(BlockBreakEvent e) { // /give @s netherite_hoe{Enchantments:[{id:"replenishenchantment:replenish",lvl:1}]} 1
+    public void onBlockBreak(BlockBreakEvent e) {
         if (e.getPlayer().getInventory().getItemInMainHand().getType().isAir())
             return;
         if (!e.getPlayer().getInventory().getItemInMainHand().hasItemMeta())

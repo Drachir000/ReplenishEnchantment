@@ -44,7 +44,7 @@ public class Replenish extends Enchantment {
 
     @Override
     public int getStartLevel() {
-        return 0;
+        return 1;
     }
 
     @Override
@@ -69,12 +69,12 @@ public class Replenish extends Enchantment {
 
     @Override
     public boolean canEnchantItem(@NotNull ItemStack item) {
-        return item.getType() == Material.WOODEN_HOE ||
+        return (item.getType() == Material.WOODEN_HOE ||
                 item.getType() == Material.STONE_HOE ||
                 item.getType() == Material.IRON_HOE ||
                 item.getType() == Material.GOLDEN_HOE ||
                 item.getType() == Material.DIAMOND_HOE ||
-                item.getType() == Material.NETHERITE_HOE;
+                item.getType() == Material.NETHERITE_HOE);
     }
 
     @Override
