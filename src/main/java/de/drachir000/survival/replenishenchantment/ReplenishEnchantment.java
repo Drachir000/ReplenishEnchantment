@@ -1,5 +1,6 @@
 package de.drachir000.survival.replenishenchantment;
 
+import de.drachir000.survival.replenishenchantment.command.CommandHandler;
 import de.drachir000.survival.replenishenchantment.config.MainConfiguration;
 import de.drachir000.survival.replenishenchantment.enchantment.Replenish;
 import org.bukkit.Bukkit;
@@ -10,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -47,7 +49,7 @@ public final class ReplenishEnchantment extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new Replenisher(this), this);
         Bukkit.getPluginManager().registerEvents(new ItemWatcher(this), this);
 
-        //Objects.requireNonNull(getCommand("replenish-getbook")).setExecutor(new CommandHandler(this));
+        Objects.requireNonNull(getCommand("replenish-getbook")).setExecutor(new CommandHandler(this));
 
         /*Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             isUpdateAvailable = checkUpdate();
