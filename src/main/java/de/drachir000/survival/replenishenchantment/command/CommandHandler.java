@@ -11,16 +11,19 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class CommandHandler implements CommandExecutor {
+public class CommandHandler implements CommandExecutor, TabCompleter {
 
     private final ReplenishEnchantment inst;
     private final MessageBuilder messageBuilder;
@@ -237,10 +240,94 @@ public class CommandHandler implements CommandExecutor {
         };
     }
 
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        List<String> list = new ArrayList<>();
+        switch (command.getName()) {
+            case "replenish-givebook":
+                if (!(sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_BOOK))) || args.length != 1)
+                    return list;
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    list.add(player.getName());
+                }
+                break;
+            case "replenish-gethoe":
+                if (!(
+                        sender.isOp()
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_WOOD))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_STONE))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_GOLD))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_IRON))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_DIAMOND))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_NETHERITE))
+                ) || args.length == 0 || args.length > 2)
+                    return list;
+                if (args.length == 1 ) {
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_WOOD)))
+                        list.add("WOOD");
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_STONE)))
+                        list.add("STONE");
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_GOLD)))
+                        list.add("GOLD");
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_IRON)))
+                        list.add("IRON");
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_DIAMOND)))
+                        list.add("DIAMOND");
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_NETHERITE)))
+                        list.add("NETHERITE");
+                } else if (args.length == 2) {
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_FULL_ENCHANT)))
+                        list.addAll(List.of("true", "false"));
+                }
+                break;
+            case "replenish-givehoe":
+                if (!(
+                        sender.isOp()
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_HOE_MATERIAL_WOOD))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_HOE_MATERIAL_STONE))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_HOE_MATERIAL_GOLD))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_HOE_MATERIAL_DIAMOND))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_HOE_MATERIAL_IRON))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_HOE_MATERIAL_NETHERITE))
+                ) || args.length == 0 || args.length > 3)
+                    return list;
+                if (args.length == 1) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        list.add(player.getName());
+                    }
+                } else if (args.length == 2 ) {
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_WOOD)))
+                        list.add("WOOD");
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_STONE)))
+                        list.add("STONE");
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_GOLD)))
+                        list.add("GOLD");
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_IRON)))
+                        list.add("IRON");
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_DIAMOND)))
+                        list.add("DIAMOND");
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_NETHERITE)))
+                        list.add("NETHERITE");
+                } else if (args.length == 3)
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_FULL_ENCHANT)))
+                        list.addAll(List.of("true", "false"));
+                break;
+            default:
+                break;
+        }
+
+        ArrayList<String> returnValue = new ArrayList<String>();
+        String arg = args[args.length - 1];
+        for (String s : list) {
+            if (s.toLowerCase().startsWith(arg.toLowerCase())) {
+                returnValue.add(s);
+            }
+        }
+        return returnValue;
+    }
+
     /*
     * TODO List:
-    *  - Add TabComplete
-    *      => with permissions (also with material based permissions and if no material based = not base perm)
     *  - PDF
     *  - Add API
     *  - Move Item generating/enchantment-applying methods to API
