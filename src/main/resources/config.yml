@@ -1,5 +1,5 @@
 # DO NOT CHANGE !!!
-config-version: 1
+config-version: 2
 
 # The name of the Enchantment
 name: Replenish
@@ -9,3 +9,73 @@ name: Replenish
 # choose out of this list:
 # COMMON, UNCOMMON, RARE, VERY_RARE
 rarity: UNCOMMON
+
+################################
+#         Permissions          #
+################################
+
+# The permission for the /r-getbook command
+# Set to "" to disable the permission (Players need to be OP then)
+permission-get-book: re.cmd.get.book
+
+# The permission for the /r-givebook command
+# Set to "" to disable the permission (Players need to be OP then)
+permission-give-book: re.cmd.give.book
+
+permission-get-hoe:
+  # The permission for the wooden hoe with the /r-gethoe command
+  # Set to "" to disable the permission (Players need to be OP then)
+  wood: re.cmd.get.hoe.wood
+
+  # The permission for the stone hoe with the /r-gethoe command
+  # Set to "" to disable the permission (Players need to be OP then)
+  stone: re.cmd.get.hoe.stone
+
+  # The permission for the golden hoe with the /r-gethoe command
+  # Set to "" to disable the permission (Players need to be OP then)
+  gold: re.cmd.get.hoe.gold
+
+  # The permission for the iron hoe with the /r-gethoe command
+  # Set to "" to disable the permission (Players need to be OP then)
+  iron: re.cmd.get.hoe.iron
+
+  # The permission for the diamond hoe with the /r-gethoe command
+  # Set to "" to disable the permission (Players need to be OP then)
+  diamond: re.cmd.get.hoe.diamond
+
+  # The permission for the netherite hoe with the /r-gethoe command
+  # Set to "" to disable the permission (Players need to be OP then)
+  netherite: re.cmd.get.hoe.netherite
+
+  # The permission for the full-enchanted hoe option with the /r-gethoe command
+  # Set to "" to disable the permission (Players need to be OP then)
+  full-enchanted: re.cmd.get.hoe.full-enchanted
+
+permission-give-hoe:
+  # The permission for the wooden hoe with the /r-givehoe command
+  # Set to "" to disable the permission (Players need to be OP then)
+  wood: re.cmd.give.hoe.wood
+
+  # The permission for the stone hoe with the /r-givehoe command
+  # Set to "" to disable the permission (Players need to be OP then)
+  stone: re.cmd.give.hoe.stone
+
+  # The permission for the golden hoe with the /r-givehoe command
+  # Set to "" to disable the permission (Players need to be OP then)
+  gold: re.cmd.give.hoe.gold
+
+  # The permission for the iron hoe with the /r-givehoe command
+  # Set to "" to disable the permission (Players need to be OP then)
+  iron: re.cmd.give.hoe.iron
+
+  # The permission for the diamond hoe with the /r-givehoe command
+  # Set to "" to disable the permission (Players need to be OP then)
+  diamond: re.cmd.give.hoe.diamond
+
+  # The permission for the netherite hoe with the /r-givehoe command
+  # Set to "" to disable the permission (Players need to be OP then)
+  netherite: re.cmd.give.hoe.netherite
+
+  # The permission for the full-enchanted hoe option with the /r-givehoe command
+  # Set to "" to disable the permission (Players need to be OP then)
+  full-enchanted: re.cmd.give.hoe.full-enchanted

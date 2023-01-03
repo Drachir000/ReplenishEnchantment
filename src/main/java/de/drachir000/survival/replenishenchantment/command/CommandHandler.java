@@ -2,6 +2,7 @@ package de.drachir000.survival.replenishenchantment.command;
 
 import de.drachir000.survival.replenishenchantment.MessageBuilder;
 import de.drachir000.survival.replenishenchantment.ReplenishEnchantment;
+import de.drachir000.survival.replenishenchantment.config.MainConfiguration;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -23,10 +24,12 @@ public class CommandHandler implements CommandExecutor {
 
     private final ReplenishEnchantment inst;
     private final MessageBuilder messageBuilder;
+    private final MainConfiguration config;
 
     public CommandHandler(ReplenishEnchantment inst) {
         this.inst = inst;
         this.messageBuilder = inst.getMessageBuilder();
+        this.config = inst.getMainConfiguration();
     }
 
     private ItemStack buildBook() {
@@ -64,7 +67,7 @@ public class CommandHandler implements CommandExecutor {
     }
 
     private boolean getBook(CommandSender sender) {
-        if (!sender.isOp()) { //TODO add permission to config.yml
+        if (!(sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_BOOK)))) {
             sender.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
             return true;
         }
@@ -82,7 +85,7 @@ public class CommandHandler implements CommandExecutor {
     }
 
     private boolean giveBook(CommandSender sender, String[] args) {
-        if (!sender.isOp()) { //TODO add permission to config.yml
+        if (!(sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_BOOK)))) {
             sender.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
             return true;
         }
@@ -121,12 +124,24 @@ public class CommandHandler implements CommandExecutor {
             sender.sendMessage(messageBuilder.build(MessageBuilder.Message.PLAYER_ONLY_COMMAND));
             return true;
         }
+        if (!(
+                sender.isOp()
+                || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_WOOD))
+                || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_STONE))
+                || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_GOLD))
+                || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_IRON))
+                || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_DIAMOND))
+                || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_NETHERITE))
+        )) {
+            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
+            return true;
+        }
         if (args.length < 1) {
             sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_USAGE));
             return true;
         }
         Material hoeMaterial = null;
-        switch (args[0].toUpperCase()) { // TODO permission check
+        switch (args[0].toUpperCase()) {
             case "WOOD" -> hoeMaterial = Material.WOODEN_HOE;
             case "STONE" -> hoeMaterial = Material.STONE_HOE;
             case "GOLD" -> hoeMaterial = Material.GOLDEN_HOE;
@@ -140,18 +155,35 @@ public class CommandHandler implements CommandExecutor {
             sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_INVALID_MATERIAL, args[0].toUpperCase()));
             return true;
         }
-        // TODO full enchanted permission check
-        ItemStack item = buildHoe(hoeMaterial, (args.length > 1 && args[1].equalsIgnoreCase("true")));
-        if (!((Player) sender).getPlayer().getInventory().addItem(item).isEmpty()) {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_INV_FULL, Component.translatable(item.translationKey())));
-            return true;
-        } else {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_SUCCESS, Component.translatable(item.translationKey())));
+        if (!(sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.cmdGetHoeMaterialFromString(args[0].toUpperCase()))))) {
+            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
             return true;
         }
+        ItemStack item = buildHoe(
+                hoeMaterial,
+                (args.length > 1 && args[1].equalsIgnoreCase("true") && (sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_FULL_ENCHANT))))
+        );
+        if (!((Player) sender).getPlayer().getInventory().addItem(item).isEmpty()) {
+            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_INV_FULL, Component.translatable(item.translationKey())));
+        } else {
+            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_SUCCESS, Component.translatable(item.translationKey())));
+        }
+        return true;
     }
 
     private boolean giveHoe(CommandSender sender, String[] args) {
+        if (!(
+                sender.isOp()
+                || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_HOE_MATERIAL_WOOD))
+                || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_HOE_MATERIAL_STONE))
+                || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_HOE_MATERIAL_GOLD))
+                || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_HOE_MATERIAL_IRON))
+                || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_HOE_MATERIAL_DIAMOND))
+                || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_HOE_MATERIAL_NETHERITE))
+        )) {
+            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
+            return true;
+        }
         if (args.length < 2) {
             sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_USAGE));
             return true;
@@ -165,7 +197,7 @@ public class CommandHandler implements CommandExecutor {
             return true;
         }
         Material hoeMaterial = null;
-        switch (args[1].toUpperCase()) { // TODO permission check
+        switch (args[1].toUpperCase()) {
             case "WOOD" -> hoeMaterial = Material.WOODEN_HOE;
             case "STONE" -> hoeMaterial = Material.STONE_HOE;
             case "GOLD" -> hoeMaterial = Material.GOLDEN_HOE;
@@ -179,8 +211,13 @@ public class CommandHandler implements CommandExecutor {
             sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_INVALID_MATERIAL, target.getName(), args[1].toUpperCase()));
             return true;
         }
-        // TODO full enchanted permission check
-        ItemStack item = buildHoe(hoeMaterial, (args.length > 2 && args[2].equalsIgnoreCase("true")));
+        if (!(sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.cmdGiveHoeMaterialFromString(args[1].toUpperCase()))))) {
+            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
+            return true;
+        }
+        ItemStack item = buildHoe(
+                hoeMaterial,
+                (args.length > 2 && args[2].equalsIgnoreCase("true") && (sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_HOE_FULL_ENCHANT)))));
         if (!target.getInventory().addItem(item).isEmpty()) {
             sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_INV_FULL, Component.text(target.getName()), Component.translatable(item.translationKey())));
         } else {
@@ -202,8 +239,6 @@ public class CommandHandler implements CommandExecutor {
 
     /*
     * TODO List:
-    *  - Add Configurable Permissions
-    *  - Add drop option for give cmds
     *  - Add TabComplete
     *      => with permissions (also with material based permissions and if no material based = not base perm)
     *  - PDF
