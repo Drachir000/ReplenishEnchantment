@@ -20,10 +20,9 @@ public final class ReplenishEnchantment extends JavaPlugin {
 
     private Enchantment enchantment;
     private MainConfiguration mainConfiguration;
-    private LanguageConfiguration languageConfiguration;
     private MessageBuilder messageBuilder;
     public static int CONFIG_VERSION = 1;
-    public static int LANGUAGE_VERSION = 1;
+    public static int LANGUAGE_VERSION = 2;
     public static String isUpdateAvailable = null;
 
     @Override
@@ -31,11 +30,11 @@ public final class ReplenishEnchantment extends JavaPlugin {
 
         this.mainConfiguration = new MainConfiguration(this, "config.yml");
 
-        this.languageConfiguration = new LanguageConfiguration(this, "language.yml");
-        this.messageBuilder = new MessageBuilder(this, this.languageConfiguration);
+        LanguageConfiguration languageConfiguration = new LanguageConfiguration(this, "language.yml");
+        this.messageBuilder = new MessageBuilder(languageConfiguration);
 
         this.enchantment = new Replenish("replenish", this, mainConfiguration.getEnchantmentName(), mainConfiguration.getEnchantmentRarity());
-        if (!Arrays.stream(Enchantment.values()).collect(Collectors.toList()).contains(enchantment))
+        if (!Arrays.stream(Enchantment.values()).toList().contains(enchantment))
             try {
                 Field fieldAcceptingNew = Enchantment.class.getDeclaredField("acceptingNew");
                 fieldAcceptingNew.setAccessible(true);
@@ -117,7 +116,7 @@ public final class ReplenishEnchantment extends JavaPlugin {
 
             nameField.setAccessible(true);
             @SuppressWarnings("unchecked")
-            HashMap<NamespacedKey, Enchantment> byName = (HashMap<NamespacedKey, Enchantment>) nameField.get(null);
+            HashMap<String, Enchantment> byName = (HashMap<String, Enchantment>) nameField.get(null);
 
             if (byName.containsKey(enchantment.getName()))
                 byName.remove(enchantment.getName());

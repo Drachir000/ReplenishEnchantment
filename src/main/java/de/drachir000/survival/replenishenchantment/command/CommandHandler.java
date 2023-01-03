@@ -72,13 +72,13 @@ public class CommandHandler implements CommandExecutor {
             sender.sendMessage(messageBuilder.build(MessageBuilder.Message.PLAYER_ONLY_COMMAND));
             return true;
         }
-        if (!((Player) sender).getPlayer().getInventory().addItem(buildBook()).isEmpty()) {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_INV_FULL));
-            return true;
+        ItemStack item = buildBook();
+        if (!((Player) sender).getPlayer().getInventory().addItem(item).isEmpty()) {
+            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_INV_FULL, Component.translatable(item.translationKey())));
         } else {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_SUCCESS));
-            return true;
+            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_SUCCESS, Component.translatable(item.translationKey())));
         }
+        return true;
     }
 
     private boolean giveBook(CommandSender sender, String[] args) {
@@ -91,30 +91,29 @@ public class CommandHandler implements CommandExecutor {
                 sender.sendMessage(messageBuilder.build(MessageBuilder.Message.PLAYER_ONLY_COMMAND));
                 return true;
             }
-            if (!((Player) sender).getPlayer().getInventory().addItem(buildBook()).isEmpty()) {
-                sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_INV_FULL));
-                return true;
+            ItemStack item = buildBook();
+            if (!((Player) sender).getPlayer().getInventory().addItem(item).isEmpty()) {
+                sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_INV_FULL, Component.translatable(item.translationKey())));
             } else {
-                sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_SUCCESS));
-                return true;
+                sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_SUCCESS, Component.translatable(item.translationKey())));
             }
         } else {
             Player target = Bukkit.getPlayer(args[0]);
             if (target == null) {
-                // TODO give-book-player-not-found message
+                sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_BOOK_PLAYER_NOT_FOUND, args[0]));
                 return true;
             } else if (!target.isOnline()) {
-                // TODO give-book-player-offline message
+                sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_BOOK_PLAYER_OFFLINE, target.getName()));
                 return true;
             }
-            if (!target.getInventory().addItem(buildBook()).isEmpty()) {
-                // TODO give-book-inv-full message
-                return true;
+            ItemStack item = buildBook();
+            if (!target.getInventory().addItem(item).isEmpty()) {
+                sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_BOOK_INV_FULL, Component.text(target.getName()), Component.translatable(item.translationKey())));
             } else {
-                // TODO give-book-success message
-                return true;
+                sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_BOOK_SUCCESS, Component.text(target.getName()), Component.translatable(item.translationKey())));
             }
         }
+        return true;
     }
 
     private boolean getHoe(CommandSender sender, String[] args) {
@@ -123,94 +122,71 @@ public class CommandHandler implements CommandExecutor {
             return true;
         }
         if (args.length < 1) {
-            // TODO get-hoe-usage message
+            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_USAGE));
             return true;
         }
         Material hoeMaterial = null;
         switch (args[0].toUpperCase()) { // TODO permission check
-            case "WOOD":
-                hoeMaterial = Material.WOODEN_HOE;
-                break;
-            case "STONE":
-                hoeMaterial = Material.STONE_HOE;
-                break;
-            case "GOLD":
-                hoeMaterial = Material.GOLDEN_HOE;
-                break;
-            case "IRON":
-                hoeMaterial = Material.IRON_HOE;
-                break;
-            case "DIAMOND":
-                hoeMaterial = Material.DIAMOND_HOE;
-                break;
-            case "NETHERITE":
-                hoeMaterial = Material.NETHERITE_HOE;
-                break;
-            default:
-                break;
+            case "WOOD" -> hoeMaterial = Material.WOODEN_HOE;
+            case "STONE" -> hoeMaterial = Material.STONE_HOE;
+            case "GOLD" -> hoeMaterial = Material.GOLDEN_HOE;
+            case "IRON" -> hoeMaterial = Material.IRON_HOE;
+            case "DIAMOND" -> hoeMaterial = Material.DIAMOND_HOE;
+            case "NETHERITE" -> hoeMaterial = Material.NETHERITE_HOE;
+            default -> {
+            }
         }
         if (hoeMaterial == null) {
-            // TODO get-hoe-invalid-material message
+            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_INVALID_MATERIAL, args[0].toUpperCase()));
             return true;
         }
         // TODO full enchanted permission check
-        if (!((Player) sender).getPlayer().getInventory().addItem(buildHoe(hoeMaterial, (args.length > 1 && args[1].equalsIgnoreCase("true")))).isEmpty()) {
-            // TODO get-hoe-inv-full message
+        ItemStack item = buildHoe(hoeMaterial, (args.length > 1 && args[1].equalsIgnoreCase("true")));
+        if (!((Player) sender).getPlayer().getInventory().addItem(item).isEmpty()) {
+            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_INV_FULL, Component.translatable(item.translationKey())));
             return true;
         } else {
-            // TODO get-hoe-success message
+            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_SUCCESS, Component.translatable(item.translationKey())));
             return true;
         }
     }
 
     private boolean giveHoe(CommandSender sender, String[] args) {
         if (args.length < 2) {
-            // TODO give-hoe-usage message
+            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_USAGE));
             return true;
         }
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null) {
-            // TODO give-hoe-player-not-found message
+            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_PLAYER_NOT_FOUND, args[0]));
             return true;
         } else if (!target.isOnline()) {
-            // TODO give-hoe-player-offline message
+            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_PLAYER_OFFLINE, target.getName()));
             return true;
         }
         Material hoeMaterial = null;
         switch (args[1].toUpperCase()) { // TODO permission check
-            case "WOOD":
-                hoeMaterial = Material.WOODEN_HOE;
-                break;
-            case "STONE":
-                hoeMaterial = Material.STONE_HOE;
-                break;
-            case "GOLD":
-                hoeMaterial = Material.GOLDEN_HOE;
-                break;
-            case "IRON":
-                hoeMaterial = Material.IRON_HOE;
-                break;
-            case "DIAMOND":
-                hoeMaterial = Material.DIAMOND_HOE;
-                break;
-            case "NETHERITE":
-                hoeMaterial = Material.NETHERITE_HOE;
-                break;
-            default:
-                break;
+            case "WOOD" -> hoeMaterial = Material.WOODEN_HOE;
+            case "STONE" -> hoeMaterial = Material.STONE_HOE;
+            case "GOLD" -> hoeMaterial = Material.GOLDEN_HOE;
+            case "IRON" -> hoeMaterial = Material.IRON_HOE;
+            case "DIAMOND" -> hoeMaterial = Material.DIAMOND_HOE;
+            case "NETHERITE" -> hoeMaterial = Material.NETHERITE_HOE;
+            default -> {
+            }
         }
         if (hoeMaterial == null) {
-            // TODO give-hoe-invalid-material message
+            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_INVALID_MATERIAL, target.getName(), args[1].toUpperCase()));
             return true;
         }
         // TODO full enchanted permission check
-        if (!target.getInventory().addItem(buildHoe(hoeMaterial, (args.length > 2 && args[2].equalsIgnoreCase("true")))).isEmpty()) {
-            // TODO give-hoe-inv-full message
-            return true;
+        ItemStack item = buildHoe(hoeMaterial, (args.length > 2 && args[2].equalsIgnoreCase("true")));
+        if (!target.getInventory().addItem(item).isEmpty()) {
+            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_INV_FULL, Component.text(target.getName()), Component.translatable(item.translationKey())));
         } else {
-            // TODO give-hoe-success message
-            return true;
+            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_SUCCESS, Component.text(target.getName()), Component.translatable(item.translationKey())));
         }
+        return true;
     }
 
     @Override
@@ -226,12 +202,15 @@ public class CommandHandler implements CommandExecutor {
 
     /*
     * TODO List:
-    *  - Add messages
     *  - Add Configurable Permissions
+    *  - Add drop option for give cmds
     *  - Add TabComplete
     *      => with permissions (also with material based permissions and if no material based = not base perm)
+    *  - PDF
     *  - Add API
     *  - Move Item generating/enchantment-applying methods to API
+    *  - Grindstones?
+    *  - Anvil  -_-
     *  - Replenishing
     *  - Replenish Event
     *  - Publishing stuff?
