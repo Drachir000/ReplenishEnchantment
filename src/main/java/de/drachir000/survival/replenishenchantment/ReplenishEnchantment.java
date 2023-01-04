@@ -7,6 +7,7 @@ import de.drachir000.survival.replenishenchantment.enchantment.Replenish;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
@@ -55,10 +56,7 @@ public final class ReplenishEnchantment extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new Replenisher(this), this);
         Bukkit.getPluginManager().registerEvents(new ItemWatcher(this), this);
 
-        Objects.requireNonNull(getCommand("replenish-getbook")).setExecutor(new CommandHandler(this));
-        Objects.requireNonNull(getCommand("replenish-givebook")).setExecutor(new CommandHandler(this));
-        Objects.requireNonNull(getCommand("replenish-gethoe")).setExecutor(new CommandHandler(this));
-        Objects.requireNonNull(getCommand("replenish-givehoe")).setExecutor(new CommandHandler(this));
+        registerCommands();
 
         /*Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             isUpdateAvailable = checkUpdate();
@@ -68,6 +66,15 @@ public final class ReplenishEnchantment extends JavaPlugin {
             }
         });*/
 
+    }
+
+    private void registerCommands() {
+        Objects.requireNonNull(getCommand("replenish-getbook")).setExecutor(new CommandHandler(this));
+        Objects.requireNonNull(getCommand("replenish-getbook")).setPermission(getMainConfiguration().getPermission(MainConfiguration.Permission.CMD_GET_BOOK));
+        Objects.requireNonNull(getCommand("replenish-givebook")).setExecutor(new CommandHandler(this));
+        Objects.requireNonNull(getCommand("replenish-givebook")).setPermission(getMainConfiguration().getPermission(MainConfiguration.Permission.CMD_GIVE_BOOK));
+        Objects.requireNonNull(getCommand("replenish-gethoe")).setExecutor(new CommandHandler(this));
+        Objects.requireNonNull(getCommand("replenish-givehoe")).setExecutor(new CommandHandler(this));
     }
 
     /*private String checkUpdate() {

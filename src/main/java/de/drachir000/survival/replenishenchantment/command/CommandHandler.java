@@ -328,7 +328,6 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
 
     /*
     * TODO List:
-    *  - PDF
     *  - Add API
     *  - Move Item generating/enchantment-applying methods to API
     *  - Grindstones?
