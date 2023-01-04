@@ -297,8 +297,7 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
 
     /*
     * TODO List:
-    *  - Anvil  -_-
-    *  - Configurable application ways
+    *  - Configurable application ways (maybe even level cost (right click & anvil))
     *  - Book lore
     *  - Replenishing
     *  - Replenish Event

@@ -29,13 +29,25 @@ public class ItemUtils {
     }
 
     public boolean isEnchanted(ItemStack item) {
-        return item.containsEnchantment(enchantment);
+        if (!item.hasItemMeta() || item.getItemMeta() == null)
+            return false;
+        return item.getItemMeta().hasEnchant(enchantment);
     }
 
-    public boolean containsEnchantment(ItemStack enchantmentStorage) {
+    public boolean hasStoredEnchant(ItemStack enchantmentStorage) {
         if (enchantmentStorage.getItemMeta() instanceof EnchantmentStorageMeta)
             return  (((EnchantmentStorageMeta) enchantmentStorage.getItemMeta()).hasStoredEnchant(enchantment));
         return false;
+    }
+
+    public ItemStack addStoredEnchant(ItemStack enchantmentStorage) {
+        if (enchantmentStorage.getItemMeta() instanceof EnchantmentStorageMeta) {
+            EnchantmentStorageMeta meta = ((EnchantmentStorageMeta) enchantmentStorage.getItemMeta());
+            meta.addStoredEnchant(enchantment, 1, false);
+            enchantmentStorage.setItemMeta(meta);
+            updateLore(enchantmentStorage);
+        }
+        return enchantmentStorage;
     }
 
     public ItemStack buildBook() {
@@ -108,7 +120,7 @@ public class ItemUtils {
                 item.lore(iLore);
                 return item;
             }
-        } else if (containsEnchantment(item)) {
+        } else if (hasStoredEnchant(item)) {
             if (!item.getItemMeta().hasLore()) {
                 item.lore(lore);
             } else {

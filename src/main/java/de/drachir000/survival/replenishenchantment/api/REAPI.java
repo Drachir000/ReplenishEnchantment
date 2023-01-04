@@ -49,8 +49,8 @@ public class REAPI {
      * @return true - if the enchantmentStorage contains the Replenish-Enchantment, false if the given item is no enchantmentStorage or doesn't contain the Replenish-Enchantment
      * @since 0.0.15
      * */
-    public boolean containsEnchantment(ItemStack enchantmentStorage) {
-        return utils.containsEnchantment(enchantmentStorage);
+    public boolean hasStoredEnchant(ItemStack enchantmentStorage) {
+        return utils.hasStoredEnchant(enchantmentStorage);
     }
 
     /**
@@ -75,6 +75,16 @@ public class REAPI {
         if (!isHoe(item))
             throw new IllegalArgumentException("The given ItemType is no hoe: " + item.getType().toString());
         return utils.applyEnchantment(item);
+    }
+
+    /**
+     * Adds the Replenish-Enchantment to the Enchantment-Storage of the given item
+     * @param item The item to have the Replenish-Enchantment added to the Enchantment-Storage
+     * @return The same ItemStack, with the Replenish-Enchantment added to the storage ore just the same ItemStack, if the given ItemStack has no storage.
+     * @since 0.0.17
+     */
+    public ItemStack addStoredEnchant(ItemStack item) {
+        return utils.addStoredEnchant(item);
     }
 
     /**
