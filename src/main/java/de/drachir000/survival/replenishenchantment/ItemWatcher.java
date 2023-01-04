@@ -1,12 +1,15 @@
 package de.drachir000.survival.replenishenchantment;
 
 import de.drachir000.survival.replenishenchantment.api.ItemUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.AnvilInventory;
+import org.bukkit.inventory.GrindstoneInventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
 public class ItemWatcher implements Listener {
@@ -24,21 +27,22 @@ public class ItemWatcher implements Listener {
 
         ItemStack clickedItem = e.getCurrentItem();
         utils.updateLore(clickedItem);
-
-        if (e.getCurrentItem() == null || e.getCursor() == null)
-            return;
-
         ItemStack cursor = e.getCursor();
+
+        if (e.getInventory() instanceof GrindstoneInventory) {
+            InventoryView view = e.getView();
+            Bukkit.getScheduler().scheduleSyncDelayedTask(inst, () -> {
+                utils.updateLore(view.getItem(2));
+            }, 1);
+        }
+
+        // TODO anvil suffering here
+
+        if (clickedItem == null || cursor == null)
+            return;
 
         if (!utils.isHoe(clickedItem))
             return;
-
-        if (e.getInventory() instanceof AnvilInventory) {
-            if (utils.isEnchanted(clickedItem)) {
-                e.setCancelled(true);
-                return;
-            }
-        }
 
         if (!utils.containsEnchantment(cursor))
             return;

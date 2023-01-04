@@ -18,14 +18,14 @@ public class ItemUtils {
 
     private final Enchantment enchantment;
     private final Component loreLine;
+    private final List<Component> lore;
 
     public ItemUtils(ReplenishEnchantment inst) {
         this.enchantment = inst.getEnchantment();
         this.loreLine = enchantment.displayName(1).color(NamedTextColor.GRAY)
                 .decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, false).decoration(TextDecoration.OBFUSCATED, false)
-                .decoration(TextDecoration.STRIKETHROUGH, false).decoration(TextDecoration.UNDERLINED, false)
-                .append(Component.newline())
-        ;
+                .decoration(TextDecoration.STRIKETHROUGH, false).decoration(TextDecoration.UNDERLINED, false);
+        this.lore = List.of(loreLine);
     }
 
     public boolean isEnchanted(ItemStack item) {
@@ -42,9 +42,6 @@ public class ItemUtils {
         ItemStack book = new ItemStack(Material.ENCHANTED_BOOK, 1);
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
         meta.addStoredEnchant(enchantment, 1, false);
-        List<Component> lore = List.of(
-                loreLine
-        );
         meta.lore(lore);
         book.setItemMeta(meta);
         return book;
@@ -60,9 +57,6 @@ public class ItemUtils {
             meta.addEnchant(Enchantment.DURABILITY, 3, false);
             meta.addEnchant(Enchantment.MENDING, 1, false);
         }
-        List<Component> lore = List.of(
-                loreLine
-        );
         meta.lore(lore);
         hoe.setItemMeta(meta);
         return hoe;
@@ -95,46 +89,44 @@ public class ItemUtils {
         if (isHoe(item)) {
             if (item.getItemMeta().hasEnchant(enchantment)) {
                 if (!item.getItemMeta().hasLore()) {
-                    List<Component> lore = List.of(loreLine);
                     item.lore(lore);
                 } else {
                     for (Component comp : item.getItemMeta().lore())
                         if (comp.equals(loreLine))
                             return item;
-                    List<Component> lore = item.lore();
-                    lore.add(0, loreLine);
-                    item.lore(lore);
+                    List<Component> iLore = item.lore();
+                    iLore.add(0, loreLine);
+                    item.lore(iLore);
                 }
                 return item;
             } else if (item.hasItemMeta() && item.getItemMeta().hasLore()) {
-                List<Component> lore = new ArrayList<>();
+                List<Component> iLore = new ArrayList<>();
                 for (Component comp : item.lore()) {
                     if(!comp.equals(loreLine))
-                        lore.add(comp);
+                        iLore.add(comp);
                 }
-                item.lore(lore);
+                item.lore(iLore);
                 return item;
             }
         } else if (containsEnchantment(item)) {
             if (!item.getItemMeta().hasLore()) {
-                List<Component> lore = List.of(loreLine);
                 item.lore(lore);
             } else {
                 for (Component comp : item.getItemMeta().lore())
                     if (comp.equals(loreLine))
                         return item;
-                List<Component> lore = item.lore();
-                lore.add(0, loreLine);
-                item.lore(lore);
+                List<Component> iLore = item.lore();
+                iLore.add(0, loreLine);
+                item.lore(iLore);
             }
             return item;
         } else if (item.hasItemMeta() && item.getItemMeta().hasLore()) {
-            List<Component> lore = new ArrayList<>();
+            List<Component> iLore = new ArrayList<>();
             for (Component comp : item.lore()) {
                 if (!comp.equals(loreLine))
-                    lore.add(comp);
+                    iLore.add(comp);
             }
-            item.lore(lore);
+            item.lore(iLore);
             return item;
         }
         return item;
