@@ -1,5 +1,7 @@
 package de.drachir000.survival.replenishenchantment;
 
+import de.drachir000.survival.replenishenchantment.api.ItemUtils;
+import de.drachir000.survival.replenishenchantment.api.REAPI;
 import de.drachir000.survival.replenishenchantment.command.CommandHandler;
 import de.drachir000.survival.replenishenchantment.config.LanguageConfiguration;
 import de.drachir000.survival.replenishenchantment.config.MainConfiguration;
@@ -7,7 +9,6 @@ import de.drachir000.survival.replenishenchantment.enchantment.Replenish;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
@@ -15,7 +16,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 
 public final class ReplenishEnchantment extends JavaPlugin {
 
@@ -25,6 +25,7 @@ public final class ReplenishEnchantment extends JavaPlugin {
     public static int CONFIG_VERSION = 2;
     public static int LANGUAGE_VERSION = 2;
     public static String isUpdateAvailable = null;
+    private ItemUtils itemUtils;
 
     @Override
     public void onEnable() {
@@ -51,10 +52,11 @@ public final class ReplenishEnchantment extends JavaPlugin {
         else
             getLogger().log(Level.WARNING, "Enchantment already registered!");
 
-        getLogger().log(Level.INFO, "Arrays.stream(Enchantment.values()).collect(Collectors.toList()).contains(enchantment): " + Arrays.stream(Enchantment.values()).collect(Collectors.toList()).contains(enchantment));
+        this.itemUtils = new ItemUtils(this);
+        new REAPI(this, itemUtils);
 
         Bukkit.getPluginManager().registerEvents(new Replenisher(this), this);
-        Bukkit.getPluginManager().registerEvents(new ItemWatcher(this), this);
+        Bukkit.getPluginManager().registerEvents(new ItemWatcher(this, itemUtils), this);
 
         registerCommands();
 
@@ -69,12 +71,12 @@ public final class ReplenishEnchantment extends JavaPlugin {
     }
 
     private void registerCommands() {
-        Objects.requireNonNull(getCommand("replenish-getbook")).setExecutor(new CommandHandler(this));
+        Objects.requireNonNull(getCommand("replenish-getbook")).setExecutor(new CommandHandler(this, itemUtils));
         Objects.requireNonNull(getCommand("replenish-getbook")).setPermission(getMainConfiguration().getPermission(MainConfiguration.Permission.CMD_GET_BOOK));
-        Objects.requireNonNull(getCommand("replenish-givebook")).setExecutor(new CommandHandler(this));
+        Objects.requireNonNull(getCommand("replenish-givebook")).setExecutor(new CommandHandler(this, itemUtils));
         Objects.requireNonNull(getCommand("replenish-givebook")).setPermission(getMainConfiguration().getPermission(MainConfiguration.Permission.CMD_GIVE_BOOK));
-        Objects.requireNonNull(getCommand("replenish-gethoe")).setExecutor(new CommandHandler(this));
-        Objects.requireNonNull(getCommand("replenish-givehoe")).setExecutor(new CommandHandler(this));
+        Objects.requireNonNull(getCommand("replenish-gethoe")).setExecutor(new CommandHandler(this, itemUtils));
+        Objects.requireNonNull(getCommand("replenish-givehoe")).setExecutor(new CommandHandler(this, itemUtils));
     }
 
     /*private String checkUpdate() {

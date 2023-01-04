@@ -2,6 +2,7 @@ package de.drachir000.survival.replenishenchantment.command;
 
 import de.drachir000.survival.replenishenchantment.MessageBuilder;
 import de.drachir000.survival.replenishenchantment.ReplenishEnchantment;
+import de.drachir000.survival.replenishenchantment.api.ItemUtils;
 import de.drachir000.survival.replenishenchantment.config.MainConfiguration;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -28,45 +29,13 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
     private final ReplenishEnchantment inst;
     private final MessageBuilder messageBuilder;
     private final MainConfiguration config;
+    private final ItemUtils utils;
 
-    public CommandHandler(ReplenishEnchantment inst) {
+    public CommandHandler(ReplenishEnchantment inst, ItemUtils utils) {
         this.inst = inst;
         this.messageBuilder = inst.getMessageBuilder();
         this.config = inst.getMainConfiguration();
-    }
-
-    private ItemStack buildBook() {
-        ItemStack book = new ItemStack(Material.ENCHANTED_BOOK, 1);
-        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
-        meta.addStoredEnchant(inst.getEnchantment(), 1, false);
-        List<Component> lore = List.of(
-                inst.getEnchantment().displayName(1).color(TextColor.color(170, 170, 170))
-                        .decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, false).decoration(TextDecoration.OBFUSCATED, false)
-                        .decoration(TextDecoration.STRIKETHROUGH, false).decoration(TextDecoration.UNDERLINED, false)
-        );
-        meta.lore(lore);
-        book.setItemMeta(meta);
-        return book;
-    }
-
-    private ItemStack buildHoe(Material material, boolean fullEnchanted) {
-        ItemStack hoe = new ItemStack(material, 1);
-        ItemMeta meta = hoe.getItemMeta();
-        meta.addEnchant(inst.getEnchantment(), 1, false);
-        if (fullEnchanted) {
-            meta.addEnchant(Enchantment.DIG_SPEED, 5, false);
-            meta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 3, false);
-            meta.addEnchant(Enchantment.DURABILITY, 3, false);
-            meta.addEnchant(Enchantment.MENDING, 1, false);
-        }
-        List<Component> lore = List.of(
-                inst.getEnchantment().displayName(1).color(TextColor.color(170, 170, 170))
-                        .decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, false).decoration(TextDecoration.OBFUSCATED, false)
-                        .decoration(TextDecoration.STRIKETHROUGH, false).decoration(TextDecoration.UNDERLINED, false)
-        );
-        meta.lore(lore);
-        hoe.setItemMeta(meta);
-        return hoe;
+        this.utils = utils;
     }
 
     private boolean getBook(CommandSender sender) {
@@ -78,7 +47,7 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
             sender.sendMessage(messageBuilder.build(MessageBuilder.Message.PLAYER_ONLY_COMMAND));
             return true;
         }
-        ItemStack item = buildBook();
+        ItemStack item = utils.buildBook();
         if (!((Player) sender).getPlayer().getInventory().addItem(item).isEmpty()) {
             sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_INV_FULL, Component.translatable(item.translationKey())));
         } else {
@@ -97,7 +66,7 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
                 sender.sendMessage(messageBuilder.build(MessageBuilder.Message.PLAYER_ONLY_COMMAND));
                 return true;
             }
-            ItemStack item = buildBook();
+            ItemStack item = utils.buildBook();
             if (!((Player) sender).getPlayer().getInventory().addItem(item).isEmpty()) {
                 sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_INV_FULL, Component.translatable(item.translationKey())));
             } else {
@@ -112,7 +81,7 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
                 sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_BOOK_PLAYER_OFFLINE, target.getName()));
                 return true;
             }
-            ItemStack item = buildBook();
+            ItemStack item = utils.buildBook();
             if (!target.getInventory().addItem(item).isEmpty()) {
                 sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_BOOK_INV_FULL, Component.text(target.getName()), Component.translatable(item.translationKey())));
             } else {
@@ -162,7 +131,7 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
             sender.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
             return true;
         }
-        ItemStack item = buildHoe(
+        ItemStack item = utils.buildHoe(
                 hoeMaterial,
                 (args.length > 1 && args[1].equalsIgnoreCase("true") && (sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_FULL_ENCHANT))))
         );
@@ -218,7 +187,7 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
             sender.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
             return true;
         }
-        ItemStack item = buildHoe(
+        ItemStack item = utils.buildHoe(
                 hoeMaterial,
                 (args.length > 2 && args[2].equalsIgnoreCase("true") && (sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_HOE_FULL_ENCHANT)))));
         if (!target.getInventory().addItem(item).isEmpty()) {
@@ -328,8 +297,6 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
 
     /*
     * TODO List:
-    *  - Add API
-    *  - Move Item generating/enchantment-applying methods to API
     *  - Grindstones?
     *  - Anvil  -_-
     *  - Replenishing
