@@ -6,7 +6,7 @@
 
     <groupId>de.drachir000.survival</groupId>
     <artifactId>replenishenchantment</artifactId>
-    <version>0.0.17</version>
+    <version>0.0.17.1</version>
     <packaging>jar</packaging>
 
     <name>ReplenishEnchantment</name>
@@ -72,6 +72,12 @@
             <artifactId>paper-api</artifactId>
             <version>1.19.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20220924</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

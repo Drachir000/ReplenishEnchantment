@@ -1,6 +1,7 @@
 package de.drachir000.survival.replenishenchantment;
 
 import com.destroystokyo.paper.event.inventory.PrepareResultEvent;
+import de.drachir000.survival.replenishenchantment.api.AnvilLevelCostCalculator;
 import de.drachir000.survival.replenishenchantment.api.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -12,18 +13,17 @@ import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.GrindstoneInventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.EnchantmentStorageMeta;
-
-import java.awt.*;
 
 public class ItemWatcher implements Listener {
 
     private final ReplenishEnchantment inst;
     private final ItemUtils utils;
+    private final AnvilLevelCostCalculator calculator;
 
-    public ItemWatcher(ReplenishEnchantment inst, ItemUtils utils) {
+    public ItemWatcher(ReplenishEnchantment inst, ItemUtils utils, AnvilLevelCostCalculator calculator) {
         this.inst = inst;
         this.utils = utils;
+        this.calculator = calculator;
     }
 
     @EventHandler
@@ -35,8 +35,11 @@ public class ItemWatcher implements Listener {
             }, 1);
         } else if (e.getInventory()instanceof AnvilInventory) {
             InventoryView view = e.getView();
+            //AnvilInventory anvil = (AnvilInventory) e.getInventory();
             Bukkit.getScheduler().scheduleSyncDelayedTask(inst, () -> {
-                anvilSuffering(view);
+                //anvilSuffering(view); TODO
+                //anvilDebug(view, anvil);
+                calculator.getCost(view.getItem(0), view.getItem(1));
             }, 1);
         }
     }
@@ -69,12 +72,22 @@ public class ItemWatcher implements Listener {
 
     }
 
-    private void anvilSuffering(InventoryView view) {
+    /*private void anvilDebug(InventoryView view, AnvilInventory anvil) {
+        @NotNull HumanEntity humanEntity = view.getPlayer();
+        humanEntity.sendMessage("\nMinecraft-Calculator: " + anvil.getRepairCost() + "\nRE-Calculator: " + new EnchantmentCostCalculator().getEnchantmentCost(view.getItem(0), view.getItem(1)));
+    }*/
+
+    /*private void anvilSuffering(InventoryView view) {
+
+        // Bei book auf Item:
+        // Aufadd der enchs und ab 2 pro (erste 2 als 1) + 1
+        // => +1 +base
 
         ItemStack left = view.getItem(0);
         ItemStack right = view.getItem(1);
         ItemStack result = view.getItem(2);
         if (((utils.isEnchanted(left) || utils.isEnchanted(right)) || (utils.hasStoredEnchant(right))) && utils.isHoe(result)) {
+            ((AnvilInventory) view.getTopInventory()).setRepairCost(((AnvilInventory) view.getTopInventory()).getRepairCost() + 1 + 1*//*enchantment-base TODO*//*);
             utils.applyEnchantment(result);
         } else if (utils.isHoe(left) && utils.hasStoredEnchant(right) && (result == null || result.getType().isAir())) {
             // When other enchantments, that are compatible with the hoe are on the book the result won't be null || air,
@@ -114,6 +127,6 @@ public class ItemWatcher implements Listener {
             // the costs of each enchant on the right book the just get added up (int a is every other ench level cost already added up)
         }
         return result;
-    }
+    }*/
 
 }
