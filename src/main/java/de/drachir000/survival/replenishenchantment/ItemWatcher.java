@@ -1,7 +1,7 @@
 package de.drachir000.survival.replenishenchantment;
 
 import com.destroystokyo.paper.event.inventory.PrepareResultEvent;
-import de.drachir000.survival.replenishenchantment.api.AnvilLevelCostCalculator;
+import de.drachir000.survival.replenishenchantment.api.AnvilUtils;
 import de.drachir000.survival.replenishenchantment.api.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -18,9 +18,9 @@ public class ItemWatcher implements Listener {
 
     private final ReplenishEnchantment inst;
     private final ItemUtils utils;
-    private final AnvilLevelCostCalculator calculator;
+    private final AnvilUtils calculator;
 
-    public ItemWatcher(ReplenishEnchantment inst, ItemUtils utils, AnvilLevelCostCalculator calculator) {
+    public ItemWatcher(ReplenishEnchantment inst, ItemUtils utils, AnvilUtils calculator) {
         this.inst = inst;
         this.utils = utils;
         this.calculator = calculator;
@@ -33,14 +33,15 @@ public class ItemWatcher implements Listener {
             Bukkit.getScheduler().scheduleSyncDelayedTask(inst, () -> {
                 utils.updateLore(view.getItem(2));
             }, 1);
-        } else if (e.getInventory()instanceof AnvilInventory) {
+        } else if (e.getInventory() instanceof AnvilInventory anvil) {
             InventoryView view = e.getView();
-            //AnvilInventory anvil = (AnvilInventory) e.getInventory();
-            Bukkit.getScheduler().scheduleSyncDelayedTask(inst, () -> {
-                //anvilSuffering(view); TODO
-                //anvilDebug(view, anvil);
-                calculator.getCost(view.getItem(0), view.getItem(1));
-            }, 1);
+            Bukkit.getScheduler().runTask(inst, () -> {
+                ItemStack left = view.getItem(0);
+                ItemStack right = view.getItem(1);
+                AnvilUtils.AnvilResult result = calculator.getResult(left, right, anvil.getRenameText());
+                view.setItem(2, utils.updateLore(result.getResult()));
+                anvil.setRepairCost(result.getLevelCost());
+            });
         }
     }
 

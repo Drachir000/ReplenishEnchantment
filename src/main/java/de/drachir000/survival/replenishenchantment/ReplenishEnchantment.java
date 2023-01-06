@@ -1,6 +1,6 @@
 package de.drachir000.survival.replenishenchantment;
 
-import de.drachir000.survival.replenishenchantment.api.AnvilLevelCostCalculator;
+import de.drachir000.survival.replenishenchantment.api.AnvilUtils;
 import de.drachir000.survival.replenishenchantment.api.ItemUtils;
 import de.drachir000.survival.replenishenchantment.api.REAPI;
 import de.drachir000.survival.replenishenchantment.command.CommandHandler;
@@ -57,7 +57,7 @@ public final class ReplenishEnchantment extends JavaPlugin {
         new REAPI(this, itemUtils);
 
         Bukkit.getPluginManager().registerEvents(new Replenisher(this), this);
-        Bukkit.getPluginManager().registerEvents(new ItemWatcher(this, itemUtils, new AnvilLevelCostCalculator(this)), this);
+        Bukkit.getPluginManager().registerEvents(new ItemWatcher(this, itemUtils, new AnvilUtils(this, 1, 1)), this); // TODO add level cost options to config
 
         registerCommands();
 
