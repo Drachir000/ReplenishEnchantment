@@ -292,8 +292,6 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
 
     /*
     * TODO List:
-    *  - Add option to add external custom enchantment level costs to the config
-    *  - Configurable application ways (maybe even level cost (right click & anvil))
     *  - Application Events
     *  - Book lore
     *  - Grindstone Rework (completely overwrite the vanilla Grindstone just like the anvil? xD)

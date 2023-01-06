@@ -6,6 +6,7 @@ import de.drachir000.survival.replenishenchantment.api.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -28,6 +29,8 @@ public class ItemWatcher implements Listener {
 
     @EventHandler
     public void onPrepareResult(PrepareResultEvent e) {
+        if (!inst.getMainConfiguration().isAnvilApplication())
+            return;
         if (e.getInventory() instanceof GrindstoneInventory) {
             InventoryView view = e.getView();
             Bukkit.getScheduler().scheduleSyncDelayedTask(inst, () -> {
@@ -50,6 +53,8 @@ public class ItemWatcher implements Listener {
 
         ItemStack clickedItem = e.getCurrentItem();
         utils.updateLore(clickedItem);
+        if (!inst.getMainConfiguration().isInventoryApplication())
+            return;
         ItemStack cursor = e.getCursor();
 
         if (clickedItem == null || cursor == null)
@@ -64,6 +69,9 @@ public class ItemWatcher implements Listener {
         if (!e.getWhoClicked().getGameMode().equals(GameMode.SURVIVAL))
             return;
 
+        if (((Player)e.getWhoClicked()).getLevel() < inst.getMainConfiguration().getInventoryApplicationCost())
+            return;
+
         utils.applyEnchantment(clickedItem);
 
         e.setCancelled(true);
@@ -71,63 +79,8 @@ public class ItemWatcher implements Listener {
 
         e.getWhoClicked().setItemOnCursor(new ItemStack(Material.AIR));
 
-    }
-
-    /*private void anvilDebug(InventoryView view, AnvilInventory anvil) {
-        @NotNull HumanEntity humanEntity = view.getPlayer();
-        humanEntity.sendMessage("\nMinecraft-Calculator: " + anvil.getRepairCost() + "\nRE-Calculator: " + new EnchantmentCostCalculator().getEnchantmentCost(view.getItem(0), view.getItem(1)));
-    }*/
-
-    /*private void anvilSuffering(InventoryView view) {
-
-        // Bei book auf Item:
-        // Aufadd der enchs und ab 2 pro (erste 2 als 1) + 1
-        // => +1 +base
-
-        ItemStack left = view.getItem(0);
-        ItemStack right = view.getItem(1);
-        ItemStack result = view.getItem(2);
-        if (((utils.isEnchanted(left) || utils.isEnchanted(right)) || (utils.hasStoredEnchant(right))) && utils.isHoe(result)) {
-            ((AnvilInventory) view.getTopInventory()).setRepairCost(((AnvilInventory) view.getTopInventory()).getRepairCost() + 1 + 1*//*enchantment-base TODO*//*);
-            utils.applyEnchantment(result);
-        } else if (utils.isHoe(left) && utils.hasStoredEnchant(right) && (result == null || result.getType().isAir())) {
-            // When other enchantments, that are compatible with the hoe are on the book the result won't be null || air,
-            // so I don't have  to add the to the result here too.
-            result = new ItemStack(left.getType(), left.getAmount());
-            result.setItemMeta(left.getItemMeta());
-            view.setItem(2, utils.applyEnchantment(result));
-            ((AnvilInventory) view.getTopInventory()).setRepairCost(getLevelCost(0, 1, left.getEnchantments().size(), false));
-        } else if (left.getType() == Material.ENCHANTED_BOOK && utils.hasStoredEnchant(right)) {
-            if (right.equals(utils.buildBook())) {
-                result = new ItemStack(Material.ENCHANTED_BOOK, left.getAmount());
-                result.setItemMeta(left.getItemMeta());
-                view.setItem(2, utils.addStoredEnchant(result));
-                ((AnvilInventory) view.getTopInventory()).setRepairCost(getLevelCost(0, 1, ((EnchantmentStorageMeta) left.getItemMeta()).getStoredEnchants().size(), true));
-            } else {
-                utils.addStoredEnchant(result);
-                ((AnvilInventory) view.getTopInventory()).setRepairCost(getLevelCost(((AnvilInventory) view.getTopInventory()).getRepairCost(), 1, ((EnchantmentStorageMeta) left.getItemMeta()).getStoredEnchants().size(), true));
-            }
-        }
+        ((Player) e.getWhoClicked()).setLevel(((Player) e.getWhoClicked()).getLevel() - inst.getMainConfiguration().getInventoryApplicationCost());
 
     }
-
-    private int getLevelCost(int a, int base, int enchantmentCount, boolean eBook) {
-        int result = a + base;
-        int countingEnchants = enchantmentCount;
-        if (eBook)
-            countingEnchants -= 1;
-        for (int i = 0; i < countingEnchants; i++) {
-            result += Math.pow(2, i);
-            // I can't explain so here is a pattern minecraft uses:
-            // 1 Enchant on left item: + 1 Level needed
-            // 2 Enchant on left item: + 1 + 2 Levels needed
-            // 3 Enchant on left item: + 1 + 2 + 4 Levels needed
-            // 4 Enchant on left item: + 1 + 2 + 4 + 8 Levels needed
-            // ... (these are the levels added onto the base value)
-            // when adding up two enchanted books the first enchant on the left one doesn't count towards this list ^^ so, the second one is the N°1 there
-            // the costs of each enchant on the right book the just get added up (int a is every other ench level cost already added up)
-        }
-        return result;
-    }*/
 
 }

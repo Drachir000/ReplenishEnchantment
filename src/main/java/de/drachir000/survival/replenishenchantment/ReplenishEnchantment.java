@@ -9,6 +9,7 @@ import de.drachir000.survival.replenishenchantment.config.MainConfiguration;
 import de.drachir000.survival.replenishenchantment.enchantment.Replenish;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -23,7 +24,7 @@ public final class ReplenishEnchantment extends JavaPlugin {
     private Enchantment enchantment;
     private MainConfiguration mainConfiguration;
     private MessageBuilder messageBuilder;
-    public static int CONFIG_VERSION = 2;
+    public static int CONFIG_VERSION = 3;
     public static int LANGUAGE_VERSION = 2;
     public static String isUpdateAvailable = null;
     private ItemUtils itemUtils;
@@ -62,6 +63,8 @@ public final class ReplenishEnchantment extends JavaPlugin {
 
         registerCommands();
 
+        registerEnchantmentsFromConfig(anvilUtils);
+
         /*Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             isUpdateAvailable = checkUpdate();
             if (isUpdateAvailable != null) {
@@ -80,6 +83,17 @@ public final class ReplenishEnchantment extends JavaPlugin {
         Objects.requireNonNull(getCommand("replenish-givebook")).setPermission(getMainConfiguration().getPermission(MainConfiguration.Permission.CMD_GIVE_BOOK));
         Objects.requireNonNull(getCommand("replenish-gethoe")).setExecutor(handler);
         Objects.requireNonNull(getCommand("replenish-givehoe")).setExecutor(handler);
+    }
+
+    private void registerEnchantmentsFromConfig(AnvilUtils anvilUtils) {
+        ConfigurationSection configSection = mainConfiguration.getExternalEnchantmentSection();
+        if (configSection == null)
+            return;
+        for (String key : configSection.getKeys(false)) {
+            int item = configSection.getInt(key + ".item");
+            int book = configSection.getInt(key + ".book");
+            anvilUtils.registerEnchantment(key, item, book);
+        }
     }
 
     /*private String checkUpdate() {

@@ -2,6 +2,7 @@ package de.drachir000.survival.replenishenchantment.config;
 
 import de.drachir000.survival.replenishenchantment.ReplenishEnchantment;
 import io.papermc.paper.enchantments.EnchantmentRarity;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
@@ -35,6 +36,30 @@ public class MainConfiguration extends ConfigFile {
 
     public String getPermission(Permission permission) {
         return getConfig().getString(permission.configPath);
+    }
+
+    public boolean isAnvilApplication() {
+        return getConfig().getBoolean("application.anvil");
+    }
+
+    public boolean isInventoryApplication() {
+        return getConfig().getBoolean("application.inventory");
+    }
+
+    public int getInventoryApplicationCost() {
+        return getConfig().getInt("application.inventory-level-cost", 0);
+    }
+
+    public int getItemMultiplier() {
+        return getConfig().getInt("level-multiplier.item");
+    }
+
+    public int getBookMultiplier() {
+        return getConfig().getInt("level-multiplier.book");
+    }
+
+    public ConfigurationSection getExternalEnchantmentSection() {
+        return getConfig().getConfigurationSection("external-enchantment-level-multiplier.");
     }
 
     public int configVersion() {
@@ -137,6 +162,43 @@ public class MainConfiguration extends ConfigFile {
                   full-enchanted: re.cmd.give.hoe.full-enchanted
                                         
                 """;
+        private final String UPDATE_3 = """
+                application:
+                  # Whether it should be possible to apply the enchantment on the anvil (recommended)
+                  anvil: true
+                                
+                  # Whether it should be possible to apply the enchantment via drag & drop in the inventory (optional)
+                  # Only works in survival mode
+                  inventory: true
+                                
+                  # The levels it costs to apply the enchantment via drag & drop in the inventory (set to 0 to make the application via drag & drop in the inventory free)
+                  inventory-level-cost: 2
+                                
+                level-multiplier:
+                  # The following multipliers times the final level of the enchantment gives the level cost of this enchantment while combining two items on the anvil
+                  # The "book" value is used when the right item is an enchantment book, the "item" value otherwise
+                  item: 1
+                  book: 1
+                                
+                level-multiplier:
+                  # The following multipliers times the final level of the enchantment gives the level cost of this enchantment while combining two items on the anvil
+                  # The "book" value is used when the right item is an enchantment book, the "item" value otherwise
+                  item: 1
+                  book: 1
+                                
+                external-enchantment-level-multiplier:
+                  # Add the level multipliers for custom enchantments from other plugins here,
+                  # as this plugin completely overwrites the anvil and the level costs for unknown enchantments defaults to 0
+                  # Format:
+                  # key: (you will get a message "Could not identify Enchantment "{key}"! Setting level cost to 0..." whenever this plugin detects an unknown enchantment,
+                  #       {key} will be replaced with the actual key)
+                  #   item: {item-multiplier}
+                  #   book: {book-multiplier}
+                  example_key:
+                    item: 6
+                    book: 3
+                                
+                """;
 
         private String getUpdates() {
             StringBuilder update = new StringBuilder();
@@ -146,9 +208,9 @@ public class MainConfiguration extends ConfigFile {
                     update.append(UPDATE_1);
                 case 1:
                     update.append(UPDATE_2);
-                /*case 2:
+                case 2:
                     update.append(UPDATE_3);
-                case 3:
+                /*case 3:
                     update.append(UPDATE_4);
                 case 4:
                     update.append(UPDATE_5);*/

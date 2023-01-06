@@ -1,5 +1,5 @@
 # DO NOT CHANGE !!!
-config-version: 2
+config-version: 3
 
 # The name of the Enchantment
 name: Replenish
@@ -9,6 +9,35 @@ name: Replenish
 # choose out of this list:
 # COMMON, UNCOMMON, RARE, VERY_RARE
 rarity: UNCOMMON
+
+application:
+  # Whether it should be possible to apply the enchantment on the anvil (recommended)
+  anvil: true
+
+  # Whether it should be possible to apply the enchantment via drag & drop in the inventory (optional)
+  # Only works in survival mode
+  inventory: true
+
+  # The levels it costs to apply the enchantment via drag & drop in the inventory (set to 0 to make the application via drag & drop in the inventory free)
+  inventory-level-cost: 2
+
+level-multiplier:
+  # The following multipliers times the final level of the enchantment gives the level cost of this enchantment while combining two items on the anvil
+  # The "book" value is used when the right item is an enchantment book, the "item" value otherwise
+  item: 1
+  book: 1
+
+external-enchantment-level-multiplier:
+  # Add the level multipliers for custom enchantments from other plugins here,
+  # as this plugin completely overwrites the anvil and the level costs for unknown enchantments defaults to 0
+  # Format:
+  # key: (you will get a message "Could not identify Enchantment "{key}"! Setting level cost to 0..." whenever this plugin detects an unknown enchantment,
+  #       {key} will be replaced with the actual key)
+  #   item: {item-multiplier}
+  #   book: {book-multiplier}
+  example_key:
+    item: 6
+    book: 3
 
 ################################
 #         Permissions          #
