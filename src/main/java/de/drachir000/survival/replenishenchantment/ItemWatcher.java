@@ -29,14 +29,16 @@ public class ItemWatcher implements Listener {
 
     @EventHandler
     public void onPrepareResult(PrepareResultEvent e) {
-        if (!inst.getMainConfiguration().isAnvilApplication())
-            return;
         if (e.getInventory() instanceof GrindstoneInventory) {
             InventoryView view = e.getView();
             Bukkit.getScheduler().scheduleSyncDelayedTask(inst, () -> {
                 utils.updateLore(view.getItem(2));
             }, 1);
-        } else if (e.getInventory() instanceof AnvilInventory anvil) {
+
+        }
+        if (!inst.getMainConfiguration().isAnvilApplication())
+            return;
+        if (e.getInventory() instanceof AnvilInventory anvil) {
             InventoryView view = e.getView();
             Bukkit.getScheduler().runTask(inst, () -> {
                 ItemStack left = view.getItem(0);
