@@ -5,19 +5,14 @@ import de.drachir000.survival.replenishenchantment.ReplenishEnchantment;
 import de.drachir000.survival.replenishenchantment.api.ItemUtils;
 import de.drachir000.survival.replenishenchantment.config.MainConfiguration;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.EnchantmentStorageMeta;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -297,8 +292,11 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
 
     /*
     * TODO List:
+    *  - Add option to add external custom enchantment level costs to the config
     *  - Configurable application ways (maybe even level cost (right click & anvil))
+    *  - Application Events
     *  - Book lore
+    *  - Grindstone Rework (completely overwrite the vanilla Grindstone just like the anvil? xD)
     *  - Replenishing
     *  - Replenish Event
     *  - Publishing stuff?

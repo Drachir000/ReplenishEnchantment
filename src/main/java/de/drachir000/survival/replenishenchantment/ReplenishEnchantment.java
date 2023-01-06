@@ -54,10 +54,11 @@ public final class ReplenishEnchantment extends JavaPlugin {
             getLogger().log(Level.WARNING, "Enchantment already registered!");
 
         this.itemUtils = new ItemUtils(this);
-        new REAPI(this, itemUtils);
+        AnvilUtils anvilUtils = new AnvilUtils(this, mainConfiguration.getItemMultiplier(), mainConfiguration.getBookMultiplier());
+        new REAPI(this, itemUtils, anvilUtils);
 
         Bukkit.getPluginManager().registerEvents(new Replenisher(this), this);
-        Bukkit.getPluginManager().registerEvents(new ItemWatcher(this, itemUtils, new AnvilUtils(this, 1, 1)), this); // TODO add level cost options to config
+        Bukkit.getPluginManager().registerEvents(new ItemWatcher(this, itemUtils, anvilUtils), this);
 
         registerCommands();
 

@@ -22,11 +22,21 @@ public class AnvilUtils {
 
 
     public AnvilUtils(Plugin plugin, int itemValue, int bookValue) {
-        loadMultipliers(multipliers, itemValue, bookValue);
+        loadMultipliers(itemValue, bookValue);
         this.plugin = plugin;
     }
 
-    private void loadMultipliers(JSONObject jsonObject, int itemValue, int bookValue) {
+    public boolean registerEnchantment(String key, int itemValue, int bookValue) {
+        boolean wasRegistered = multipliers.has(key);
+        multipliers.put(key,
+                new JSONObject()
+                        .put("item", itemValue)
+                        .put("book", bookValue)
+        );
+        return wasRegistered;
+    }
+
+    private void loadMultipliers(int itemValue, int bookValue) {
         for (Enchantment enchantment : Enchantment.values()) {
             String key = enchantment.getKey().getKey();
             int item = 0;
@@ -52,14 +62,12 @@ public class AnvilUtils {
                     item = itemValue;
                     book = bookValue;
                 }
-                default ->
-                        plugin.getLogger().log(Level.WARNING, "Could not identify Enchantment \"" + key + "\"! Setting level cost to 0..."); // TODO add extern enchants to config and add info to this message
+                default -> {
+                        plugin.getLogger().log(Level.WARNING, "Could not identify Enchantment \"" + key + "\"! Setting level cost to 0...");
+                        plugin.getLogger().log(Level.WARNING, "Please add the multipliers for this Enchantment to the config.yml!");
+                }
             }
-            jsonObject.put(key,
-                    new JSONObject()
-                            .put("item", item)
-                            .put("book", book)
-            );
+            registerEnchantment(key, item, book);
         }
     }
 
@@ -103,8 +111,8 @@ public class AnvilUtils {
         try {
             return (book ? obj.getInt("book") : obj.getInt("item"));
         } catch (JSONException e) {
-            e.printStackTrace();
-            plugin.getLogger().log(Level.WARNING, "Could not get Enchantment Multiplier for enchantment \"" + enchantment.getKey().getKey() + "\"!");
+            plugin.getLogger().log(Level.WARNING, "Could not identify Enchantment \"" + enchantment.getKey().getKey() + "\"! Setting level cost to 0...");
+            plugin.getLogger().log(Level.WARNING, "Please add the multipliers for this Enchantment to the config.yml!");
             return 0;
         }
     }
@@ -131,7 +139,7 @@ public class AnvilUtils {
         }
     }
 
-    private ItemStack addEnchantment(ItemStack item, Enchantment enchantment, int level) {
+    private void addEnchantment(ItemStack item, Enchantment enchantment, int level) {
         if (item.getItemMeta() instanceof EnchantmentStorageMeta enchantmentStorageMeta) {
             if (enchantmentStorageMeta.hasStoredEnchant(enchantment))
                 enchantmentStorageMeta.removeEnchant(enchantment);
@@ -142,7 +150,6 @@ public class AnvilUtils {
                 item.removeEnchantment(enchantment);
             item.addEnchantment(enchantment, level);
         }
-        return item;
     }
 
     private Map<Enchantment, Integer> getEnchantments(ItemStack item) {

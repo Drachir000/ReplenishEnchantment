@@ -6,7 +6,7 @@
 
     <groupId>de.drachir000.survival</groupId>
     <artifactId>replenishenchantment</artifactId>
-    <version>0.0.17.1</version>
+    <version>0.0.18</version>
     <packaging>jar</packaging>
 
     <name>ReplenishEnchantment</name>

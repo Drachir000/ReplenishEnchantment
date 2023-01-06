@@ -8,12 +8,14 @@ import org.bukkit.inventory.ItemStack;
 public class REAPI {
 
     private final ReplenishEnchantment plugin;
-    private final ItemUtils utils;
+    private final ItemUtils itemUtils;
+    private final AnvilUtils anvilUtils;
     private static REAPI inst;
 
-    public REAPI(ReplenishEnchantment plugin, ItemUtils utils) {
+    public REAPI(ReplenishEnchantment plugin, ItemUtils itemUtils, AnvilUtils anvilUtils) {
         this.plugin = plugin;
-        this.utils = utils;
+        this.itemUtils = itemUtils;
+        this.anvilUtils = anvilUtils;
         inst = this;
     }
 
@@ -40,7 +42,7 @@ public class REAPI {
      * @since 0.0.15
      * */
     public boolean isEnchanted(ItemStack item) {
-        return utils.isEnchanted(item);
+        return itemUtils.isEnchanted(item);
     }
 
     /**
@@ -50,7 +52,7 @@ public class REAPI {
      * @since 0.0.15
      * */
     public boolean hasStoredEnchant(ItemStack enchantmentStorage) {
-        return utils.hasStoredEnchant(enchantmentStorage);
+        return itemUtils.hasStoredEnchant(enchantmentStorage);
     }
 
     /**
@@ -61,7 +63,7 @@ public class REAPI {
      * @since 0.0.15
      * */
     public boolean isHoe(ItemStack item) {
-        return utils.isHoe(item);
+        return itemUtils.isHoe(item);
     }
 
     /**
@@ -74,7 +76,7 @@ public class REAPI {
     public ItemStack applyEnchantment(ItemStack item) {
         if (!isHoe(item))
             throw new IllegalArgumentException("The given ItemType is no hoe: " + item.getType().toString());
-        return utils.applyEnchantment(item);
+        return itemUtils.applyEnchantment(item);
     }
 
     /**
@@ -84,7 +86,7 @@ public class REAPI {
      * @since 0.0.17
      */
     public ItemStack addStoredEnchant(ItemStack item) {
-        return utils.addStoredEnchant(item);
+        return itemUtils.addStoredEnchant(item);
     }
 
     /**
@@ -95,7 +97,7 @@ public class REAPI {
      * @since 0.0.15
      * */
     public ItemStack updateLore(ItemStack item) {
-        return utils.updateLore(item);
+        return itemUtils.updateLore(item);
     }
 
     /**
@@ -104,7 +106,7 @@ public class REAPI {
      * @since 0.0.15
      * */
     public ItemStack buildBook() {
-        return utils.buildBook();
+        return itemUtils.buildBook();
     }
 
     /**
@@ -122,7 +124,31 @@ public class REAPI {
     public ItemStack buildHoe(Material material, boolean fullEnchanted) {
         if (!isHoe(new ItemStack(material)))
             throw new IllegalArgumentException("Material \"" + material.toString() + "\" is no hoe!");
-        return utils.buildHoe(material, fullEnchanted);
+        return itemUtils.buildHoe(material, fullEnchanted);
+    }
+
+    /**
+     * Registers an external Enchantment with the item and book level cost modifiers for the anvil
+     * @param key The key of the enchantment ( Enchantment.getKey().getKey() ) to register
+     * @param itemModifier the modifier for the item level cost multiplier (used when the right item of the anvil is a non-enchanted-book item)
+     * @param bookModifier the modifier for the book level cost multiplier (used when the right item of the anvil is an enchanted-book)
+     * @return true - if the enchantment was already registered, false otherwise
+     * @since 0.0.18
+     * */
+    public boolean registerEnchantment(String key, int itemModifier, int bookModifier) {
+        return anvilUtils.registerEnchantment(key, itemModifier, bookModifier);
+    }
+
+    /**
+     * Registers an external Enchantment with the item and book level cost modifiers for the anvil
+     * @param enchantment The enchantment to register
+     * @param itemModifier the modifier for the item level cost multiplier (used when the right item of the anvil is a non-enchanted-book item)
+     * @param bookModifier the modifier for the book level cost multiplier (used when the right item of the anvil is an enchanted-book)
+     * @return true - if the enchantment was already registered, false otherwise
+     * @since 0.0.18
+     * */
+    public boolean registerEnchantment(Enchantment enchantment, int itemModifier, int bookModifier) {
+        return anvilUtils.registerEnchantment(enchantment.getKey().getKey(), itemModifier, bookModifier);
     }
 
 }
