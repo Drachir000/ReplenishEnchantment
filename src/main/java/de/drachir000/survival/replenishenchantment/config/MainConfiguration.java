@@ -180,12 +180,6 @@ public class MainConfiguration extends ConfigFile {
                   item: 1
                   book: 1
                                 
-                level-multiplier:
-                  # The following multipliers times the final level of the enchantment gives the level cost of this enchantment while combining two items on the anvil
-                  # The "book" value is used when the right item is an enchantment book, the "item" value otherwise
-                  item: 1
-                  book: 1
-                                
                 external-enchantment-level-multiplier:
                   # Add the level multipliers for custom enchantments from other plugins here,
                   # as this plugin completely overwrites the anvil and the level costs for unknown enchantments defaults to 0
