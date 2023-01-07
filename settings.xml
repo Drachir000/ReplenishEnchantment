@@ -1,0 +1,9 @@
+<settings>
+  <servers>
+    <server>
+      <id>github</id>
+      <username>${{ secrets.USERNAME }}</username>
+      <password>${{ secrets.PASSWORD }}</password>
+    </server>
+  </servers>
+</settings>
