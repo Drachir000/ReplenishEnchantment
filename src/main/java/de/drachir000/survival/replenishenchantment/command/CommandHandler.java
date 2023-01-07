@@ -292,7 +292,6 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
 
     /*
     * TODO List:
-    *  - Add more crops
     *  - Replenish Event
     *  - Configuring crops in config
     *  - Publishing stuff?

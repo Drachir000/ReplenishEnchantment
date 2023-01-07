@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -20,8 +21,10 @@ public class Replenisher implements Listener {
         this.inst = inst;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockBreak(BlockBreakEvent e) {
+        if (e.isCancelled())
+            return;
         if (e.getPlayer().getInventory().getItemInMainHand().getType().isAir())
             return;
         if (!e.getPlayer().getInventory().getItemInMainHand().hasItemMeta())
@@ -33,6 +36,10 @@ public class Replenisher implements Listener {
         Material material = null;
         switch (e.getBlock().getType()) {
             case WHEAT -> material = Material.WHEAT_SEEDS;
+            case CARROTS -> material = Material.CARROT;
+            case POTATOES -> material = Material.POTATO;
+            case BEETROOTS -> material = Material.BEETROOT_SEEDS;
+            case NETHER_WART -> material = Material.NETHER_WART;
         }
         if (material == null)
             return;
