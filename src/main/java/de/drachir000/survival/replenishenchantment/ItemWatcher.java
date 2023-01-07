@@ -3,6 +3,8 @@ package de.drachir000.survival.replenishenchantment;
 import com.destroystokyo.paper.event.inventory.PrepareResultEvent;
 import de.drachir000.survival.replenishenchantment.api.AnvilUtils;
 import de.drachir000.survival.replenishenchantment.api.ItemUtils;
+import de.drachir000.survival.replenishenchantment.api.event.ReplenishEnchantmentAnvilApplicationEvent;
+import de.drachir000.survival.replenishenchantment.api.event.ReplenishEnchantmentInventoryApplicationEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -59,6 +61,28 @@ public class ItemWatcher implements Listener {
             return;
         ItemStack cursor = e.getCursor();
 
+        InventoryView view = e.getView();
+        if (inst.getMainConfiguration().isAnvilApplication() && e.getInventory() instanceof AnvilInventory anvil &&
+                e.getRawSlot() == 2 && e.getRawSlot() == view.convertSlot(e.getRawSlot()) &&
+                clickedItem != null && !clickedItem.getType().isAir() && (utils.isEnchanted(clickedItem) || utils.hasStoredEnchant(clickedItem))
+        ) {
+
+            ReplenishEnchantmentAnvilApplicationEvent event = new ReplenishEnchantmentAnvilApplicationEvent(
+                    false, view.getItem(0), view.getItem(1), view.getItem(2).clone(), anvil.getRepairCost(), (Player) e.getWhoClicked(), anvil
+            );
+
+            if (!event.callEvent()) {
+                e.setCancelled(true);
+                return;
+            }
+
+            view.setItem(2, event.getResult());
+            anvil.setRepairCost(event.getLevelCost());
+
+            return;
+
+        }
+
         if (clickedItem == null || cursor == null)
             return;
 
@@ -71,17 +95,23 @@ public class ItemWatcher implements Listener {
         if (!e.getWhoClicked().getGameMode().equals(GameMode.SURVIVAL))
             return;
 
-        if (((Player)e.getWhoClicked()).getLevel() < inst.getMainConfiguration().getInventoryApplicationCost())
+        ReplenishEnchantmentInventoryApplicationEvent event = new ReplenishEnchantmentInventoryApplicationEvent(
+                false, clickedItem, cursor, utils.applyEnchantment(clickedItem.clone()),
+                inst.getMainConfiguration().getInventoryApplicationCost(), (Player) e.getWhoClicked(), e.getInventory(), e.getRawSlot()
+        );
+
+        if (!event.callEvent())
             return;
 
-        utils.applyEnchantment(clickedItem);
+        if (event.getPlayer().getLevel() < event.getLevelCost())
+            return;
 
         e.setCancelled(true);
-        e.setCurrentItem(clickedItem);
+        e.setCurrentItem(event.getResult());
 
-        e.getWhoClicked().setItemOnCursor(new ItemStack(Material.AIR));
+        event.getPlayer().setItemOnCursor(new ItemStack(Material.AIR));
 
-        ((Player) e.getWhoClicked()).setLevel(((Player) e.getWhoClicked()).getLevel() - inst.getMainConfiguration().getInventoryApplicationCost());
+        event.getPlayer().setLevel(event.getPlayer().getLevel() - event.getLevelCost());
 
     }
 
