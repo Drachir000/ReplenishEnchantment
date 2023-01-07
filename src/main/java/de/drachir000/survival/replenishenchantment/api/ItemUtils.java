@@ -56,7 +56,7 @@ public class ItemUtils {
         ItemStack book = new ItemStack(Material.ENCHANTED_BOOK, 1);
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
         meta.addStoredEnchant(enchantment, 1, false);
-        meta.lore(lore);
+        meta.lore(List.of(loreLine, bookLoreLine));
         book.setItemMeta(meta);
         return book;
     }
@@ -124,7 +124,7 @@ public class ItemUtils {
             }
         } else if (hasStoredEnchant(item)) {
             if (!item.getItemMeta().hasLore()) {
-                item.lore(List.of(lore.iterator().next(), bookLoreLine));
+                item.lore(List.of(loreLine, bookLoreLine));
             } else {
                 boolean line = false;
                 boolean bookLine = false;
