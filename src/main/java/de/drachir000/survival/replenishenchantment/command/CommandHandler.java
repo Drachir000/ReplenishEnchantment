@@ -292,9 +292,9 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
 
     /*
     * TODO List:
-    *  - Grindstone Rework (completely overwrite the vanilla Grindstone just like the anvil? xD)
-    *  - Replenishing
+    *  - Add more crops
     *  - Replenish Event
+    *  - Configuring crops in config
     *  - Publishing stuff?
     * */
 
