@@ -24,8 +24,6 @@ public class LanguageConfiguration extends ConfigFile {
         }
     }
 
-    // Getters Here
-
     public int configVersion() {
         return getConfig().getInt("config-version");
     }
@@ -48,7 +46,7 @@ public class LanguageConfiguration extends ConfigFile {
                 # Vanilla:
                 # Colors:           §f §9 §a §3 §4 §5 §e §7
                 #                   §0 §1 §2 §b §c §d §6 §8
-                # Formatting:       §l §o §i §k §m §n §r
+                # Formatting:       §l §o §k §m §n §r
                 # See also https://minecraft.fandom.com/wiki/Formatting_codes for vanilla color/formatting codes
                 #
                 # Hex Colors (e.g.):§f = §#ffffff
@@ -134,6 +132,12 @@ public class LanguageConfiguration extends ConfigFile {
                 give-hoe-success: "§aSuccessfully added §e{1}§a to §e{0}'s§a Inventory"
                 
                 """;
+        private final String UPDATE_3 = """
+                # Placeholders:
+                # None
+                book-lore: "§7§o*Drag onto hoe to apply*"
+                
+                """;
 
         private String getUpdates() {
             StringBuilder update = new StringBuilder();
@@ -143,9 +147,9 @@ public class LanguageConfiguration extends ConfigFile {
                     update.append(UPDATE_1);
                 case 1:
                     update.append(UPDATE_2);
-                /*case 2:
+                case 2:
                     update.append(UPDATE_3);
-                case 3:
+                /*case 3:
                     update.append(UPDATE_4);
                 case 4:
                     update.append(UPDATE_5);*/

@@ -129,7 +129,8 @@ public class MessageBuilder {
         GIVE_HOE_PLAYER_OFFLINE("give-hoe-player-offline"),
         GIVE_HOE_INVALID_MATERIAL("give-hoe-invalid-material"),
         GIVE_HOE_INV_FULL("give-hoe-inv-full"),
-        GIVE_HOE_SUCCESS("give-hoe-success");
+        GIVE_HOE_SUCCESS("give-hoe-success"),
+        BOOK_LORE("book-lore");
 
         private final String configPath;
 

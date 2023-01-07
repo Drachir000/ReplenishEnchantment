@@ -1,5 +1,6 @@
 package de.drachir000.survival.replenishenchantment.api;
 
+import de.drachir000.survival.replenishenchantment.MessageBuilder;
 import de.drachir000.survival.replenishenchantment.ReplenishEnchantment;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -17,7 +18,7 @@ import java.util.List;
 public class ItemUtils {
 
     private final Enchantment enchantment;
-    private final Component loreLine;
+    private final Component loreLine, bookLoreLine;
     private final List<Component> lore;
 
     public ItemUtils(ReplenishEnchantment inst) {
@@ -26,6 +27,7 @@ public class ItemUtils {
                 .decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, false).decoration(TextDecoration.OBFUSCATED, false)
                 .decoration(TextDecoration.STRIKETHROUGH, false).decoration(TextDecoration.UNDERLINED, false);
         this.lore = List.of(loreLine);
+        this.bookLoreLine = inst.getMessageBuilder().build(MessageBuilder.Message.BOOK_LORE);
     }
 
     public boolean isEnchanted(ItemStack item) {
@@ -122,20 +124,30 @@ public class ItemUtils {
             }
         } else if (hasStoredEnchant(item)) {
             if (!item.getItemMeta().hasLore()) {
-                item.lore(lore);
+                item.lore(List.of(lore.iterator().next(), bookLoreLine));
             } else {
-                for (Component comp : item.getItemMeta().lore())
+                boolean line = false;
+                boolean bookLine = false;
+                for (Component comp : item.getItemMeta().lore()) {
                     if (comp.equals(loreLine))
-                        return item;
+                        line = true;
+                    if (comp.equals(bookLoreLine))
+                        bookLine = true;
+                }
+                if (line && bookLine)
+                    return item;
                 List<Component> iLore = item.lore();
-                iLore.add(0, loreLine);
+                if (!line)
+                    iLore.add(0, loreLine);
+                if (!bookLine)
+                    iLore.add(1, bookLoreLine);
                 item.lore(iLore);
             }
             return item;
         } else if (item.hasItemMeta() && item.getItemMeta().hasLore()) {
             List<Component> iLore = new ArrayList<>();
             for (Component comp : item.lore()) {
-                if (!comp.equals(loreLine))
+                if (!(comp.equals(loreLine) || comp.equals(bookLoreLine)))
                     iLore.add(comp);
             }
             item.lore(iLore);
