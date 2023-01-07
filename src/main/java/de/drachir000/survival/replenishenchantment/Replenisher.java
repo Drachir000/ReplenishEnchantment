@@ -34,28 +34,15 @@ public class Replenisher implements Listener {
             return;
         if (e.getPlayer().getGameMode() != GameMode.SURVIVAL)
             return;
+        if (!inst.getMainConfiguration().getCrops().contains(e.getBlock().getType().toString()))
+            return;
         Material material = null;
         switch (e.getBlock().getType()) {
-            case WHEAT -> {
-                if (inst.getMainConfiguration().getCrops().contains("WHEAT"))
-                    material = Material.WHEAT_SEEDS;
-            }
-            case CARROTS -> {
-                if (inst.getMainConfiguration().getCrops().contains("CARROTS"))
-                    material = Material.CARROT;
-            }
-            case POTATOES -> {
-                if (inst.getMainConfiguration().getCrops().contains("POTATOES"))
-                    material = Material.POTATO;
-            }
-            case BEETROOTS -> {
-                if (inst.getMainConfiguration().getCrops().contains("BEETROOTS"))
-                    material = Material.BEETROOT_SEEDS;
-            }
-            case NETHER_WART -> {
-                if (inst.getMainConfiguration().getCrops().contains("NETHER_WART"))
-                    material = Material.NETHER_WART;
-            }
+            case WHEAT -> material = Material.WHEAT_SEEDS;
+            case CARROTS -> material = Material.CARROT;
+            case POTATOES -> material = Material.POTATO;
+            case BEETROOTS -> material = Material.BEETROOT_SEEDS;
+            case NETHER_WART -> material = Material.NETHER_WART;
         }
         if (material == null)
             return;
