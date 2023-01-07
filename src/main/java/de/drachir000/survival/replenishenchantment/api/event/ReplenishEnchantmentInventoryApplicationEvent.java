@@ -4,6 +4,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * Gets called when a player applies the Replenish-Enchantment onto a hoe via drag & drop in the inventory
+ * */
 public class ReplenishEnchantmentInventoryApplicationEvent extends ReplenishEnchantmentApplicationEvent{
 
     private final Inventory inventory;

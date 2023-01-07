@@ -1,5 +1,6 @@
 package de.drachir000.survival.replenishenchantment;
 
+import de.drachir000.survival.replenishenchantment.api.event.ReplenishEvent;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.data.Ageable;
@@ -60,8 +61,15 @@ public class Replenisher implements Listener {
             replenish = true;
 
         if (replenish) {
+            ReplenishEvent event = new ReplenishEvent(material, drops, e.getPlayer(), e.getBlock());
+
+            if (!event.callEvent()) {
+                e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new ItemStack(material, 1));
+                return;
+            }
+
             e.setCancelled(true);
-            for (ItemStack drop : drops) {
+            for (ItemStack drop : event.getDrops()) {
                 e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
             }
             Ageable ageable = (Ageable) e.getBlock().getBlockData();

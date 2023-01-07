@@ -4,6 +4,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * Gets called when a player applies the Replenish-Enchantment onto a hoe on an anvil
+ * */
 public class ReplenishEnchantmentAnvilApplicationEvent extends ReplenishEnchantmentApplicationEvent{
 
     private final AnvilInventory anvilInventory;
