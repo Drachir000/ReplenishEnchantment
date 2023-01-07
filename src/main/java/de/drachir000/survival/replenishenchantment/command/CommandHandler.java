@@ -290,9 +290,4 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
         return returnValue;
     }
 
-    /*
-    * TODO List:
-    *  - Publishing stuff?
-    * */
-
 }
