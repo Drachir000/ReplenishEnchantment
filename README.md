@@ -13,13 +13,13 @@ This plugin adds a enchantment for hoes that automatically replants seeds when h
 
 ### Commands
 * /r-getbook - gives you an Enchanted Book with the Replenish Enchantment on it
-* /r-givebook <Player> - gives <Player> an Enchanted Book with the Replenish Enchantment on it
-* /r-gethoe <Material> [<full-enchanted>] - gives you a Hoe of the Material <Material> with the Replenish Enchantment on it. When <full-enchanted> is set and is true the hoe will also be enchanted with
+* /r-givebook \<Player> - gives \<Player> an Enchanted Book with the Replenish Enchantment on it
+* /r-gethoe \<Material> [\<full-enchanted>] - gives you a Hoe of the Material \<Material> with the Replenish Enchantment on it. When \<full-enchanted> is set and is true the hoe will also be enchanted with
    1. Efficiency V
    2. Fortune III
    3. Mending
    4. Unbreaking III
-* /r-givehoe <Player> <Material> [<full-enchanted>] - gives <Player> a Hoe of the Material <Material> with the Replenish Enchantment on it. <full-enchanted> works just like above
+* /r-givehoe \<Player> \<Material> [\<full-enchanted>] - gives \<Player> a Hoe of the Material \<Material> with the Replenish Enchantment on it. \<full-enchanted> works just like above
 
 ### Permissions
 The Permissions can be viewed and edited in the config.yml located in the /plugins/ReplenishEnchantment/ directory
