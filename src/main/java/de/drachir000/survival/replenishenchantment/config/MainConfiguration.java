@@ -6,6 +6,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
+import java.util.List;
 import java.util.logging.Level;
 
 public class MainConfiguration extends ConfigFile {
@@ -60,6 +61,10 @@ public class MainConfiguration extends ConfigFile {
 
     public ConfigurationSection getExternalEnchantmentSection() {
         return getConfig().getConfigurationSection("external-enchantment-level-multiplier.");
+    }
+
+    public List<String> getCrops() {
+        return getConfig().getStringList("crops");
     }
 
     public int configVersion() {
@@ -193,6 +198,18 @@ public class MainConfiguration extends ConfigFile {
                     book: 3
                                 
                 """;
+        private final String UPDATE_4 = """
+                crops:
+                  # A list of all crops you want to be affected by the replenish-enchantment
+                  # Currently supported:
+                  # - "WHEAT", "CARROTS", "POTATOES", "BEETROOTS" and "NETHER_WART"
+                  - "WHEAT"
+                  - "CARROTS"
+                  - "POTATOES"
+                  - "BEETROOTS"
+                  - "NETHER_WART"
+                
+                """;
 
         private String getUpdates() {
             StringBuilder update = new StringBuilder();
@@ -204,10 +221,8 @@ public class MainConfiguration extends ConfigFile {
                     update.append(UPDATE_2);
                 case 2:
                     update.append(UPDATE_3);
-                /*case 3:
+                case 3:
                     update.append(UPDATE_4);
-                case 4:
-                    update.append(UPDATE_5);*/
             }
 
             update.append(UPDATE_ALERT);
