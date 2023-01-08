@@ -17,7 +17,7 @@ public class Updater {
 
     private final Plugin plugin;
     private final int resourceID;
-    public static final String link = "https://www.spigotmc.org/resources/RESOURCE.ID/"; //TODO set link
+    public static final String link = "https://www.spigotmc.org/resources/replenish-enchantment.107292/";
 
 
     public Updater(final Plugin plugin, final int resourceID) {
@@ -64,7 +64,7 @@ public class Updater {
         public void playerJoin(PlayerJoinEvent event) {
             if (ReplenishEnchantment.isUpdateAvailable != null) {
                 if (event.getPlayer().isOp() || event.getPlayer().hasPermission("*")) {
-                    event.getPlayer().sendMessage(ChatColor.YELLOW + "[ReplenishEnchantment - Updater] An update for ReplenishEnchantment is available.\nDownload it here: " + link);
+                    event.getPlayer().sendMessage(ChatColor.YELLOW + "[ReplenishEnchantment - Updater] An update for ReplenishEnchantment is available.\nDownload it here: " + link + "/updates");
                 }
             }
         }

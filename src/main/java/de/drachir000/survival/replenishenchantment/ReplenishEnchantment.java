@@ -72,13 +72,13 @@ public final class ReplenishEnchantment extends JavaPlugin {
 
         registerEnchantmentsFromConfig(anvilUtils);
 
-        /*Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             isUpdateAvailable = checkUpdate();
             if (isUpdateAvailable != null) {
                 Bukkit.getPluginManager().registerEvents(new Updater.UpdateNotify(), this);
-                getLogger().log(Level.WARNING, "[UPDATER] An update for ReplenishEnchantment is available. Download it here: " + Updater.link);
+                getLogger().log(Level.WARNING, "[UPDATER] An update for ReplenishEnchantment is available. Download it here: " + Updater.link +  "/updates");
             }
-        });*/
+        });
 
         this.metrics = new Metrics(this, bStatsID);
 
@@ -105,9 +105,9 @@ public final class ReplenishEnchantment extends JavaPlugin {
         }
     }
 
-    /*private String checkUpdate() {
+    private String checkUpdate() {
 
-        String re = new Updater(this, 00000).getVersion(); //TODO set id
+        String re = new Updater(this, 107292).getVersion();
         String[] spigotVersion = re.split("\\.");
         String[] serverVersion = getDescription().getVersion().split("\\.");
 
@@ -123,7 +123,7 @@ public final class ReplenishEnchantment extends JavaPlugin {
 
         return null;
 
-    }*/
+    }
 
     public Enchantment getEnchantment() {
         return enchantment;
