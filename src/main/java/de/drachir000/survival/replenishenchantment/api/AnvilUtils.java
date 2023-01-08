@@ -135,7 +135,7 @@ public class AnvilUtils {
         ItemMeta meta = item.getItemMeta();
         if (meta instanceof Repairable repairable) {
             repairable.setRepairCost((int) Math.pow(2, penalty) - 1);
-            item.setItemMeta(repairable);
+            item.setItemMeta((ItemMeta) repairable);
         }
     }
 
@@ -163,7 +163,7 @@ public class AnvilUtils {
         if (a.getType() == b.getType())
             return true;
         return switch (a.getType()) {
-            case OAK_PLANKS, ACACIA_PLANKS, BIRCH_PLANKS, CRIMSON_PLANKS, DARK_OAK_PLANKS, JUNGLE_PLANKS, MANGROVE_PLANKS, SPRUCE_PLANKS, WARPED_PLANKS ->
+            case OAK_PLANKS, ACACIA_PLANKS, BIRCH_PLANKS, CRIMSON_PLANKS, DARK_OAK_PLANKS, JUNGLE_PLANKS, SPRUCE_PLANKS, WARPED_PLANKS ->
                 switch (b.getType()) {
                     case WOODEN_SWORD, WOODEN_PICKAXE, WOODEN_AXE, WOODEN_SHOVEL, WOODEN_HOE, SHIELD -> true;
                     default -> false;

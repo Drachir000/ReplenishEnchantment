@@ -14,7 +14,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -142,7 +141,7 @@ public final class ReplenishEnchantment extends JavaPlugin {
         return metrics;
     }
 
-    public @NonNull BukkitAudiences adventure() {
+    public BukkitAudiences adventure() {
         if(this.adventure == null) {
             throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
         }
