@@ -37,6 +37,10 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
         this.audiences = inst.adventure();
     }
 
+    private String getTranslationItemKey(String key) {
+        return "item.minecraft." + key.replace("minecraft:", "");
+    }
+
     private boolean getBook(CommandSender sender) {
         Audience senderAudience = audiences.sender(sender);
         if (!(sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_BOOK)))) {
@@ -49,9 +53,9 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
         }
         ItemStack item = utils.buildBook();
         if (!((Player) sender).getPlayer().getInventory().addItem(item).isEmpty()) {
-            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_INV_FULL, Component.translatable(item.getType().getKey().getNamespace())));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_INV_FULL, Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
         } else {
-            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_SUCCESS, Component.translatable(item.getType().getKey().getNamespace())));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_SUCCESS, Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
         }
         return true;
     }
@@ -69,9 +73,9 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
             }
             ItemStack item = utils.buildBook();
             if (!((Player) sender).getPlayer().getInventory().addItem(item).isEmpty()) {
-                senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_INV_FULL, Component.translatable(item.getType().getKey().getNamespace())));
+                senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_INV_FULL, Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
             } else {
-                senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_SUCCESS, Component.translatable(item.getType().getKey().getNamespace())));
+                senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_SUCCESS, Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
             }
         } else {
             Player target = Bukkit.getPlayer(args[0]);
@@ -84,9 +88,9 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
             }
             ItemStack item = utils.buildBook();
             if (!target.getInventory().addItem(item).isEmpty()) {
-                senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_BOOK_INV_FULL, Component.text(target.getName()), Component.translatable(item.getType().getKey().getNamespace())));
+                senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_BOOK_INV_FULL, Component.text(target.getName()), Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
             } else {
-                senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_BOOK_SUCCESS, Component.text(target.getName()), Component.translatable(item.getType().getKey().getNamespace())));
+                senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_BOOK_SUCCESS, Component.text(target.getName()), Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
             }
         }
         return true;
@@ -138,9 +142,9 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
                 (args.length > 1 && args[1].equalsIgnoreCase("true") && (sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_FULL_ENCHANT))))
         );
         if (!((Player) sender).getPlayer().getInventory().addItem(item).isEmpty()) {
-            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_INV_FULL, Component.translatable(item.getType().getKey().getNamespace())));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_INV_FULL, Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
         } else {
-            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_SUCCESS, Component.translatable(item.getType().getKey().getNamespace())));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_SUCCESS, Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
         }
         return true;
     }
@@ -194,9 +198,9 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
                 hoeMaterial,
                 (args.length > 2 && args[2].equalsIgnoreCase("true") && (sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_HOE_FULL_ENCHANT)))));
         if (!target.getInventory().addItem(item).isEmpty()) {
-            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_INV_FULL, Component.text(target.getName()), Component.translatable(item.getType().getKey().getNamespace())));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_INV_FULL, Component.text(target.getName()), Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
         } else {
-            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_SUCCESS, Component.text(target.getName()), Component.translatable(item.getType().getKey().getNamespace())));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_SUCCESS, Component.text(target.getName()), Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
         }
         return true;
     }
