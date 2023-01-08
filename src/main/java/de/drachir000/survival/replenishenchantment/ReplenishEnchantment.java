@@ -133,6 +133,10 @@ public final class ReplenishEnchantment extends JavaPlugin {
         return messageBuilder;
     }
 
+    public Metrics getMetrics() {
+        return metrics;
+    }
+
     @Override public void onDisable() {
         try {
             Field keyField = Enchantment.class.getDeclaredField("byKey");
