@@ -7,6 +7,7 @@ import de.drachir000.survival.replenishenchantment.command.CommandHandler;
 import de.drachir000.survival.replenishenchantment.config.LanguageConfiguration;
 import de.drachir000.survival.replenishenchantment.config.MainConfiguration;
 import de.drachir000.survival.replenishenchantment.enchantment.Replenish;
+import de.drachir000.survival.replenishenchantment.bStats.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
@@ -26,6 +27,8 @@ public final class ReplenishEnchantment extends JavaPlugin {
     private MessageBuilder messageBuilder;
     public static int CONFIG_VERSION = 4;
     public static int LANGUAGE_VERSION = 3;
+    private final static int bStatsID = 17348;
+    private Metrics metrics;
     public static String isUpdateAvailable = null;
     private ItemUtils itemUtils;
 
@@ -72,6 +75,8 @@ public final class ReplenishEnchantment extends JavaPlugin {
                 getLogger().log(Level.WARNING, "[UPDATER] An update for ReplenishEnchantment is available. Download it here: " + Updater.link);
             }
         });*/
+
+        this.metrics = new Metrics(this, bStatsID);
 
     }
 
