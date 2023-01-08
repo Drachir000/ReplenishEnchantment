@@ -6,7 +6,7 @@
 
     <groupId>de.drachir000.survival</groupId>
     <artifactId>replenishenchantment</artifactId>
-    <version>0.2.2-spigot_support#0.1.0</version>
+    <version>0.2.3</version>
     <packaging>jar</packaging>
 
     <name>ReplenishEnchantment</name>
@@ -66,7 +66,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.19.2-R0.1-SNAPSHOT</version>
+            <version>1.17.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
