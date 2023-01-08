@@ -1,5 +1,6 @@
 package de.drachir000.survival.replenishenchantment.api.event;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -87,6 +88,15 @@ public class ReplenishEvent extends Event implements Cancellable {
      * */
     public void setDrops(Collection<ItemStack> drops) {
         this.drops = drops;
+    }
+
+    /**
+     * Calls the event and tests if cancelled.
+     * @return false if event was cancelled. otherwise true.
+     * */
+    public boolean callEvent() {
+        Bukkit.getPluginManager().callEvent(this);
+        return !isCancelled();
     }
 
 }

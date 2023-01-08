@@ -1,19 +1,14 @@
 package de.drachir000.survival.replenishenchantment.enchantment;
 
 import de.drachir000.survival.replenishenchantment.ReplenishEnchantment;
-import io.papermc.paper.enchantments.EnchantmentRarity;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
-import org.bukkit.entity.EntityCategory;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
-import java.util.Set;
 
 public class Replenish extends Enchantment {
 
@@ -21,15 +16,13 @@ public class Replenish extends Enchantment {
     private final boolean TREASURE;
     private final boolean TRADEABLE;
     private final boolean DISCOVERABLE;
-    private final EnchantmentRarity RARITY;
 
-    public Replenish(String namespace, ReplenishEnchantment plugin, String name, EnchantmentRarity rarity) {
+    public Replenish(String namespace, ReplenishEnchantment plugin, String name) {
         super(Objects.requireNonNull(NamespacedKey.fromString(namespace, plugin)));
         this.NAME = name;
         this.TREASURE = true;
         this.TRADEABLE = false;
         this.DISCOVERABLE = false;
-        this.RARITY = rarity;
     }
 
     @Override
@@ -75,41 +68,6 @@ public class Replenish extends Enchantment {
                 item.getType() == Material.GOLDEN_HOE ||
                 item.getType() == Material.DIAMOND_HOE ||
                 item.getType() == Material.NETHERITE_HOE);
-    }
-
-    @Override
-    public @NotNull Component displayName(int level) {
-        return Component.text(NAME);
-    }
-
-    @Override
-    public boolean isTradeable() {
-        return TRADEABLE;
-    }
-
-    @Override
-    public boolean isDiscoverable() {
-        return DISCOVERABLE;
-    }
-
-    @Override
-    public @NotNull EnchantmentRarity getRarity() {
-        return RARITY;
-    }
-
-    @Override
-    public float getDamageIncrease(int level, @NotNull EntityCategory entityCategory) {
-        return 0;
-    }
-
-    @Override
-    public @NotNull Set<EquipmentSlot> getActiveSlots() {
-        return Set.of(EquipmentSlot.HAND);
-    }
-
-    @Override
-    public @NotNull String translationKey() {
-        return "replenishenchantment.enchantment.replenish"; // ???
     }
 
 }

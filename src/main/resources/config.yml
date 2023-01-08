@@ -4,12 +4,6 @@ config-version: 4
 # The name of the Enchantment
 name: Replenish
 
-# The rarity of the enchantment
-# Probably useless, I don't even know, what this does...
-# choose out of this list:
-# COMMON, UNCOMMON, RARE, VERY_RARE
-rarity: UNCOMMON
-
 application:
   # Whether it should be possible to apply the enchantment on the anvil (recommended)
   anvil: true

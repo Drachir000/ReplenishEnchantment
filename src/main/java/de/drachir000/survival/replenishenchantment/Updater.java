@@ -5,11 +5,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.*;
 import java.net.URL;
-import java.util.Scanner;
+import java.nio.charset.Charset;
 import java.util.logging.Level;
 
 public class Updater {
@@ -24,10 +25,31 @@ public class Updater {
         this.resourceID = resourceID;
     }
 
+    private String readAll(Reader rd) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        int cp;
+        while ((cp = rd.read()) != -1) {
+            sb.append((char) cp);
+        }
+        return sb.toString();
+    }
+
+    public JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+        InputStream is = new URL(url).openStream();
+        try {
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+            String jsonText = readAll(rd);
+            JSONObject json = new JSONObject(jsonText);
+            return json;
+        } finally {
+            is.close();
+        }
+    }
+
     public String getVersion() {
         String version;
         try {
-            version = ((JSONObject) new JSONParser().parse(new Scanner(new URL("https://api.spigotmc.org/simple/0.1/index.php?action=getResource&id=" + resourceID).openStream()).nextLine())).get("current_version").toString();
+            version = readJsonFromUrl("https://api.spigotmc.org/simple/0.1/index.php?action=getResource&id=" + resourceID).getString("current_version");
         } catch (Exception ignored) {
             version = plugin.getDescription().getVersion();
             plugin.getLogger().log(Level.WARNING, "failed to check for updates against the spigot website, to check manually go to " + link + "/updates");

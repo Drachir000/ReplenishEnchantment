@@ -3,16 +3,18 @@ package de.drachir000.survival.replenishenchantment;
 import de.drachir000.survival.replenishenchantment.api.AnvilUtils;
 import de.drachir000.survival.replenishenchantment.api.ItemUtils;
 import de.drachir000.survival.replenishenchantment.api.REAPI;
+import de.drachir000.survival.replenishenchantment.bStats.Metrics;
 import de.drachir000.survival.replenishenchantment.command.CommandHandler;
 import de.drachir000.survival.replenishenchantment.config.LanguageConfiguration;
 import de.drachir000.survival.replenishenchantment.config.MainConfiguration;
 import de.drachir000.survival.replenishenchantment.enchantment.Replenish;
-import de.drachir000.survival.replenishenchantment.bStats.Metrics;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -31,16 +33,19 @@ public final class ReplenishEnchantment extends JavaPlugin {
     private Metrics metrics;
     public static String isUpdateAvailable = null;
     private ItemUtils itemUtils;
+    private BukkitAudiences adventure;
 
     @Override
     public void onEnable() {
+
+        this.adventure = BukkitAudiences.create(this);
 
         this.mainConfiguration = new MainConfiguration(this, "config.yml");
 
         LanguageConfiguration languageConfiguration = new LanguageConfiguration(this, "language.yml");
         this.messageBuilder = new MessageBuilder(languageConfiguration);
 
-        this.enchantment = new Replenish("replenish", this, mainConfiguration.getEnchantmentName(), mainConfiguration.getEnchantmentRarity());
+        this.enchantment = new Replenish("replenish", this, mainConfiguration.getEnchantmentName());
         if (!Arrays.stream(Enchantment.values()).toList().contains(enchantment))
             try {
                 Field fieldAcceptingNew = Enchantment.class.getDeclaredField("acceptingNew");
@@ -137,6 +142,13 @@ public final class ReplenishEnchantment extends JavaPlugin {
         return metrics;
     }
 
+    public @NonNull BukkitAudiences adventure() {
+        if(this.adventure == null) {
+            throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
+        }
+        return this.adventure;
+    }
+
     @Override public void onDisable() {
         try {
             Field keyField = Enchantment.class.getDeclaredField("byKey");
@@ -156,6 +168,10 @@ public final class ReplenishEnchantment extends JavaPlugin {
             if (byName.containsKey(enchantment.getName()))
                 byName.remove(enchantment.getName());
         } catch (Exception ignored) {}
+        if(this.adventure != null) {
+            this.adventure.close();
+            this.adventure = null;
+        }
     }
 
 }

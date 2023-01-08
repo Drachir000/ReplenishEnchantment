@@ -159,6 +159,52 @@ public class AnvilUtils {
         return item.getEnchantments();
     }
 
+    private boolean canRepair(ItemStack a, ItemStack b) {
+        if (a.getType() == b.getType())
+            return true;
+        return switch (a.getType()) {
+            case OAK_PLANKS, ACACIA_PLANKS, BIRCH_PLANKS, CRIMSON_PLANKS, DARK_OAK_PLANKS, JUNGLE_PLANKS, MANGROVE_PLANKS, SPRUCE_PLANKS, WARPED_PLANKS ->
+                switch (b.getType()) {
+                    case WOODEN_SWORD, WOODEN_PICKAXE, WOODEN_AXE, WOODEN_SHOVEL, WOODEN_HOE, SHIELD -> true;
+                    default -> false;
+                };
+            case LEATHER ->
+                switch (b.getType()) {
+                    case LEATHER_BOOTS, LEATHER_CHESTPLATE, LEATHER_HELMET, LEATHER_LEGGINGS -> true;
+                    default -> false;
+                };
+            case COBBLESTONE, COBBLED_DEEPSLATE, BLACKSTONE ->
+                switch (b.getType()) {
+                    case STONE_SWORD, STONE_PICKAXE, STONE_AXE, STONE_SHOVEL, STONE_HOE -> true;
+                    default -> false;
+                };
+            case IRON_INGOT ->
+                switch (b.getType()) {
+                    case IRON_HELMET, IRON_CHESTPLATE, IRON_LEGGINGS, IRON_BOOTS, CHAINMAIL_HELMET, CHAINMAIL_CHESTPLATE, CHAINMAIL_LEGGINGS, CHAINMAIL_BOOTS,
+                            IRON_SWORD, IRON_PICKAXE, IRON_AXE, IRON_SHOVEL, IRON_HOE -> true;
+                    default -> false;
+                };
+            case GOLD_INGOT ->
+                switch (b.getType()) {
+                    case GOLDEN_HELMET, GOLDEN_CHESTPLATE, GOLDEN_LEGGINGS, GOLDEN_BOOTS, GOLDEN_SWORD, GOLDEN_PICKAXE, GOLDEN_AXE, GOLDEN_SHOVEL, GOLDEN_HOE -> true;
+                    default -> false;
+                };
+            case DIAMOND ->
+                switch (b.getType()) {
+                    case DIAMOND_HELMET, DIAMOND_CHESTPLATE, DIAMOND_LEGGINGS, DIAMOND_BOOTS, DIAMOND_SWORD, DIAMOND_PICKAXE, DIAMOND_AXE, DIAMOND_SHOVEL, DIAMOND_HOE -> true;
+                    default -> false;
+                };
+            case NETHERITE_INGOT ->
+                switch (b.getType()) {
+                    case NETHERITE_HELMET, NETHERITE_CHESTPLATE, NETHERITE_LEGGINGS, NETHERITE_BOOTS, NETHERITE_SWORD, NETHERITE_PICKAXE, NETHERITE_AXE, NETHERITE_SHOVEL, NETHERITE_HOE -> true;
+                    default -> false;
+                };
+            case SCUTE -> b.getType() == Material.TURTLE_HELMET;
+            case PHANTOM_MEMBRANE -> b.getType() == Material.ELYTRA;
+            default -> false;
+        };
+    }
+
     public AnvilResult getResult(ItemStack leftItem, ItemStack rightItem, String name) {
 
         boolean rename = (name != null && !name.equals(""));
@@ -189,7 +235,7 @@ public class AnvilUtils {
 
             Map<Enchantment, Integer> rightEnchantments = getEnchantments(rightItem);
 
-            if (rightItem.canRepair(resultItem) && rightItem.getType() != resultItem.getType()) {
+            if (canRepair(rightItem, resultItem) && rightItem.getType() != resultItem.getType()) {
 
                 Damageable resMeta = (Damageable) resultItem.getItemMeta();
                 if (resMeta.hasDamage()) {
@@ -260,7 +306,7 @@ public class AnvilUtils {
             }
 
             List<Enchantment> compatible = getCompatible(rightEnchantments.keySet().stream().toList(), leftItem);
-            if (!((rightItem.canRepair(leftItem) || rightItem.getType() == leftItem.getType()) && leftItem.getItemMeta() instanceof Damageable damageable && damageable.hasDamage()) && compatible.isEmpty())
+            if (!((canRepair(rightItem, leftItem) || rightItem.getType() == leftItem.getType()) && leftItem.getItemMeta() instanceof Damageable damageable && damageable.hasDamage()) && compatible.isEmpty())
                 if (rename && cost > 39) {
                     cost = 39;
                     return new AnvilResult(cost, resultItem);

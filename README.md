@@ -38,11 +38,12 @@ The Messages can be viewed and edited in the language.yml located in the /plugin
 The enchantment only works in survival mode!
 
 ## Compatibility
-| Minecraft version | Bukkit          | Spigot  | Paper | Purpur  |
-|-------------------|-----------------|---------|-------|---------|
-| **..1.17**        | no              | no      | no    | no      |
-| **1.18**          | no (maybe soon) | not yet | yes   | not yet |
-| **1.19**          | no (maybe soon) | not yet | yes   | yes     |
+| Minecraft version | Bukkit | Spigot | Paper | Purpur |
+|-------------------|--------|--------|-------|--------|
+| **..1.16**        | no     | no     | no    | no     |
+| **1.17**          | yes    | yes    | no    | no     |
+| **1.18**          | yes    | yes    | yes   | yes    |
+| **1.19**          | yes    | yes    | yes   | yes    |
 
 ## API
 
@@ -152,10 +153,11 @@ to discuss what you would like to change.
 
 ## Planed
 1. [x] Fix Book Lore
-2. [ ] Adding Spigot (maybe Bukkit) support
-3. [ ] Adding Purpur 1.18 support
-4. [ ] Adding an option for a Crafting-Recipe
-5. [ ] Adding some crops like Cactus, Cocoa Beans or Sugar Cane
+2. [x] Adding Spigot & Bukkit support
+3. [x] Adding Purpur support
+4. [ ] Enabling the Updater
+5. [ ] Adding an option for a Crafting-Recipe
+6. [ ] Adding some crops like Cactus, Cocoa Beans or Sugar Cane
 
 ## License
 

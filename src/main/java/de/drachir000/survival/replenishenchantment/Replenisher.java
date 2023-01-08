@@ -50,11 +50,10 @@ public class Replenisher implements Listener {
         boolean replenish = false;
         for (ItemStack drop : drops) {
             if (drop.getType() == material) {
-                if (drop.getAmount() <= 1)
-                    drop.setType(Material.AIR);
-                else
-                    drop.setAmount(drop.getAmount() - 1);
+                drop.setAmount(drop.getAmount() - 1);
                 replenish = true;
+                if (drop.getAmount() <= 0)
+                    drops.remove(drop);
                 break;
             }
         }
