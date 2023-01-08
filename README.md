@@ -4,7 +4,7 @@ This plugin adds an enchantment for hoes that automatically replants seeds when 
 
 ## Installation
 
-* Download the latest version here: https://www.spigotmc.org/resources/name.000000/
+* Download the latest version here: https://www.spigotmc.org/resources/replenish-enchantment.107292/
 * Drag the .jar into your plugins/ folder
 * Reboot your server
 * Set up the config.yml and language.yml located in the /plugins/ReplenishEnchantment/ directory
