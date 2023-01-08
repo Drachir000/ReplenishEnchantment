@@ -4,6 +4,7 @@ import de.drachir000.survival.replenishenchantment.ReplenishEnchantment;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
 public class LanguageConfiguration extends ConfigFile {
@@ -178,7 +179,9 @@ public class LanguageConfiguration extends ConfigFile {
 
                 inputBuffer.append(getUpdates());
                 FileOutputStream fileOut = new FileOutputStream(configFile);
-                fileOut.write(inputBuffer.toString().getBytes());
+                OutputStreamWriter writer = new OutputStreamWriter(fileOut, StandardCharsets.UTF_8);
+                writer.write(inputBuffer.toString());
+                writer.close();
             }
         }
 

@@ -6,6 +6,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -248,7 +249,9 @@ public class MainConfiguration extends ConfigFile {
 
                 inputBuffer.append(getUpdates());
                 FileOutputStream fileOut = new FileOutputStream(configFile);
-                fileOut.write(inputBuffer.toString().getBytes());
+                OutputStreamWriter writer = new OutputStreamWriter(fileOut, StandardCharsets.UTF_8);
+                writer.write(inputBuffer.toString());
+                writer.close();
             }
         }
 

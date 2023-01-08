@@ -90,4 +90,4 @@ give-hoe-success: "§aSuccessfully added §e{1}§a to §e{0}'s§a Inventory"
 book-lore: "§7§o*Drag onto hoe to apply*"
 
 # DO NOT CHANGE !!!
-config-version: 2
+config-version: 3
