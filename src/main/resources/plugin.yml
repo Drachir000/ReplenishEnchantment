@@ -4,7 +4,7 @@ main: de.drachir000.survival.replenishenchantment.ReplenishEnchantment
 api-version: 1.18
 authors: [ Drachir000 ]
 description: This plugin adds an enchantment for hoes that automatically replants seeds when harvesting, making farming more efficient
-website: https://drachir000.de
+website: https://github.com/Drachir000/ReplenishEnchantment
 commands:
   replenish-getbook:
     description: gives you the Enchantment-Book
