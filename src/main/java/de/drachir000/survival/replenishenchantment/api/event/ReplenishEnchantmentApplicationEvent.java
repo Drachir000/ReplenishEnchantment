@@ -1,5 +1,6 @@
 package de.drachir000.survival.replenishenchantment.api.event;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -107,6 +108,15 @@ public abstract class ReplenishEnchantmentApplicationEvent extends Event impleme
     @Override
     public void setCancelled(boolean cancel) {
         this.cancelled = cancel;
+    }
+
+    /**
+     * Calls the event and tests if cancelled.
+     * @return false if event was cancelled. otherwise true.
+     * */
+    public boolean callEvent() {
+        Bukkit.getPluginManager().callEvent(this);
+        return !isCancelled();
     }
 
 }

@@ -6,7 +6,7 @@
 
     <groupId>de.drachir000.survival</groupId>
     <artifactId>replenishenchantment</artifactId>
-    <version>dev/spigot-support-0.2.2#0.0.1</version>
+    <version>0.2.2-spigot_support#0.1.0</version>
     <packaging>jar</packaging>
 
     <name>ReplenishEnchantment</name>
@@ -17,7 +17,7 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <url>https://drachir000.de</url>
+    <url>https://github.com/Drachir000/ReplenishEnchantment</url>
 
     <build>
         <plugins>
@@ -57,19 +57,15 @@
 
     <repositories>
         <repository>
-            <id>papermc-repo</id>
-            <url>https://repo.papermc.io/repository/maven-public/</url>
-        </repository>
-        <repository>
-            <id>sonatype</id>
-            <url>https://oss.sonatype.org/content/groups/public/</url>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
     </repositories>
 
     <dependencies>
         <dependency>
-            <groupId>io.papermc.paper</groupId>
-            <artifactId>paper-api</artifactId>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
             <version>1.19.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
@@ -82,6 +78,16 @@
             <groupId>net.kyori</groupId>
             <artifactId>adventure-api</artifactId>
             <version>4.12.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-text-serializer-legacy</artifactId>
+            <version>4.12.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-platform-bukkit</artifactId>
+            <version>4.2.0</version>
         </dependency>
     </dependencies>
 </project>

@@ -1,7 +1,6 @@
 package de.drachir000.survival.replenishenchantment.config;
 
 import de.drachir000.survival.replenishenchantment.ReplenishEnchantment;
-import io.papermc.paper.enchantments.EnchantmentRarity;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 
@@ -30,10 +29,6 @@ public class MainConfiguration extends ConfigFile {
 
     public String getEnchantmentName() {
         return getConfig().getString("name");
-    }
-
-    public EnchantmentRarity getEnchantmentRarity() {
-        return EnchantmentRarity.valueOf(getConfig().getString("rarity"));
     }
 
     public String getPermission(Permission permission) {
@@ -88,12 +83,6 @@ public class MainConfiguration extends ConfigFile {
         private final String UPDATE_1 = """
                         # The name of the Enchantment
                         name: Replenish
-                                                
-                        # The rarity of the enchantment
-                        # Probably useless, I don't even know, what this does...
-                        # choose out of this list:
-                        # COMMON, UNCOMMON, RARE, VERY_RARE
-                        rarity: UNCOMMON
                         
                         """;
         private final String UPDATE_2 = """
