@@ -1,9 +1,9 @@
 name: ReplenishEnchantment
 version: '${project.version}'
 main: de.drachir000.survival.replenishenchantment.ReplenishEnchantment
-api-version: 1.19
+api-version: 1.18
 authors: [ Drachir000 ]
-description: This plugin adds a enchantment for hoes that automatically replants seeds when harvesting, making farming more efficient
+description: This plugin adds an enchantment for hoes that automatically replants seeds when harvesting, making farming more efficient
 website: https://drachir000.de
 commands:
   replenish-getbook:
