@@ -215,6 +215,9 @@ public class AnvilUtils {
         if (!rename && (rightItem == null || rightItem.getType().isAir()))
             return new EmptyAnvilResult();
 
+        if (!(rightItem.getType() == Material.ENCHANTED_BOOK || (leftItem.getType() == rightItem.getType())))
+            return new EmptyAnvilResult();
+
         ItemStack resultItem = leftItem.clone();
         if (rename) {
             ItemMeta meta = resultItem.getItemMeta();
