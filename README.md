@@ -151,7 +151,7 @@ Pull requests are welcome. For major changes, please open an issue first
 to discuss what you would like to change.
 
 ## Planed
-1. [ ] Fix Book Lore
+1. [x] Fix Book Lore
 2. [ ] Adding Spigot (maybe Bukkit) support
 3. [ ] Adding Purpur 1.18 support
 4. [ ] Adding an option for a Crafting-Recipe
