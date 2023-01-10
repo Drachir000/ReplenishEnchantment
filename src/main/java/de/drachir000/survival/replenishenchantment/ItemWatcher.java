@@ -1,6 +1,5 @@
 package de.drachir000.survival.replenishenchantment;
 
-import com.destroystokyo.paper.event.inventory.PrepareResultEvent;
 import de.drachir000.survival.replenishenchantment.api.AnvilUtils;
 import de.drachir000.survival.replenishenchantment.api.ItemUtils;
 import de.drachir000.survival.replenishenchantment.api.event.ReplenishEnchantmentAnvilApplicationEvent;
@@ -12,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.GrindstoneInventory;
 import org.bukkit.inventory.InventoryView;
@@ -30,26 +30,17 @@ public class ItemWatcher implements Listener {
     }
 
     @EventHandler
-    public void onPrepareResult(PrepareResultEvent e) {
-        if (e.getInventory() instanceof GrindstoneInventory) {
-            InventoryView view = e.getView();
-            Bukkit.getScheduler().scheduleSyncDelayedTask(inst, () -> {
-                utils.updateLore(view.getItem(2));
-            }, 1);
-
-        }
+    public void onPrepareAnvil(PrepareAnvilEvent e) {
         if (!inst.getMainConfiguration().isAnvilApplication())
             return;
-        if (e.getInventory() instanceof AnvilInventory anvil) {
-            InventoryView view = e.getView();
-            Bukkit.getScheduler().runTask(inst, () -> {
-                ItemStack left = view.getItem(0);
-                ItemStack right = view.getItem(1);
-                AnvilUtils.AnvilResult result = calculator.getResult(left, right, anvil.getRenameText());
-                view.setItem(2, utils.updateLore(result.getResult()));
-                anvil.setRepairCost(result.getLevelCost());
-            });
-        }
+        InventoryView view = e.getView();
+        Bukkit.getScheduler().runTask(inst, () -> {
+            ItemStack left = view.getItem(0);
+            ItemStack right = view.getItem(1);
+            AnvilUtils.AnvilResult result = calculator.getResult(left, right, e.getInventory().getRenameText());
+            view.setItem(2, utils.updateLore(result.getResult()));
+            e.getInventory().setRepairCost(result.getLevelCost());
+        });
     }
 
     @EventHandler
@@ -60,6 +51,13 @@ public class ItemWatcher implements Listener {
         if (!inst.getMainConfiguration().isInventoryApplication())
             return;
         ItemStack cursor = e.getCursor();
+
+        if (e.getInventory() instanceof GrindstoneInventory) {
+            InventoryView view = e.getView();
+            Bukkit.getScheduler().scheduleSyncDelayedTask(inst, () -> {
+                utils.updateLore(view.getItem(2));
+            }, 1);
+        }
 
         InventoryView view = e.getView();
         if (inst.getMainConfiguration().isAnvilApplication() && e.getInventory() instanceof AnvilInventory anvil &&
@@ -86,7 +84,7 @@ public class ItemWatcher implements Listener {
         if (clickedItem == null || cursor == null)
             return;
 
-        if (!utils.isHoe(clickedItem))
+        if (!utils.canGetEnchanted(clickedItem))
             return;
 
         if (!utils.hasStoredEnchant(cursor))

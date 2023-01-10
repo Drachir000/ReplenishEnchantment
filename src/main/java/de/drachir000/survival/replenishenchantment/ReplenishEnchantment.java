@@ -3,10 +3,12 @@ package de.drachir000.survival.replenishenchantment;
 import de.drachir000.survival.replenishenchantment.api.AnvilUtils;
 import de.drachir000.survival.replenishenchantment.api.ItemUtils;
 import de.drachir000.survival.replenishenchantment.api.REAPI;
+import de.drachir000.survival.replenishenchantment.bStats.Metrics;
 import de.drachir000.survival.replenishenchantment.command.CommandHandler;
 import de.drachir000.survival.replenishenchantment.config.LanguageConfiguration;
 import de.drachir000.survival.replenishenchantment.config.MainConfiguration;
 import de.drachir000.survival.replenishenchantment.enchantment.Replenish;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import de.drachir000.survival.replenishenchantment.bStats.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -25,22 +27,25 @@ public final class ReplenishEnchantment extends JavaPlugin {
     private Enchantment enchantment;
     private MainConfiguration mainConfiguration;
     private MessageBuilder messageBuilder;
-    public static int CONFIG_VERSION = 4;
-    public static int LANGUAGE_VERSION = 3;
+    public static int CONFIG_VERSION = 5;
+    public static int LANGUAGE_VERSION = 4;
     private final static int bStatsID = 17348;
     private Metrics metrics;
     public static String isUpdateAvailable = null;
     private ItemUtils itemUtils;
+    private BukkitAudiences adventure;
 
     @Override
     public void onEnable() {
+
+        this.adventure = BukkitAudiences.create(this);
 
         this.mainConfiguration = new MainConfiguration(this, "config.yml");
 
         LanguageConfiguration languageConfiguration = new LanguageConfiguration(this, "language.yml");
         this.messageBuilder = new MessageBuilder(languageConfiguration);
 
-        this.enchantment = new Replenish("replenish", this, mainConfiguration.getEnchantmentName(), mainConfiguration.getEnchantmentRarity());
+        this.enchantment = new Replenish("replenish", this, mainConfiguration.getEnchantmentName());
         if (!Arrays.stream(Enchantment.values()).toList().contains(enchantment))
             try {
                 Field fieldAcceptingNew = Enchantment.class.getDeclaredField("acceptingNew");
@@ -68,13 +73,15 @@ public final class ReplenishEnchantment extends JavaPlugin {
 
         registerEnchantmentsFromConfig(anvilUtils);
 
-        /*Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             isUpdateAvailable = checkUpdate();
             if (isUpdateAvailable != null) {
                 Bukkit.getPluginManager().registerEvents(new Updater.UpdateNotify(), this);
-                getLogger().log(Level.WARNING, "[UPDATER] An update for ReplenishEnchantment is available. Download it here: " + Updater.link);
+                getLogger().log(Level.WARNING, "[UPDATER] An update for ReplenishEnchantment is available. Download it here: " + Updater.link +  "/updates");
             }
-        });*/
+        });
+
+        this.metrics = new Metrics(this, bStatsID);
 
         this.metrics = new Metrics(this, bStatsID);
 
@@ -88,6 +95,8 @@ public final class ReplenishEnchantment extends JavaPlugin {
         Objects.requireNonNull(getCommand("replenish-givebook")).setPermission(getMainConfiguration().getPermission(MainConfiguration.Permission.CMD_GIVE_BOOK));
         Objects.requireNonNull(getCommand("replenish-gethoe")).setExecutor(handler);
         Objects.requireNonNull(getCommand("replenish-givehoe")).setExecutor(handler);
+        Objects.requireNonNull(getCommand("replenish-getaxe")).setExecutor(handler);
+        Objects.requireNonNull(getCommand("replenish-giveaxe")).setExecutor(handler);
     }
 
     private void registerEnchantmentsFromConfig(AnvilUtils anvilUtils) {
@@ -101,9 +110,9 @@ public final class ReplenishEnchantment extends JavaPlugin {
         }
     }
 
-    /*private String checkUpdate() {
+    private String checkUpdate() {
 
-        String re = new Updater(this, 00000).getVersion(); //TODO set id
+        String re = new Updater(this, 107292).getVersion();
         String[] spigotVersion = re.split("\\.");
         String[] serverVersion = getDescription().getVersion().split("\\.");
 
@@ -119,7 +128,7 @@ public final class ReplenishEnchantment extends JavaPlugin {
 
         return null;
 
-    }*/
+    }
 
     public Enchantment getEnchantment() {
         return enchantment;
@@ -135,6 +144,13 @@ public final class ReplenishEnchantment extends JavaPlugin {
 
     public Metrics getMetrics() {
         return metrics;
+    }
+
+    public BukkitAudiences adventure() {
+        if(this.adventure == null) {
+            throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
+        }
+        return this.adventure;
     }
 
     @Override public void onDisable() {
@@ -156,6 +172,10 @@ public final class ReplenishEnchantment extends JavaPlugin {
             if (byName.containsKey(enchantment.getName()))
                 byName.remove(enchantment.getName());
         } catch (Exception ignored) {}
+        if(this.adventure != null) {
+            this.adventure.close();
+            this.adventure = null;
+        }
     }
 
 }

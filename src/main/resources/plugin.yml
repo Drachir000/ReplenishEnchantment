@@ -1,10 +1,10 @@
 name: ReplenishEnchantment
 version: '${project.version}'
 main: de.drachir000.survival.replenishenchantment.ReplenishEnchantment
-api-version: 1.18
+api-version: 1.17
 authors: [ Drachir000 ]
 description: This plugin adds an enchantment for hoes that automatically replants seeds when harvesting, making farming more efficient
-website: https://drachir000.de
+website: https://github.com/Drachir000/ReplenishEnchantment
 commands:
   replenish-getbook:
     description: gives you the Enchantment-Book
@@ -19,6 +19,14 @@ commands:
     usage: /replenish-gethoe [<Material(WOOD/IRON/etc.)>] [<full-enchanted(true/false)>]
     aliases: [r-gethoe]
   replenish-givehoe:
-    description: gives you a Enchanted Hoe
+    description: gives a player a Enchanted Hoe
     usage: /replenish-givehoe <Player> <Material(WOOD/IRON/etc.)> [<full-enchanted(true/false)>]
     aliases: [r-givehoe]
+  replenish-getaxe:
+    description: gives you a Enchanted Axe
+    usage: /replenish-getaxe [<Material(WOOD/IRON/etc.)>] [<full-enchanted(true/false)>]
+    aliases: [r-getaxe]
+  replenish-giveaxe:
+    description: gives a player a Enchanted Axe
+    usage: /replenish-giveaxe <Player> <Material(WOOD/IRON/etc.)> [<full-enchanted(true/false)>]
+    aliases: [r-giveaxe]

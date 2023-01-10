@@ -4,7 +4,7 @@ This plugin adds an enchantment for hoes that automatically replants seeds when 
 
 ## Installation
 
-* Download the latest version here: https://www.spigotmc.org/resources/name.000000/
+* Download the latest version here: https://www.spigotmc.org/resources/replenish-enchantment.107292/
 * Drag the .jar into your plugins/ folder
 * Reboot your server
 * Set up the config.yml and language.yml located in the /plugins/ReplenishEnchantment/ directory
@@ -20,6 +20,8 @@ This plugin adds an enchantment for hoes that automatically replants seeds when 
     - Mending
     - Unbreaking III
 * `/r-givehoe <Player> <Material> [<full-enchanted>]` - gives \<Player> a Hoe of the Material \<Material> with the Replenish Enchantment on it. \<full-enchanted> works just like above
+* `/r-gethoe <Material> [<full-enchanted>]` - gives you a Axe of the Material \<Material> with the Replenish Enchantment on it. \<full-enchanted> works just like above
+* `/r-giveaxe <Player> <Material> [<full-enchanted>]` - gives \<Player> a Axe of the Material \<Material> with the Replenish Enchantment on it. \<full-enchanted> works just like above
 
 ### Permissions
 The Permissions can be viewed and edited in the config.yml located in the /plugins/ReplenishEnchantment/ directory
@@ -30,19 +32,20 @@ The Messages can be viewed and edited in the language.yml located in the /plugin
 ### Ingame
 * Get the Enchanted Book via the commands above
 * Apply the Enchantment onto a hoe, this can be done,
-    - by combining a hoe, with the Enchanted Book on an anvil (if enabled in the config.yml)
-    - by dragging the Enchanted Book onto a hoe in the inventory and clicking it in survival mode (if enabled in the config.yml)
-* Or just get a hoe with a command from above.
-* Destroy some crops with this hoe.
+    - by combining a hoe or axe, with the Enchanted Book on an anvil (if enabled in the config.yml)
+    - by dragging the Enchanted Book onto a hoe or axe in the inventory and clicking it in survival mode (if enabled in the config.yml)
+* Or just get a hoe or axe with a command from above.
+* Destroy some crops with this hoe or axe.
 
 The enchantment only works in survival mode!
 
 ## Compatibility
-| Minecraft version | Bukkit          | Spigot  | Paper | Purpur  |
-|-------------------|-----------------|---------|-------|---------|
-| **..1.17**        | no              | no      | no    | no      |
-| **1.18**          | no (maybe soon) | not yet | yes   | not yet |
-| **1.19**          | no (maybe soon) | not yet | yes   | yes     |
+| Minecraft version | Bukkit | Spigot | Paper | Purpur |
+|-------------------|--------|--------|-------|--------|
+| **..1.16**        | no     | no     | no    | no     |
+| **1.17**          | yes    | yes    | no    | no     |
+| **1.18**          | yes    | yes    | yes   | yes    |
+| **1.19**          | yes    | yes    | yes   | yes    |
 
 ## API
 
@@ -84,17 +87,18 @@ The multipliers times the final level of the enchantment gives the level cost of
 In this case the itemModifier is 2 and the bookModifier 1. You can modify this just as you wish or let your users configure it. When you want to change this values just call this method with the new values again.
 
 * #### Getting the Enchanted Book or an Enchanted Hoe
-If you want to give your players the Enchanted Book, or directly an enchanted hoe, you can use the `buildBook()` or `buildHoe()` method which returns an ItemStack depending on the arguments.
+If you want to give your players the Enchanted Book, or directly an enchanted hoe or axe, you can use the `buildBook()`, `buildHoe()` or `buildHoe()` method which returns an ItemStack depending on the arguments.
 ````java
 // Get the api like above
 
 Material hoeMaterial = // ... The Material of the Hoe (must be a hoe)
-boolean fullEnchanted = // ... Whether the hoe should have Efficiency V, Fortune III, Mending and Unbreaking III. If you only want some of theese you have to add them yourself.
+boolean fullEnchanted = // ... Whether the hoe or axe should have Efficiency V, Fortune III, Mending and Unbreaking III. If you only want some of theese you have to add them yourself.
 
 ItemStack book = api.buildBook();
 ItemStack hoe = api.buildHoe(hoeMaterial, fullEnchanted);
+ItemStack axe = api.buildAxe(hoeMaterial, fullEnchanted);
 
-player.getInventory.addItem(book, hoe);
+player.getInventory.addItem(book, hoe, axe);
 ````
 
 * #### Other Item Utils
@@ -152,10 +156,12 @@ to discuss what you would like to change.
 
 ## Planed
 1. [x] Fix Book Lore
-2. [ ] Adding Spigot (maybe Bukkit) support
-3. [ ] Adding Purpur 1.18 support
-4. [ ] Adding an option for a Crafting-Recipe
-5. [ ] Adding some crops like Cactus, Cocoa Beans or Sugar Cane
+2. [x] Adding Spigot & Bukkit support
+3. [x] Adding Purpur support
+4. [x] Enabling the Updater
+5. [x] Adding Cactus & Sugar Cane
+6. [x] Adding Cocoa Beans
+7. [ ] Adding an option for a Crafting-Recipe
 
 ## License
 

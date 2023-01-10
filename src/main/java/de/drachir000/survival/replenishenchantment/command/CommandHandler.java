@@ -4,6 +4,8 @@ import de.drachir000.survival.replenishenchantment.MessageBuilder;
 import de.drachir000.survival.replenishenchantment.ReplenishEnchantment;
 import de.drachir000.survival.replenishenchantment.api.ItemUtils;
 import de.drachir000.survival.replenishenchantment.config.MainConfiguration;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -21,74 +23,81 @@ import java.util.List;
 
 public class CommandHandler implements CommandExecutor, TabCompleter {
 
-    private final ReplenishEnchantment inst;
     private final MessageBuilder messageBuilder;
     private final MainConfiguration config;
     private final ItemUtils utils;
+    private final BukkitAudiences audiences;
 
     public CommandHandler(ReplenishEnchantment inst, ItemUtils utils) {
-        this.inst = inst;
         this.messageBuilder = inst.getMessageBuilder();
         this.config = inst.getMainConfiguration();
         this.utils = utils;
+        this.audiences = inst.adventure();
+    }
+
+    private String getTranslationItemKey(String key) {
+        return "item.minecraft." + key.replace("minecraft:", "");
     }
 
     private boolean getBook(CommandSender sender) {
+        Audience senderAudience = audiences.sender(sender);
         if (!(sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_BOOK)))) {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
             return true;
         }
         if (!(sender instanceof Player)) {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.PLAYER_ONLY_COMMAND));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.PLAYER_ONLY_COMMAND));
             return true;
         }
         ItemStack item = utils.buildBook();
         if (!((Player) sender).getPlayer().getInventory().addItem(item).isEmpty()) {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_INV_FULL, Component.translatable(item.translationKey())));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_INV_FULL, Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
         } else {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_SUCCESS, Component.translatable(item.translationKey())));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_SUCCESS, Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
         }
         return true;
     }
 
     private boolean giveBook(CommandSender sender, String[] args) {
+        Audience senderAudience = audiences.sender(sender);
         if (!(sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_BOOK)))) {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
             return true;
         }
         if (args.length == 0) {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(messageBuilder.build(MessageBuilder.Message.PLAYER_ONLY_COMMAND));
+                senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.PLAYER_ONLY_COMMAND));
                 return true;
             }
             ItemStack item = utils.buildBook();
             if (!((Player) sender).getPlayer().getInventory().addItem(item).isEmpty()) {
-                sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_INV_FULL, Component.translatable(item.translationKey())));
+                senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_INV_FULL, Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
             } else {
-                sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_SUCCESS, Component.translatable(item.translationKey())));
+                senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_BOOK_SUCCESS, Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
             }
         } else {
             Player target = Bukkit.getPlayer(args[0]);
             if (target == null) {
-                sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_BOOK_PLAYER_NOT_FOUND, args[0]));
+                senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_BOOK_PLAYER_NOT_FOUND, args[0]));
                 return true;
             } else if (!target.isOnline()) {
-                sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_BOOK_PLAYER_OFFLINE, target.getName()));
+                senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_BOOK_PLAYER_OFFLINE, target.getName()));
                 return true;
             }
             ItemStack item = utils.buildBook();
             if (!target.getInventory().addItem(item).isEmpty()) {
-                sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_BOOK_INV_FULL, Component.text(target.getName()), Component.translatable(item.translationKey())));
+                senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_BOOK_INV_FULL, Component.text(target.getName()), Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
             } else {
-                sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_BOOK_SUCCESS, Component.text(target.getName()), Component.translatable(item.translationKey())));
+                senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_BOOK_SUCCESS, Component.text(target.getName()), Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
             }
         }
         return true;
     }
 
     private boolean getHoe(CommandSender sender, String[] args) {
+        Audience senderAudience = audiences.sender(sender);
         if (!(sender instanceof Player)) {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.PLAYER_ONLY_COMMAND));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.PLAYER_ONLY_COMMAND));
             return true;
         }
         if (!(
@@ -100,11 +109,11 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
                 || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_DIAMOND))
                 || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_MATERIAL_NETHERITE))
         )) {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
             return true;
         }
         if (args.length < 1) {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_USAGE));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_USAGE));
             return true;
         }
         Material hoeMaterial = null;
@@ -119,11 +128,11 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
             }
         }
         if (hoeMaterial == null) {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_INVALID_MATERIAL, args[0].toUpperCase()));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_INVALID_MATERIAL, args[0].toUpperCase()));
             return true;
         }
         if (!(sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.cmdGetHoeMaterialFromString(args[0].toUpperCase()))))) {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
             return true;
         }
         ItemStack item = utils.buildHoe(
@@ -131,14 +140,15 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
                 (args.length > 1 && args[1].equalsIgnoreCase("true") && (sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_FULL_ENCHANT))))
         );
         if (!((Player) sender).getPlayer().getInventory().addItem(item).isEmpty()) {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_INV_FULL, Component.translatable(item.translationKey())));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_INV_FULL, Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
         } else {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_SUCCESS, Component.translatable(item.translationKey())));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_HOE_SUCCESS, Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
         }
         return true;
     }
 
     private boolean giveHoe(CommandSender sender, String[] args) {
+        Audience senderAudience = audiences.sender(sender);
         if (!(
                 sender.isOp()
                 || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_HOE_MATERIAL_WOOD))
@@ -148,19 +158,19 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
                 || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_HOE_MATERIAL_DIAMOND))
                 || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_HOE_MATERIAL_NETHERITE))
         )) {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
             return true;
         }
         if (args.length < 2) {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_USAGE));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_USAGE));
             return true;
         }
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null) {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_PLAYER_NOT_FOUND, args[0]));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_PLAYER_NOT_FOUND, args[0]));
             return true;
         } else if (!target.isOnline()) {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_PLAYER_OFFLINE, target.getName()));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_PLAYER_OFFLINE, target.getName()));
             return true;
         }
         Material hoeMaterial = null;
@@ -175,20 +185,129 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
             }
         }
         if (hoeMaterial == null) {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_INVALID_MATERIAL, target.getName(), args[1].toUpperCase()));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_INVALID_MATERIAL, target.getName(), args[1].toUpperCase()));
             return true;
         }
         if (!(sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.cmdGiveHoeMaterialFromString(args[1].toUpperCase()))))) {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
             return true;
         }
         ItemStack item = utils.buildHoe(
                 hoeMaterial,
                 (args.length > 2 && args[2].equalsIgnoreCase("true") && (sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_HOE_FULL_ENCHANT)))));
         if (!target.getInventory().addItem(item).isEmpty()) {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_INV_FULL, Component.text(target.getName()), Component.translatable(item.translationKey())));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_INV_FULL, Component.text(target.getName()), Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
         } else {
-            sender.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_SUCCESS, Component.text(target.getName()), Component.translatable(item.translationKey())));
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_HOE_SUCCESS, Component.text(target.getName()), Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
+        }
+        return true;
+    }
+
+    private boolean getAxe(CommandSender sender, String[] args) {
+        Audience senderAudience = audiences.sender(sender);
+        if (!(sender instanceof Player)) {
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.PLAYER_ONLY_COMMAND));
+            return true;
+        }
+        if (!(
+                sender.isOp()
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_WOOD))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_STONE))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_GOLD))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_IRON))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_DIAMOND))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_NETHERITE))
+        )) {
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
+            return true;
+        }
+        if (args.length < 1) {
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_AXE_USAGE));
+            return true;
+        }
+        Material axeMaterial = null;
+        switch (args[0].toUpperCase()) {
+            case "WOOD" -> axeMaterial = Material.WOODEN_AXE;
+            case "STONE" -> axeMaterial = Material.STONE_AXE;
+            case "GOLD" -> axeMaterial = Material.GOLDEN_AXE;
+            case "IRON" -> axeMaterial = Material.IRON_AXE;
+            case "DIAMOND" -> axeMaterial = Material.DIAMOND_AXE;
+            case "NETHERITE" -> axeMaterial = Material.NETHERITE_AXE;
+            default -> {
+            }
+        }
+        if (axeMaterial == null) {
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_AXE_INVALID_MATERIAL, args[0].toUpperCase()));
+            return true;
+        }
+        if (!(sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.cmdGetAxeMaterialFromString(args[0].toUpperCase()))))) {
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
+            return true;
+        }
+        ItemStack item = utils.buildAxe(
+                axeMaterial,
+                (args.length > 1 && args[1].equalsIgnoreCase("true") && (sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_FULL_ENCHANT))))
+        );
+        if (!((Player) sender).getPlayer().getInventory().addItem(item).isEmpty()) {
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_AXE_INV_FULL, Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
+        } else {
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GET_AXE_SUCCESS, Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
+        }
+        return true;
+    }
+
+    private boolean giveAxe(CommandSender sender, String[] args) {
+        Audience senderAudience = audiences.sender(sender);
+        if (!(
+                sender.isOp()
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_AXE_MATERIAL_WOOD))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_AXE_MATERIAL_STONE))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_AXE_MATERIAL_GOLD))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_AXE_MATERIAL_IRON))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_AXE_MATERIAL_DIAMOND))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_AXE_MATERIAL_NETHERITE))
+        )) {
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
+            return true;
+        }
+        if (args.length < 2) {
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_AXE_USAGE));
+            return true;
+        }
+        Player target = Bukkit.getPlayer(args[0]);
+        if (target == null) {
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_AXE_PLAYER_NOT_FOUND, args[0]));
+            return true;
+        } else if (!target.isOnline()) {
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_AXE_PLAYER_OFFLINE, target.getName()));
+            return true;
+        }
+        Material axeMaterial = null;
+        switch (args[1].toUpperCase()) {
+            case "WOOD" -> axeMaterial = Material.WOODEN_AXE;
+            case "STONE" -> axeMaterial = Material.STONE_AXE;
+            case "GOLD" -> axeMaterial = Material.GOLDEN_AXE;
+            case "IRON" -> axeMaterial = Material.IRON_AXE;
+            case "DIAMOND" -> axeMaterial = Material.DIAMOND_AXE;
+            case "NETHERITE" -> axeMaterial = Material.NETHERITE_AXE;
+            default -> {
+            }
+        }
+        if (axeMaterial == null) {
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_AXE_INVALID_MATERIAL, target.getName(), args[1].toUpperCase()));
+            return true;
+        }
+        if (!(sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.cmdGiveAxeMaterialFromString(args[1].toUpperCase()))))) {
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.NO_PERMISSION));
+            return true;
+        }
+        ItemStack item = utils.buildAxe(
+                axeMaterial,
+                (args.length > 2 && args[2].equalsIgnoreCase("true") && (sender.isOp() || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_HOE_FULL_ENCHANT)))));
+        if (!target.getInventory().addItem(item).isEmpty()) {
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_AXE_INV_FULL, Component.text(target.getName()), Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
+        } else {
+            senderAudience.sendMessage(messageBuilder.build(MessageBuilder.Message.GIVE_AXE_SUCCESS, Component.text(target.getName()), Component.translatable(getTranslationItemKey(item.getType().getKey().toString()))));
         }
         return true;
     }
@@ -200,6 +319,8 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
             case "replenish-givebook" -> giveBook(sender, args);
             case "replenish-gethoe" -> getHoe(sender, args);
             case "replenish-givehoe" -> giveHoe(sender, args);
+            case "replenish-getaxe" -> getAxe(sender, args);
+            case "replenish-giveaxe" -> giveAxe(sender, args);
             default -> false;
         };
     }
@@ -274,6 +395,67 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
                         list.add("NETHERITE");
                 } else if (args.length == 3)
                     if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_HOE_FULL_ENCHANT)))
+                        list.addAll(List.of("true", "false"));
+                break;
+            case "replenish-getaxe":
+                if (!(
+                        sender.isOp()
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_WOOD))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_STONE))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_GOLD))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_IRON))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_DIAMOND))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_NETHERITE))
+                ) || args.length == 0 || args.length > 2)
+                    return list;
+                if (args.length == 1 ) {
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_WOOD)))
+                        list.add("WOOD");
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_STONE)))
+                        list.add("STONE");
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_GOLD)))
+                        list.add("GOLD");
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_IRON)))
+                        list.add("IRON");
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_DIAMOND)))
+                        list.add("DIAMOND");
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_NETHERITE)))
+                        list.add("NETHERITE");
+                } else if (args.length == 2) {
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_FULL_ENCHANT)))
+                        list.addAll(List.of("true", "false"));
+                }
+                break;
+            case "replenish-giveaxe":
+                if (!(
+                        sender.isOp()
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_AXE_MATERIAL_WOOD))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_AXE_MATERIAL_STONE))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_AXE_MATERIAL_GOLD))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_AXE_MATERIAL_DIAMOND))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_AXE_MATERIAL_IRON))
+                        || sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GIVE_AXE_MATERIAL_NETHERITE))
+                ) || args.length == 0 || args.length > 3)
+                    return list;
+                if (args.length == 1) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        list.add(player.getName());
+                    }
+                } else if (args.length == 2 ) {
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_WOOD)))
+                        list.add("WOOD");
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_STONE)))
+                        list.add("STONE");
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_GOLD)))
+                        list.add("GOLD");
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_IRON)))
+                        list.add("IRON");
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_DIAMOND)))
+                        list.add("DIAMOND");
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_MATERIAL_NETHERITE)))
+                        list.add("NETHERITE");
+                } else if (args.length == 3)
+                    if (sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET_AXE_FULL_ENCHANT)))
                         list.addAll(List.of("true", "false"));
                 break;
             default:

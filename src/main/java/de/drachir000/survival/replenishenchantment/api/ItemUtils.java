@@ -5,6 +5,7 @@ import de.drachir000.survival.replenishenchantment.ReplenishEnchantment;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -18,16 +19,16 @@ import java.util.List;
 public class ItemUtils {
 
     private final Enchantment enchantment;
-    private final Component loreLine, bookLoreLine;
-    private final List<Component> lore;
+    private final String lore, bookLore;
 
     public ItemUtils(ReplenishEnchantment inst) {
         this.enchantment = inst.getEnchantment();
-        this.loreLine = enchantment.displayName(1).color(NamedTextColor.GRAY)
+        Component loreLine = Component.text(enchantment.getName()).color(NamedTextColor.GRAY)
                 .decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, false).decoration(TextDecoration.OBFUSCATED, false)
                 .decoration(TextDecoration.STRIKETHROUGH, false).decoration(TextDecoration.UNDERLINED, false);
-        this.lore = List.of(loreLine);
-        this.bookLoreLine = inst.getMessageBuilder().build(MessageBuilder.Message.BOOK_LORE);
+        this.lore = LegacyComponentSerializer.legacySection().serialize(loreLine);
+        Component bookLore = inst.getMessageBuilder().build(MessageBuilder.Message.BOOK_LORE);
+        this.bookLore = LegacyComponentSerializer.legacySection().serialize(bookLore);
     }
 
     public boolean isEnchanted(ItemStack item) {
@@ -56,7 +57,7 @@ public class ItemUtils {
         ItemStack book = new ItemStack(Material.ENCHANTED_BOOK, 1);
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
         meta.addStoredEnchant(enchantment, 1, false);
-        meta.lore(List.of(loreLine, bookLoreLine));
+        meta.setLore(List.of(lore, bookLore));
         book.setItemMeta(meta);
         return book;
     }
@@ -71,15 +72,34 @@ public class ItemUtils {
             meta.addEnchant(Enchantment.DURABILITY, 3, false);
             meta.addEnchant(Enchantment.MENDING, 1, false);
         }
-        meta.lore(lore);
+        meta.setLore(List.of(lore));
         hoe.setItemMeta(meta);
         return hoe;
+    }
+
+    public ItemStack buildAxe(Material material, boolean fullEnchanted) {
+        ItemStack axe = new ItemStack(material, 1);
+        ItemMeta meta = axe.getItemMeta();
+        meta.addEnchant(enchantment, 1, false);
+        if (fullEnchanted) {
+            meta.addEnchant(Enchantment.DIG_SPEED, 5, false);
+            meta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 3, false);
+            meta.addEnchant(Enchantment.DURABILITY, 3, false);
+            meta.addEnchant(Enchantment.MENDING, 1, false);
+        }
+        meta.setLore(List.of(lore));
+        axe.setItemMeta(meta);
+        return axe;
     }
 
     public ItemStack applyEnchantment(ItemStack item) {
         item.addEnchantment(enchantment, 1);
         updateLore(item);
         return item;
+    }
+
+    public boolean canGetEnchanted(ItemStack item) {
+        return enchantment.canEnchantItem(item);
     }
 
     public boolean isHoe(ItemStack item) {
@@ -91,6 +111,15 @@ public class ItemUtils {
                 item.getType() == Material.NETHERITE_HOE);
     }
 
+    public boolean isAxe(ItemStack item) {
+        return (item.getType() == Material.WOODEN_AXE ||
+                item.getType() == Material.STONE_AXE ||
+                item.getType() == Material.IRON_AXE ||
+                item.getType() == Material.GOLDEN_AXE ||
+                item.getType() == Material.DIAMOND_AXE ||
+                item.getType() == Material.NETHERITE_AXE);
+    }
+
     public ItemStack updateLore(ItemStack item) {
         if (item == null)
             return item;
@@ -100,57 +129,69 @@ public class ItemUtils {
             return item;
         if (item.getItemMeta().hasItemFlag(ItemFlag.HIDE_ENCHANTS))
             return item;
-        if (isHoe(item)) {
+        if (canGetEnchanted(item)) {
             if (item.getItemMeta().hasEnchant(enchantment)) {
                 if (!item.getItemMeta().hasLore()) {
-                    item.lore(lore);
+                    ItemMeta meta = item.getItemMeta();
+                    meta.setLore(List.of(lore));
+                    item.setItemMeta(meta);
                 } else {
-                    for (Component comp : item.getItemMeta().lore())
-                        if (comp.equals(loreLine))
+                    for (String line : item.getItemMeta().getLore())
+                        if (line.equals(lore))
                             return item;
-                    List<Component> iLore = item.lore();
-                    iLore.add(0, loreLine);
-                    item.lore(iLore);
+                    ItemMeta meta = item.getItemMeta();
+                    List<String> iLore = meta.getLore();
+                    iLore.add(0, lore);
+                    meta.setLore(iLore);
+                    item.setItemMeta(meta);
                 }
                 return item;
             } else if (item.hasItemMeta() && item.getItemMeta().hasLore()) {
-                List<Component> iLore = new ArrayList<>();
-                for (Component comp : item.lore()) {
-                    if(!comp.equals(loreLine))
-                        iLore.add(comp);
+                List<String> iLore = new ArrayList<>();
+                ItemMeta meta = item.getItemMeta();
+                for (String line : meta.getLore()) {
+                    if(!line.equals(lore))
+                        iLore.add(line);
                 }
-                item.lore(iLore);
+                meta.setLore(iLore);
+                item.setItemMeta(meta);
                 return item;
             }
         } else if (hasStoredEnchant(item)) {
             if (!item.getItemMeta().hasLore()) {
-                item.lore(List.of(loreLine, bookLoreLine));
+                ItemMeta meta = item.getItemMeta();
+                meta.setLore(List.of(lore, bookLore));
+                item.setItemMeta(meta);
             } else {
-                boolean line = false;
-                boolean bookLine = false;
-                for (Component comp : item.getItemMeta().lore()) {
-                    if (comp.equals(loreLine))
-                        line = true;
-                    if (comp.equals(bookLoreLine))
-                        bookLine = true;
+                boolean ench = false;
+                boolean book = false;
+                ItemMeta meta = item.getItemMeta();
+                for (String line : meta.getLore()) {
+                    if (line.equals(lore))
+                        ench = true;
+                    if (line.equals(bookLore))
+                        book = true;
                 }
-                if (line && bookLine)
+                if (ench && book)
                     return item;
-                List<Component> iLore = item.lore();
-                if (!line)
-                    iLore.add(0, loreLine);
-                if (!bookLine)
-                    iLore.add(1, bookLoreLine);
-                item.lore(iLore);
+                List<String> iLore = meta.getLore();
+                if (!ench)
+                    iLore.add(0, lore);
+                if (!book)
+                    iLore.add(1, bookLore);
+                meta.setLore(iLore);
+                item.setItemMeta(meta);
             }
             return item;
         } else if (item.hasItemMeta() && item.getItemMeta().hasLore()) {
-            List<Component> iLore = new ArrayList<>();
-            for (Component comp : item.lore()) {
-                if (!(comp.equals(loreLine) || comp.equals(bookLoreLine)))
-                    iLore.add(comp);
+            List<String> iLore = new ArrayList<>();
+            ItemMeta meta = item.getItemMeta();
+            for (String line : meta.getLore()) {
+                if (!(line.equals(lore) || line.equals(bookLore)))
+                    iLore.add(line);
             }
-            item.lore(iLore);
+            meta.setLore(iLore);
+            item.setItemMeta(meta);
             return item;
         }
         return item;

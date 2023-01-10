@@ -3,6 +3,7 @@ package de.drachir000.survival.replenishenchantment;
 import de.drachir000.survival.replenishenchantment.api.event.ReplenishEvent;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -43,18 +44,27 @@ public class Replenisher implements Listener {
             case POTATOES -> material = Material.POTATO;
             case BEETROOTS -> material = Material.BEETROOT_SEEDS;
             case NETHER_WART -> material = Material.NETHER_WART;
+            case CACTUS -> material = Material.CACTUS;
+            case SUGAR_CANE -> material = Material.SUGAR_CANE;
+            case COCOA -> material = Material.COCOA_BEANS;
         }
         if (material == null)
             return;
         Collection<ItemStack> drops = e.getBlock().getDrops(e.getPlayer().getInventory().getItemInMainHand(), e.getPlayer());
+        if (material == Material.CACTUS || material == Material.SUGAR_CANE) {
+            Block block = e.getBlock().getRelative(0, 1, 0);
+            while (block.getType() == material) {
+                drops.addAll(block.getDrops(e.getPlayer().getInventory().getItemInMainHand(), e.getPlayer()));
+                block = block.getRelative(0, 1, 0);
+            }
+        }
         boolean replenish = false;
         for (ItemStack drop : drops) {
             if (drop.getType() == material) {
-                if (drop.getAmount() <= 1)
-                    drop.setType(Material.AIR);
-                else
-                    drop.setAmount(drop.getAmount() - 1);
+                drop.setAmount(drop.getAmount() - 1);
                 replenish = true;
+                if (drop.getAmount() <= 0)
+                    drops.remove(drop);
                 break;
             }
         }
@@ -74,9 +84,17 @@ public class Replenisher implements Listener {
             for (ItemStack drop : event.getDrops()) {
                 e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
             }
-            Ageable ageable = (Ageable) e.getBlock().getBlockData();
-            ageable.setAge(0);
-            e.getBlock().setBlockData(ageable);
+            if (material == Material.CACTUS || material == Material.SUGAR_CANE) {
+                Block block = e.getBlock().getRelative(0, 1, 0);
+                while (block.getType() == material) {
+                    block.setType(Material.AIR);
+                    block = block.getRelative(0, 1, 0);
+                }
+            } else {
+                Ageable ageable = (Ageable) e.getBlock().getBlockData();
+                ageable.setAge(0);
+                e.getBlock().setBlockData(ageable);
+            }
         }
     }
 
