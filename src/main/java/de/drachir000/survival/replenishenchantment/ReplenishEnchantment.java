@@ -9,6 +9,7 @@ import de.drachir000.survival.replenishenchantment.config.LanguageConfiguration;
 import de.drachir000.survival.replenishenchantment.config.MainConfiguration;
 import de.drachir000.survival.replenishenchantment.enchantment.Replenish;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import de.drachir000.survival.replenishenchantment.bStats.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
@@ -79,6 +80,8 @@ public final class ReplenishEnchantment extends JavaPlugin {
                 getLogger().log(Level.WARNING, "[UPDATER] An update for ReplenishEnchantment is available. Download it here: " + Updater.link +  "/updates");
             }
         });
+
+        this.metrics = new Metrics(this, bStatsID);
 
         this.metrics = new Metrics(this, bStatsID);
 
