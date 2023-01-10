@@ -155,9 +155,10 @@ to discuss what you would like to change.
 1. [x] Fix Book Lore
 2. [x] Adding Spigot & Bukkit support
 3. [x] Adding Purpur support
-4. [ ] Enabling the Updater
-5. [ ] Adding an option for a Crafting-Recipe
-6. [ ] Adding some crops like Cactus, Cocoa Beans or Sugar Cane
+4. [x] Enabling the Updater
+5. [x] Adding Cactus & Sugar Cane
+6. [ ] Adding Cocoa Beans
+7. [ ] Adding an option for a Crafting-Recipe
 
 ## License
 
