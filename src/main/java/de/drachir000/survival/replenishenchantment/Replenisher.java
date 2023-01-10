@@ -51,10 +51,12 @@ public class Replenisher implements Listener {
         if (material == null)
             return;
         Collection<ItemStack> drops = e.getBlock().getDrops(e.getPlayer().getInventory().getItemInMainHand(), e.getPlayer());
+        int count = 1;
         if (material == Material.CACTUS || material == Material.SUGAR_CANE) {
             Block block = e.getBlock().getRelative(0, 1, 0);
             while (block.getType() == material) {
                 drops.addAll(block.getDrops(e.getPlayer().getInventory().getItemInMainHand(), e.getPlayer()));
+                count++;
                 block = block.getRelative(0, 1, 0);
             }
         }
@@ -95,6 +97,7 @@ public class Replenisher implements Listener {
                 ageable.setAge(0);
                 e.getBlock().setBlockData(ageable);
             }
+            addAction(material, count);
         }
     }
 
@@ -124,6 +127,76 @@ public class Replenisher implements Listener {
 
         player.updateInventory();
         return true;
+    }
+
+    private int actions = 0, wheat = 0, carrot = 0, potato = 0, beetroot = 0, nether_wart = 0, cactus = 0, sugar_cane = 0, cocoa = 0;
+
+    private void addAction(Material material, int count) {
+        actions += count;
+        switch (material) {
+            case WHEAT_SEEDS -> wheat += count;
+            case CARROT -> carrot += count;
+            case POTATO -> potato += count;
+            case BEETROOT_SEEDS -> beetroot += count;
+            case NETHER_WART -> nether_wart += count;
+            case CACTUS -> cactus += count;
+            case SUGAR_CANE -> sugar_cane += count;
+            case COCOA_BEANS -> cocoa += count;
+        }
+    }
+
+    public int getActions() {
+        int res = actions;
+        actions = 0;
+        return res;
+    }
+
+    public int getWheat() {
+        int res = wheat;
+        wheat = 0;
+        return res;
+    }
+
+    public int getCarrot() {
+        int res = carrot;
+        carrot = 0;
+        return res;
+    }
+
+    public int getPotato() {
+        int res = potato;
+        potato = 0;
+        return res;
+    }
+
+    public int getBeetroot() {
+        int res = beetroot;
+        beetroot = 0;
+        return res;
+    }
+
+    public int getNether_wart() {
+        int res = nether_wart;
+        nether_wart = 0;
+        return res;
+    }
+
+    public int getCactus() {
+        int res = cactus;
+        cactus = 0;
+        return res;
+    }
+
+    public int getSugar_cane() {
+        int res = sugar_cane;
+        sugar_cane = 0;
+        return res;
+    }
+
+    public int getCocoa() {
+        int res = cocoa;
+        cocoa = 0;
+        return res;
     }
 
 }

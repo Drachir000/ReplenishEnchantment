@@ -19,6 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 
@@ -66,7 +67,9 @@ public final class ReplenishEnchantment extends JavaPlugin {
         AnvilUtils anvilUtils = new AnvilUtils(this, mainConfiguration.getItemMultiplier(), mainConfiguration.getBookMultiplier());
         new REAPI(this, itemUtils, anvilUtils);
 
-        Bukkit.getPluginManager().registerEvents(new Replenisher(this), this);
+        Replenisher replenisher = new Replenisher(this);
+
+        Bukkit.getPluginManager().registerEvents(replenisher, this);
         Bukkit.getPluginManager().registerEvents(new ItemWatcher(this, itemUtils, anvilUtils), this);
 
         registerCommands();
@@ -83,7 +86,20 @@ public final class ReplenishEnchantment extends JavaPlugin {
 
         this.metrics = new Metrics(this, bStatsID);
 
-        this.metrics = new Metrics(this, bStatsID);
+        metrics.addCustomChart(new Metrics.AdvancedPie("crop_type", () -> {
+            Map<String, Integer> values = new HashMap<>();
+            values.put("Wheat", replenisher.getWheat());
+            values.put("Carrots", replenisher.getCarrot());
+            values.put("Potatoes", replenisher.getPotato());
+            values.put("Beetroots", replenisher.getBeetroot());
+            values.put("Nether Wart", replenisher.getNether_wart());
+            values.put("Cactus", replenisher.getCactus());
+            values.put("Sugar Cane", replenisher.getSugar_cane());
+            values.put("Cocoa", replenisher.getCocoa());
+            return values;
+        }));
+
+        metrics.addCustomChart(new Metrics.SingleLineChart("actions", replenisher::getActions));
 
     }
 
