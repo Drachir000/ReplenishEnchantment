@@ -1,5 +1,5 @@
 # DO NOT CHANGE !!!
-config-version: 4
+config-version: 5
 
 # The name of the Enchantment
 name: Replenish
@@ -36,12 +36,15 @@ external-enchantment-level-multiplier:
 crops:
   # A list of all crops you want to be affected by the replenish-enchantment
   # Currently supported:
-  # - "WHEAT", "CARROTS", "POTATOES", "BEETROOTS" and "NETHER_WART"
+  # - "WHEAT", "CARROTS", "POTATOES", "BEETROOTS", "NETHER_WART", "CACTUS", "SUGAR_CANE" and "COCOA"
   - "WHEAT"
   - "CARROTS"
   - "POTATOES"
   - "BEETROOTS"
   - "NETHER_WART"
+  - "CACTUS"
+  - "SUGAR_CANE"
+  - "COCOA"
 
 ################################
 #         Permissions          #

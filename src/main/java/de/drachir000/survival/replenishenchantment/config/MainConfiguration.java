@@ -200,6 +200,16 @@ public class MainConfiguration extends ConfigFile {
                   - "NETHER_WART"
                 
                 """;
+        private final String UPDATE_5 = """
+                crops:
+                  # A list of all crops you want to be affected by the replenish-enchantment
+                  # Currently supported:
+                  # - "WHEAT", "CARROTS", "POTATOES", "BEETROOTS", "NETHER_WART", "CACTUS", "SUGAR_CANE" and "COCOA"
+                  - "CACTUS"
+                  - "SUGAR_CANE"
+                  - "COCOA"
+                
+                """;
 
         private String getUpdates() {
             StringBuilder update = new StringBuilder();
@@ -213,6 +223,8 @@ public class MainConfiguration extends ConfigFile {
                     update.append(UPDATE_3);
                 case 3:
                     update.append(UPDATE_4);
+                case 4:
+                    update.append(UPDATE_5);
             }
 
             update.append(UPDATE_ALERT);

@@ -46,6 +46,7 @@ public class Replenisher implements Listener {
             case NETHER_WART -> material = Material.NETHER_WART;
             case CACTUS -> material = Material.CACTUS;
             case SUGAR_CANE -> material = Material.SUGAR_CANE;
+            case COCOA -> material = Material.COCOA_BEANS;
         }
         if (material == null)
             return;

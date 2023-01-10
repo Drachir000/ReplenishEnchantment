@@ -157,7 +157,7 @@ to discuss what you would like to change.
 3. [x] Adding Purpur support
 4. [x] Enabling the Updater
 5. [x] Adding Cactus & Sugar Cane
-6. [ ] Adding Cocoa Beans
+6. [x] Adding Cocoa Beans
 7. [ ] Adding an option for a Crafting-Recipe
 
 ## License

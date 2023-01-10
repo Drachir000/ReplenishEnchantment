@@ -26,7 +26,7 @@ public final class ReplenishEnchantment extends JavaPlugin {
     private Enchantment enchantment;
     private MainConfiguration mainConfiguration;
     private MessageBuilder messageBuilder;
-    public static int CONFIG_VERSION = 4;
+    public static int CONFIG_VERSION = 5;
     public static int LANGUAGE_VERSION = 3;
     private final static int bStatsID = 17348;
     private Metrics metrics;
