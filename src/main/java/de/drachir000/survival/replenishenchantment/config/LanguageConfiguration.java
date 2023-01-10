@@ -139,6 +139,51 @@ public class LanguageConfiguration extends ConfigFile {
                 book-lore: "§7§o*Drag onto hoe to apply*"
                 
                 """;
+        private final String UPDATE_4 = """
+                # Placeholders:
+                # None
+                get-axe-usage: "§cUsage: /replenish-getaxe <Material(IRON/DIAMOND/...)> [<full-enchanted(true/false)>]"
+                                
+                # Placeholders:
+                # {0} - The invalid material
+                get-axe-invalid-material: "§cInvalid material: §e{0}§c!"
+                                
+                # Placeholders:
+                # {0} - The item, that couldn't fit
+                get-axe-inv-full: "§cYour Inventory doesn't have enough space for §e{0}§c!"
+                                
+                # Placeholders:
+                # {0} - The item
+                get-axe-success: "§e{0}§a was successfully added to your Inventory"
+                                
+                # Placeholders:
+                # None
+                give-axe-usage: "§cUsage: /replenish-giveaxe <Player> <Material(IRON/DIAMOND/...)> [<full-enchanted(true/false)>]"
+                                
+                # Placeholders:
+                # {0} - The unknown player-name
+                give-axe-player-not-found: "§cThe Player §e{0}§c wasn't found!"
+                                
+                # Placeholders:
+                # {0} - The offline player
+                give-axe-player-offline: "§cThe Player §e{0}§c is offline!"
+                                
+                # Placeholders:
+                # {0} - The target player
+                # {1} - The invalid material
+                give-axe-invalid-material: "§cInvalid material: §e{1}§c!"
+                                
+                # Placeholders:
+                # {0} - The target player
+                # {1} - The item, that couldn't fit
+                give-axe-inv-full: "§e{0}'s§c Inventory doesn't have enough space for §e{1}§c!"
+                                
+                # Placeholders:
+                # {0} - The target player
+                # {1} - The item
+                give-axe-success: "§aSuccessfully added §e{1}§a to §e{0}'s§a Inventory"
+                                
+                """;
 
         private String getUpdates() {
             StringBuilder update = new StringBuilder();
@@ -150,10 +195,8 @@ public class LanguageConfiguration extends ConfigFile {
                     update.append(UPDATE_2);
                 case 2:
                     update.append(UPDATE_3);
-                /*case 3:
+                case 3:
                     update.append(UPDATE_4);
-                case 4:
-                    update.append(UPDATE_5);*/
             }
 
             update.append(UPDATE_ALERT);

@@ -77,10 +77,29 @@ public class ItemUtils {
         return hoe;
     }
 
+    public ItemStack buildAxe(Material material, boolean fullEnchanted) {
+        ItemStack axe = new ItemStack(material, 1);
+        ItemMeta meta = axe.getItemMeta();
+        meta.addEnchant(enchantment, 1, false);
+        if (fullEnchanted) {
+            meta.addEnchant(Enchantment.DIG_SPEED, 5, false);
+            meta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 3, false);
+            meta.addEnchant(Enchantment.DURABILITY, 3, false);
+            meta.addEnchant(Enchantment.MENDING, 1, false);
+        }
+        meta.setLore(List.of(lore));
+        axe.setItemMeta(meta);
+        return axe;
+    }
+
     public ItemStack applyEnchantment(ItemStack item) {
         item.addEnchantment(enchantment, 1);
         updateLore(item);
         return item;
+    }
+
+    public boolean canGetEnchanted(ItemStack item) {
+        return enchantment.canEnchantItem(item);
     }
 
     public boolean isHoe(ItemStack item) {
@@ -92,6 +111,15 @@ public class ItemUtils {
                 item.getType() == Material.NETHERITE_HOE);
     }
 
+    public boolean isAxe(ItemStack item) {
+        return (item.getType() == Material.WOODEN_AXE ||
+                item.getType() == Material.STONE_AXE ||
+                item.getType() == Material.IRON_AXE ||
+                item.getType() == Material.GOLDEN_AXE ||
+                item.getType() == Material.DIAMOND_AXE ||
+                item.getType() == Material.NETHERITE_AXE);
+    }
+
     public ItemStack updateLore(ItemStack item) {
         if (item == null)
             return item;
@@ -101,7 +129,7 @@ public class ItemUtils {
             return item;
         if (item.getItemMeta().hasItemFlag(ItemFlag.HIDE_ENCHANTS))
             return item;
-        if (isHoe(item)) {
+        if (canGetEnchanted(item)) {
             if (item.getItemMeta().hasEnchant(enchantment)) {
                 if (!item.getItemMeta().hasLore()) {
                     ItemMeta meta = item.getItemMeta();

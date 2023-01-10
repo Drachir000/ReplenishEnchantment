@@ -19,6 +19,14 @@ commands:
     usage: /replenish-gethoe [<Material(WOOD/IRON/etc.)>] [<full-enchanted(true/false)>]
     aliases: [r-gethoe]
   replenish-givehoe:
-    description: gives you a Enchanted Hoe
+    description: gives a player a Enchanted Hoe
     usage: /replenish-givehoe <Player> <Material(WOOD/IRON/etc.)> [<full-enchanted(true/false)>]
     aliases: [r-givehoe]
+  replenish-getaxe:
+    description: gives you a Enchanted Axe
+    usage: /replenish-getaxe [<Material(WOOD/IRON/etc.)>] [<full-enchanted(true/false)>]
+    aliases: [r-getaxe]
+  replenish-giveaxe:
+    description: gives a player a Enchanted Axe
+    usage: /replenish-giveaxe <Player> <Material(WOOD/IRON/etc.)> [<full-enchanted(true/false)>]
+    aliases: [r-giveaxe]

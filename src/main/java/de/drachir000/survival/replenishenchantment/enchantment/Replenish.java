@@ -14,15 +14,11 @@ public class Replenish extends Enchantment {
 
     private final String NAME;
     private final boolean TREASURE;
-    private final boolean TRADEABLE;
-    private final boolean DISCOVERABLE;
 
     public Replenish(String namespace, ReplenishEnchantment plugin, String name) {
         super(Objects.requireNonNull(NamespacedKey.fromString(namespace, plugin)));
         this.NAME = name;
         this.TREASURE = true;
-        this.TRADEABLE = false;
-        this.DISCOVERABLE = false;
     }
 
     @Override
@@ -67,7 +63,13 @@ public class Replenish extends Enchantment {
                 item.getType() == Material.IRON_HOE ||
                 item.getType() == Material.GOLDEN_HOE ||
                 item.getType() == Material.DIAMOND_HOE ||
-                item.getType() == Material.NETHERITE_HOE);
+                item.getType() == Material.NETHERITE_HOE||
+                item.getType() == Material.WOODEN_AXE ||
+                item.getType() == Material.STONE_AXE ||
+                item.getType() == Material.IRON_AXE ||
+                item.getType() == Material.GOLDEN_AXE ||
+                item.getType() == Material.DIAMOND_AXE ||
+                item.getType() == Material.NETHERITE_AXE);
     }
 
 }

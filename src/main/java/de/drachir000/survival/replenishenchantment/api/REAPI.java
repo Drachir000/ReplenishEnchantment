@@ -37,6 +37,7 @@ public class REAPI {
 
     /**
      * Checks if the given Item is enchanted with the Replenish-Enchantment
+     * This does not check if the item should be able to be enchanted with the Replenish-Enchantment!
      * @param item the item to check
      * @return true - if the item has the Replenish-Enchantment, false otherwise
      * @since 0.0.15
@@ -56,10 +57,19 @@ public class REAPI {
     }
 
     /**
-     * Checks if an item is enchanted with the Replenish-Enchantment
-     * This does not check if the item should be able to be enchanted with the Replenish-Enchantment!
+     * Checks if an item can get enchanted by the Replenish-Enchantment
      * @param item the item to check
-     * @return true - if the item is enchanted with the Replenish-Enchantment, false otherwise
+     * @return true - if the item can be enchanted with the Replenish-Enchantment
+     * @since 0.2.8
+     * */
+    public boolean canGetEnchanted(ItemStack item) {
+        return itemUtils.canGetEnchanted(item);
+    }
+
+    /**
+     * Checks if an item is any Hoe
+     * @param item the item to check
+     * @return true - if the item is a hoe
      * @since 0.0.15
      * */
     public boolean isHoe(ItemStack item) {
@@ -67,15 +77,25 @@ public class REAPI {
     }
 
     /**
+     * Checks if an item is any Axe
+     * @param item the item to check
+     * @return true - if the item is an axe
+     * @since 0.2.8
+     * */
+    public boolean isAxe(ItemStack item) {
+        return itemUtils.isAxe(item);
+    }
+
+    /**
      * Applies the Replenish-Enchantment to the given item
      * @param item The item to apply the Replenish-Enchantment to
      * @return The same ItemStack, the Replenish-Enchantment was applied to
-     * @throws IllegalArgumentException if the given item is no hoe
+     * @throws IllegalArgumentException if the given item cannot get enchanted
      * @since 0.0.15
      */
     public ItemStack applyEnchantment(ItemStack item) {
-        if (!isHoe(item))
-            throw new IllegalArgumentException("The given ItemType is no hoe: " + item.getType().toString());
+        if (!canGetEnchanted(item))
+            throw new IllegalArgumentException("The given ItemType cannot get enchanted with the Replenish-Enchantment: " + item.getType().toString());
         return itemUtils.applyEnchantment(item);
     }
 
@@ -125,6 +145,24 @@ public class REAPI {
         if (!isHoe(new ItemStack(material)))
             throw new IllegalArgumentException("Material \"" + material.toString() + "\" is no hoe!");
         return itemUtils.buildHoe(material, fullEnchanted);
+    }
+
+    /**
+     * Builds an axe with the Replenish-Enchantment and the lore already applied
+     * @param material the Material of the axe to be built
+     * @param fullEnchanted whether the axe shall be fully enchanted, this will add
+     *                      Efficiency 5,
+     *                      Fortune 3,
+     *                      Durability 3
+     *                      and Mending to the resulting axe
+     * @return The built Axe
+     * @throws IllegalArgumentException if the given Material is no axe material
+     * @since 0.2.8
+     * */
+    public ItemStack buildAxe(Material material, boolean fullEnchanted) {
+        if (!isAxe(new ItemStack(material)))
+            throw new IllegalArgumentException("Material \"" + material.toString() + "\" is no axe!");
+        return itemUtils.buildAxe(material, fullEnchanted);
     }
 
     /**

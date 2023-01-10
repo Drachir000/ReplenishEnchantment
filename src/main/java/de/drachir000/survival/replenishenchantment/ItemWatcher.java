@@ -84,7 +84,7 @@ public class ItemWatcher implements Listener {
         if (clickedItem == null || cursor == null)
             return;
 
-        if (!utils.isHoe(clickedItem))
+        if (!utils.canGetEnchanted(clickedItem))
             return;
 
         if (!utils.hasStoredEnchant(cursor))

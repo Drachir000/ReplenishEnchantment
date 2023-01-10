@@ -5,7 +5,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * Gets called when a player applies the Replenish-Enchantment onto a hoe via drag & drop in the inventory
+ * Gets called when a player applies the Replenish-Enchantment onto a hoe or axe via drag & drop in the inventory
  * */
 public class ReplenishEnchantmentInventoryApplicationEvent extends ReplenishEnchantmentApplicationEvent{
 
@@ -28,7 +28,7 @@ public class ReplenishEnchantmentInventoryApplicationEvent extends ReplenishEnch
     }
 
     /**
-     * Get the slot of the hoe in the inventory, in which the application takes place
+     * Get the slot of the hoe or axe in the inventory, in which the application takes place
      * @return The slot
      * @since 0.0.19
      **/

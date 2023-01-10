@@ -51,7 +51,7 @@ public class ReplenishEvent extends Event implements Cancellable {
     }
 
     /**
-     * @return the Material of the item, used as seed for this crop (WHEAT_SEEDS and not WHEAT)
+     * @return the Material of the item, used as seed for this crop (WHEAT_SEEDS and not WHEAT, COCOA_BEANS and not COCOA)
      * @since 0.1.2
      * */
     public Material getCrop() {

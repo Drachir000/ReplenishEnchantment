@@ -130,6 +130,16 @@ public class MessageBuilder {
         GIVE_HOE_INVALID_MATERIAL("give-hoe-invalid-material"),
         GIVE_HOE_INV_FULL("give-hoe-inv-full"),
         GIVE_HOE_SUCCESS("give-hoe-success"),
+        GET_AXE_USAGE("get-axe-usage"),
+        GET_AXE_INVALID_MATERIAL("get-axe-invalid-material"),
+        GET_AXE_INV_FULL("get-axe-inv-full"),
+        GET_AXE_SUCCESS("get-axe-success"),
+        GIVE_AXE_USAGE("give-axe-usage"),
+        GIVE_AXE_PLAYER_NOT_FOUND("give-axe-player-not-found"),
+        GIVE_AXE_PLAYER_OFFLINE("give-axe-player-offline"),
+        GIVE_AXE_INVALID_MATERIAL("give-axe-invalid-material"),
+        GIVE_AXE_INV_FULL("give-axe-inv-full"),
+        GIVE_AXE_SUCCESS("give-axe-success"),
         BOOK_LORE("book-lore");
 
         private final String configPath;

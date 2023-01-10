@@ -27,7 +27,7 @@ public final class ReplenishEnchantment extends JavaPlugin {
     private MainConfiguration mainConfiguration;
     private MessageBuilder messageBuilder;
     public static int CONFIG_VERSION = 5;
-    public static int LANGUAGE_VERSION = 3;
+    public static int LANGUAGE_VERSION = 4;
     private final static int bStatsID = 17348;
     private Metrics metrics;
     public static String isUpdateAvailable = null;
@@ -92,6 +92,8 @@ public final class ReplenishEnchantment extends JavaPlugin {
         Objects.requireNonNull(getCommand("replenish-givebook")).setPermission(getMainConfiguration().getPermission(MainConfiguration.Permission.CMD_GIVE_BOOK));
         Objects.requireNonNull(getCommand("replenish-gethoe")).setExecutor(handler);
         Objects.requireNonNull(getCommand("replenish-givehoe")).setExecutor(handler);
+        Objects.requireNonNull(getCommand("replenish-getaxe")).setExecutor(handler);
+        Objects.requireNonNull(getCommand("replenish-giveaxe")).setExecutor(handler);
     }
 
     private void registerEnchantmentsFromConfig(AnvilUtils anvilUtils) {

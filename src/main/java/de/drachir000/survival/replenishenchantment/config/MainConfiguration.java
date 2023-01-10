@@ -208,7 +208,65 @@ public class MainConfiguration extends ConfigFile {
                   - "CACTUS"
                   - "SUGAR_CANE"
                   - "COCOA"
-                
+                                
+                permission-get-axe:
+                  # The permission for the wooden axe with the /r-getaxe command
+                  # Set to "" to disable the permission (Players need to be OP then)
+                  wood: re.cmd.get.axe.wood
+                                
+                  # The permission for the stone axe with the /r-getaxe command
+                  # Set to "" to disable the permission (Players need to be OP then)
+                  stone: re.cmd.get.axe.stone
+                                
+                  # The permission for the golden axe with the /r-getaxe command
+                  # Set to "" to disable the permission (Players need to be OP then)
+                  gold: re.cmd.get.axe.gold
+                                
+                  # The permission for the iron axe with the /r-getaxe command
+                  # Set to "" to disable the permission (Players need to be OP then)
+                  iron: re.cmd.get.axe.iron
+                                
+                  # The permission for the diamond axe with the /r-getaxe command
+                  # Set to "" to disable the permission (Players need to be OP then)
+                  diamond: re.cmd.get.axe.diamond
+                                
+                  # The permission for the netherite axe with the /r-getaxe command
+                  # Set to "" to disable the permission (Players need to be OP then)
+                  netherite: re.cmd.get.axe.netherite
+                                
+                  # The permission for the full-enchanted axe option with the /r-getaxe command
+                  # Set to "" to disable the permission (Players need to be OP then)
+                  full-enchanted: re.cmd.get.axe.full-enchanted
+                                
+                permission-give-axe:
+                  # The permission for the wooden axe with the /r-giveaxe command
+                  # Set to "" to disable the permission (Players need to be OP then)
+                  wood: re.cmd.give.axe.wood
+                                
+                  # The permission for the stone axe with the /r-giveaxe command
+                  # Set to "" to disable the permission (Players need to be OP then)
+                  stone: re.cmd.give.axe.stone
+                                
+                  # The permission for the golden axe with the /r-giveaxe command
+                  # Set to "" to disable the permission (Players need to be OP then)
+                  gold: re.cmd.give.axe.gold
+                                
+                  # The permission for the iron axe with the /r-giveaxe command
+                  # Set to "" to disable the permission (Players need to be OP then)
+                  iron: re.cmd.give.axe.iron
+                                
+                  # The permission for the diamond axe with the /r-giveaxe command
+                  # Set to "" to disable the permission (Players need to be OP then)
+                  diamond: re.cmd.give.axe.diamond
+                                
+                  # The permission for the netherite axe with the /r-giveaxe command
+                  # Set to "" to disable the permission (Players need to be OP then)
+                  netherite: re.cmd.give.axe.netherite
+                                
+                  # The permission for the full-enchanted axe option with the /r-giveaxe command
+                  # Set to "" to disable the permission (Players need to be OP then)
+                  full-enchanted: re.cmd.give.axe.full-enchanted
+                                
                 """;
 
         private String getUpdates() {
@@ -275,7 +333,21 @@ public class MainConfiguration extends ConfigFile {
         CMD_GIVE_HOE_MATERIAL_IRON("permission-give-hoe.iron"),
         CMD_GIVE_HOE_MATERIAL_DIAMOND("permission-give-hoe.diamond"),
         CMD_GIVE_HOE_MATERIAL_NETHERITE("permission-give-hoe.netherite"),
-        CMD_GIVE_HOE_FULL_ENCHANT("permission-give-hoe.full-enchanted"),
+        CMD_GIVE_HOE_FULL_ENCHANT("permission-give-axe.full-enchanted"),
+        CMD_GET_AXE_MATERIAL_WOOD("permission-get-axe.wood"),
+        CMD_GET_AXE_MATERIAL_STONE("permission-get-axe.stone"),
+        CMD_GET_AXE_MATERIAL_GOLD("permission-get-axe.gold"),
+        CMD_GET_AXE_MATERIAL_IRON("permission-get-axe.iron"),
+        CMD_GET_AXE_MATERIAL_DIAMOND("permission-get-axe.diamond"),
+        CMD_GET_AXE_MATERIAL_NETHERITE("permission-get-axe.netherite"),
+        CMD_GET_AXE_FULL_ENCHANT("permission-get-axe.full-enchanted"),
+        CMD_GIVE_AXE_MATERIAL_WOOD("permission-give-axe.wood"),
+        CMD_GIVE_AXE_MATERIAL_STONE("permission-give-axe.stone"),
+        CMD_GIVE_AXE_MATERIAL_GOLD("permission-give-axe.gold"),
+        CMD_GIVE_AXE_MATERIAL_IRON("permission-give-axe.iron"),
+        CMD_GIVE_AXE_MATERIAL_DIAMOND("permission-give-axe.diamond"),
+        CMD_GIVE_AXE_MATERIAL_NETHERITE("permission-give-axe.netherite"),
+        CMD_GIVE_AXE_FULL_ENCHANT("permission-give-axe.full-enchanted"),
         ;
 
         private final String configPath;
@@ -304,6 +376,30 @@ public class MainConfiguration extends ConfigFile {
                 case "IRON" -> CMD_GIVE_HOE_MATERIAL_IRON;
                 case "DIAMOND" -> CMD_GIVE_HOE_MATERIAL_DIAMOND;
                 case "NETHERITE" -> CMD_GIVE_HOE_MATERIAL_NETHERITE;
+                default -> null;
+            };
+        }
+
+        public static Permission cmdGetAxeMaterialFromString(String s) {
+            return switch (s) {
+                case "WOOD" -> CMD_GET_AXE_MATERIAL_WOOD;
+                case "STONE" -> CMD_GET_AXE_MATERIAL_STONE;
+                case "GOLD" -> CMD_GET_AXE_MATERIAL_GOLD;
+                case "IRON" -> CMD_GET_AXE_MATERIAL_IRON;
+                case "DIAMOND" -> CMD_GET_AXE_MATERIAL_DIAMOND;
+                case "NETHERITE" -> CMD_GET_AXE_MATERIAL_NETHERITE;
+                default -> null;
+            };
+        }
+
+        public static Permission cmdGiveAxeMaterialFromString(String s) {
+            return switch (s) {
+                case "WOOD" -> CMD_GIVE_AXE_MATERIAL_WOOD;
+                case "STONE" -> CMD_GIVE_AXE_MATERIAL_STONE;
+                case "GOLD" -> CMD_GIVE_AXE_MATERIAL_GOLD;
+                case "IRON" -> CMD_GIVE_AXE_MATERIAL_IRON;
+                case "DIAMOND" -> CMD_GIVE_AXE_MATERIAL_DIAMOND;
+                case "NETHERITE" -> CMD_GIVE_AXE_MATERIAL_NETHERITE;
                 default -> null;
             };
         }
