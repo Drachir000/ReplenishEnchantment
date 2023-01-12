@@ -157,8 +157,8 @@ to discuss what you would like to change.
 4. [x] Enabling the Updater
 5. [x] Adding Cactus & Sugar Cane
 6. [x] Adding Cocoa Beans
-7. [ ] Adding an option for a Crafting-Recipe
-8. [ ] Creating a public maven repo
+7. [x] Creating a public maven repo
+8. [ ] Adding an option for a Crafting-Recipe
 
 ## License
 
