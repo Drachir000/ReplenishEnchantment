@@ -19,6 +19,22 @@
     </properties>
     <url>https://github.com/Drachir000/ReplenishEnchantment</url>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub drachir000 Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/drachir000/ReplenishEnchantment</url>
+        </repository>
+    </distributionManagement>
+
+    <licenses>
+        <license>
+            <name>MIT</name>
+            <url>https://github.com/Drachir000/ReplenishEnchantment/blob/master/LICENSE</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
     <build>
         <plugins>
             <plugin>
