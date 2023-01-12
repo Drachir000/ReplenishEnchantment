@@ -50,22 +50,8 @@ The enchantment only works in survival mode!
 ## API
 
 ### Include the API:
-Add this to your pom.xml:
-````xml
-<!-- repositories -->
-<repository>
-    <id>github</id>
-    <url>https://maven.pkg.github.com/Drachir000/ReplenishEnchantment</url>
-</repository>
+There is no Public Maven Repo yet, so you have [to install it locally for now](https://mkyong.com/maven/how-to-install-your-project-into-maven-local-repository/).
 
-<!-- dependencies -->
-<dependency>
-    <groupId>de.drachir000.survival</groupId>
-    <artifactId>replenishenchantment</artifactId>
-    <version>1.0.0</version>
-    <scope>provided</scope>
-</dependency>
-````
 ### Using the API
 First you have to get an Instance of the REAPI class.
 ```java
@@ -162,6 +148,7 @@ to discuss what you would like to change.
 5. [x] Adding Cactus & Sugar Cane
 6. [x] Adding Cocoa Beans
 7. [ ] Adding an option for a Crafting-Recipe
+8. [ ] Creating a public maven repo
 
 ## License
 
