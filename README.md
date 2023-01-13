@@ -39,6 +39,20 @@ The Messages can be viewed and edited in the language.yml located in the /plugin
 
 The enchantment only works in survival mode!
 
+Currently, there is no way to get the enchantment in survival yet, but you can add your own ones.
+Here are some examples:
+* A Villager who trades a book and 32 emeralds for the enchanted book: 
+    ````
+    /summon minecraft:villager ~ ~ ~ {VillagerData:{type:plains,profession:farmer,level:2},Offers:{Recipes:[{buy:{id:book,Count:1},buyB:     {id:emerald,Count:32},sell:{id:enchanted_book,Count:1,tag:{StoredEnchantments:[{id:"replenishenchantment:replenish",lvl:1}],display:{Lore:   ['[{"text":"Replenish","italic":false,"color":"gray"}]']}}}}]}}
+    ````
+* You could also just add the Enchanted Book, or an enchanted tool to a Shopkeepers shop, if you have the [Shopkeepers](https://www.spigotmc.org/resources/shopkeepers.80756/) plugin installed.
+* A Citizens NPC giving an Enchanted Book to the players every 15 minutes
+  - first create a npc with ``/npc create <name>``
+  - configure it just like you want it to be, for more information about Citizens look [here](https://wiki.citizensnpcs.co/Citizens_Wiki)
+  - add the command like this:
+    
+    ``/npc cmd add r-getbook -o --cooldown 900``
+
 ## Compatibility
 | Minecraft version | Bukkit | Spigot | Paper | Purpur |
 |-------------------|--------|--------|-------|--------|
