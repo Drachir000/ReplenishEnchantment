@@ -105,7 +105,7 @@ player.getInventory.addItem(book, hoe, axe);
     
     ItemStack item = // ...
     
-    api.applyEnchantment(item); // For hoes
+    api.applyEnchantment(item); // For hoes and axes
     api.addStoredEnchant(item); // For enchantment storages like enchanted books
     
     // Do what ever you want with your enchanted Item
@@ -116,7 +116,7 @@ player.getInventory.addItem(book, hoe, axe);
     
     ItemStack item = // ...
     
-    if (isEnchanted(item)) { // For hoes
+    if (isEnchanted(item)) { // For hoes and axes
     if (hasStoredEnchant(item)) { // For enchantment storages like enchanted books
     
         // Do what ever you want with your enchanted Item
