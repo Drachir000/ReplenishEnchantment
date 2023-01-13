@@ -140,6 +140,8 @@ public class MessageBuilder {
         GIVE_AXE_INVALID_MATERIAL("give-axe-invalid-material"),
         GIVE_AXE_INV_FULL("give-axe-inv-full"),
         GIVE_AXE_SUCCESS("give-axe-success"),
+        GET_USAGE("get-usage"),
+        GIVE_USAGE("give-usage"),
         BOOK_LORE("book-lore");
 
         private final String configPath;

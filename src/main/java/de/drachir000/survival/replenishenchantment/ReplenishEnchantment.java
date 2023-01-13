@@ -9,7 +9,6 @@ import de.drachir000.survival.replenishenchantment.config.LanguageConfiguration;
 import de.drachir000.survival.replenishenchantment.config.MainConfiguration;
 import de.drachir000.survival.replenishenchantment.enchantment.Replenish;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
-import de.drachir000.survival.replenishenchantment.bStats.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
@@ -28,8 +27,8 @@ public final class ReplenishEnchantment extends JavaPlugin {
     private Enchantment enchantment;
     private MainConfiguration mainConfiguration;
     private MessageBuilder messageBuilder;
-    public static int CONFIG_VERSION = 5;
-    public static int LANGUAGE_VERSION = 4;
+    public static int CONFIG_VERSION = 6;
+    public static int LANGUAGE_VERSION = 5;
     private final static int bStatsID = 17348;
     private Metrics metrics;
     public static String isUpdateAvailable = null;
@@ -105,14 +104,10 @@ public final class ReplenishEnchantment extends JavaPlugin {
 
     private void registerCommands() {
         CommandHandler handler = new CommandHandler(this, itemUtils);
-        Objects.requireNonNull(getCommand("replenish-getbook")).setExecutor(handler);
-        Objects.requireNonNull(getCommand("replenish-getbook")).setPermission(getMainConfiguration().getPermission(MainConfiguration.Permission.CMD_GET_BOOK));
-        Objects.requireNonNull(getCommand("replenish-givebook")).setExecutor(handler);
-        Objects.requireNonNull(getCommand("replenish-givebook")).setPermission(getMainConfiguration().getPermission(MainConfiguration.Permission.CMD_GIVE_BOOK));
-        Objects.requireNonNull(getCommand("replenish-gethoe")).setExecutor(handler);
-        Objects.requireNonNull(getCommand("replenish-givehoe")).setExecutor(handler);
-        Objects.requireNonNull(getCommand("replenish-getaxe")).setExecutor(handler);
-        Objects.requireNonNull(getCommand("replenish-giveaxe")).setExecutor(handler);
+        Objects.requireNonNull(getCommand("replenish-get")).setExecutor(handler);
+        Objects.requireNonNull(getCommand("replenish-get")).setPermission(getMainConfiguration().getPermission(MainConfiguration.Permission.CMD_GET));
+        Objects.requireNonNull(getCommand("replenish-give")).setExecutor(handler);
+        Objects.requireNonNull(getCommand("replenish-give")).setPermission(getMainConfiguration().getPermission(MainConfiguration.Permission.CMD_GIVE));
     }
 
     private void registerEnchantmentsFromConfig(AnvilUtils anvilUtils) {

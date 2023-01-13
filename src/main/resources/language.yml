@@ -44,7 +44,7 @@ give-book-success: "§aSuccessfully added §e{1}§a to §e{0}'s§a Inventory"
 
 # Placeholders:
 # None
-get-hoe-usage: "§cUsage: /replenish-gethoe <Material(IRON/DIAMOND/...)> [<full-enchanted(true/false)>]"
+get-hoe-usage: "§cUsage: /replenish-get HOE <Material(IRON/DIAMOND/...)> [<full-enchanted(true/false)>]"
 
 # Placeholders:
 # {0} - The invalid material
@@ -60,7 +60,7 @@ get-hoe-success: "§e{0}§a was successfully added to your Inventory"
 
 # Placeholders:
 # None
-give-hoe-usage: "§cUsage: /replenish-givehoe <Player> <Material(IRON/DIAMOND/...)> [<full-enchanted(true/false)>]"
+give-hoe-usage: "§cUsage: /replenish-give HOE <Player> <Material(IRON/DIAMOND/...)> [<full-enchanted(true/false)>]"
 
 # Placeholders:
 # {0} - The unknown player-name
@@ -87,7 +87,7 @@ give-hoe-success: "§aSuccessfully added §e{1}§a to §e{0}'s§a Inventory"
 
 # Placeholders:
 # None
-get-axe-usage: "§cUsage: /replenish-getaxe <Material(IRON/DIAMOND/...)> [<full-enchanted(true/false)>]"
+get-axe-usage: "§cUsage: /replenish-get AXE <Material(IRON/DIAMOND/...)> [<full-enchanted(true/false)>]"
 
 # Placeholders:
 # {0} - The invalid material
@@ -103,7 +103,7 @@ get-axe-success: "§e{0}§a was successfully added to your Inventory"
 
 # Placeholders:
 # None
-give-axe-usage: "§cUsage: /replenish-giveaxe <Player> <Material(IRON/DIAMOND/...)> [<full-enchanted(true/false)>]"
+give-axe-usage: "§cUsage: /replenish-give AXE <Player> <Material(IRON/DIAMOND/...)> [<full-enchanted(true/false)>]"
 
 # Placeholders:
 # {0} - The unknown player-name
@@ -132,5 +132,13 @@ give-axe-success: "§aSuccessfully added §e{1}§a to §e{0}'s§a Inventory"
 # None
 book-lore: "§7§o*Drag onto hoe to apply*"
 
+# Placeholders:
+# None
+get-usage: "§cUsage: /replenish-get <BOOK/HOE/AXE> [<Material(IRON/DIAMOND/...)>] [<full-enchanted(true/false)>]"
+
+# Placeholders:
+# None
+give-usage: "§cUsage: /replenish-give <BOOK/HOE/AXE> <Player> [<Material(IRON/DIAMOND/...)>] [<full-enchanted(true/false)>]"
+
 # DO NOT CHANGE !!!
-config-version: 4
+config-version: 5

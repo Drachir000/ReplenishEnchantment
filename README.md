@@ -12,16 +12,16 @@ This plugin adds an enchantment for hoes that automatically replants seeds when 
 ## Usage
 
 ### Commands
-* `/r-getbook` - gives you an Enchanted Book with the Replenish Enchantment on it
-* `/r-givebook <Player>` - gives \<Player> an Enchanted Book with the Replenish Enchantment on it
-* `/r-gethoe <Material> [<full-enchanted>]` - gives you a Hoe of the Material \<Material> with the Replenish Enchantment on it. When \<full-enchanted> is set and is true the hoe will also be enchanted with
+* `/r-get BOOK` - gives you an Enchanted Book with the Replenish Enchantment on it
+* `/r-give BOOK <Player>` - gives \<Player> an Enchanted Book with the Replenish Enchantment on it
+* `/r-get HOE <Material> [<full-enchanted>]` - gives you a Hoe of the Material \<Material> with the Replenish Enchantment on it. When \<full-enchanted> is set and is true the hoe will also be enchanted with
     - Efficiency V
     - Fortune III
     - Mending
     - Unbreaking III
-* `/r-givehoe <Player> <Material> [<full-enchanted>]` - gives \<Player> a Hoe of the Material \<Material> with the Replenish Enchantment on it. \<full-enchanted> works just like above
-* `/r-gethoe <Material> [<full-enchanted>]` - gives you a Axe of the Material \<Material> with the Replenish Enchantment on it. \<full-enchanted> works just like above
-* `/r-giveaxe <Player> <Material> [<full-enchanted>]` - gives \<Player> a Axe of the Material \<Material> with the Replenish Enchantment on it. \<full-enchanted> works just like above
+* `/r-give HOE <Player> <Material> [<full-enchanted>]` - gives \<Player> a Hoe of the Material \<Material> with the Replenish Enchantment on it. \<full-enchanted> works just like above
+* `/r-get AXE <Material> [<full-enchanted>]` - gives you an Axe of the Material \<Material> with the Replenish Enchantment on it. \<full-enchanted> works just like above
+* `/r-give AXE <Player> <Material> [<full-enchanted>]` - gives \<Player> an Axe of the Material \<Material> with the Replenish Enchantment on it. \<full-enchanted> works just like above
 
 ### Permissions
 The Permissions can be viewed and edited in the config.yml located in the /plugins/ReplenishEnchantment/ directory
@@ -51,7 +51,7 @@ Here are some examples:
   - configure it just like you want it to be, for more information about Citizens look [here](https://wiki.citizensnpcs.co/Citizens_Wiki)
   - add the command like this:
     
-    ``/npc cmd add r-getbook -o --cooldown 900``
+    ``/npc cmd add r-get BOOK -o --cooldown 900``
 
 ## Compatibility
 | Minecraft version | Bukkit | Spigot | Paper | Purpur |
@@ -173,7 +173,7 @@ to discuss what you would like to change.
 5. [x] Adding Cactus & Sugar Cane
 6. [x] Adding Cocoa Beans
 7. [x] Creating a public maven repo
-8. [ ] Reworking the commands
+8. [x] Reworking the commands
 9. [ ] Adding option, to disable the whole enchantment part and enable replenish for every hoe/axe
 10. [ ] Adding an option for a Crafting-Recipe
 

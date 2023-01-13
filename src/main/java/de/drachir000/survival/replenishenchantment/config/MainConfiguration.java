@@ -90,69 +90,69 @@ public class MainConfiguration extends ConfigFile {
                 #         Permissions          #
                 ################################
                                 
-                # The permission for the /r-getbook command
+                # The permission for the /r-get BOOK command
                 # Set to "" to disable the permission (Players need to be OP then)
                 permission-get-book: re.cmd.get.book
                                 
-                # The permission for the /r-givebook command
+                # The permission for the /r-give BOOK command
                 # Set to "" to disable the permission (Players need to be OP then)
                 permission-give-book: re.cmd.give.book
                                 
                 permission-get-hoe:
-                  # The permission for the wooden hoe with the /r-gethoe command
+                  # The permission for the wooden hoe with the /r-get HOE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   wood: re.cmd.get.hoe.wood
                                 
-                  # The permission for the stone hoe with the /r-gethoe command
+                  # The permission for the stone hoe with the /r-get HOE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   stone: re.cmd.get.hoe.stone
                                 
-                  # The permission for the golden hoe with the /r-gethoe command
+                  # The permission for the golden hoe with the /r-get HOE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   gold: re.cmd.get.hoe.gold
                                 
-                  # The permission for the iron hoe with the /r-gethoe command
+                  # The permission for the iron hoe with the /r-get HOE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   iron: re.cmd.get.hoe.iron
                                 
-                  # The permission for the diamond hoe with the /r-gethoe command
+                  # The permission for the diamond hoe with the /r-get HOE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   diamond: re.cmd.get.hoe.diamond
                                 
-                  # The permission for the netherite hoe with the /r-gethoe command
+                  # The permission for the netherite hoe with the /r-get HOE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   netherite: re.cmd.get.hoe.netherite
                                                      
-                  # The permission for the full-enchanted hoe option with the /r-gethoe command
+                  # The permission for the full-enchanted hoe option with the /r-get HOE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   full-enchanted: re.cmd.get.hoe.full-enchanted
                                 
                 permission-give-hoe:
-                  # The permission for the wooden hoe with the /r-givehoe command
+                  # The permission for the wooden hoe with the /r-give HOE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   wood: re.cmd.give.hoe.wood
                                 
-                  # The permission for the stone hoe with the /r-givehoe command
+                  # The permission for the stone hoe with the /r-give HOE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   stone: re.cmd.give.hoe.stone
                                 
-                  # The permission for the golden hoe with the /r-givehoe command
+                  # The permission for the golden hoe with the /r-give HOE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   gold: re.cmd.give.hoe.gold
                                 
-                  # The permission for the iron hoe with the /r-givehoe command
+                  # The permission for the iron hoe with the /r-give HOE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   iron: re.cmd.give.hoe.iron
                                 
-                  # The permission for the diamond hoe with the /r-givehoe command
+                  # The permission for the diamond hoe with the /r-give HOE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   diamond: re.cmd.give.hoe.diamond
                                 
-                  # The permission for the netherite hoe with the /r-givehoe command
+                  # The permission for the netherite hoe with the /r-give HOE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   netherite: re.cmd.give.hoe.netherite
                                               
-                  # The permission for the full-enchanted hoe option with the /r-givehoe command
+                  # The permission for the full-enchanted hoe option with the /r-give HOE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   full-enchanted: re.cmd.give.hoe.full-enchanted
                                         
@@ -210,62 +210,72 @@ public class MainConfiguration extends ConfigFile {
                   - "COCOA"
                                 
                 permission-get-axe:
-                  # The permission for the wooden axe with the /r-getaxe command
+                  # The permission for the wooden axe with the /r-get AXE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   wood: re.cmd.get.axe.wood
                                 
-                  # The permission for the stone axe with the /r-getaxe command
+                  # The permission for the stone axe with the /r-get AXE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   stone: re.cmd.get.axe.stone
                                 
-                  # The permission for the golden axe with the /r-getaxe command
+                  # The permission for the golden axe with the /r-get AXE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   gold: re.cmd.get.axe.gold
                                 
-                  # The permission for the iron axe with the /r-getaxe command
+                  # The permission for the iron axe with the /r-get AXE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   iron: re.cmd.get.axe.iron
                                 
-                  # The permission for the diamond axe with the /r-getaxe command
+                  # The permission for the diamond axe with the /r-get AXE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   diamond: re.cmd.get.axe.diamond
                                 
-                  # The permission for the netherite axe with the /r-getaxe command
+                  # The permission for the netherite axe with the /r-get AXE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   netherite: re.cmd.get.axe.netherite
                                 
-                  # The permission for the full-enchanted axe option with the /r-getaxe command
+                  # The permission for the full-enchanted axe option with the /r-get AXE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   full-enchanted: re.cmd.get.axe.full-enchanted
                                 
                 permission-give-axe:
-                  # The permission for the wooden axe with the /r-giveaxe command
+                  # The permission for the wooden axe with the /r-give AXE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   wood: re.cmd.give.axe.wood
                                 
-                  # The permission for the stone axe with the /r-giveaxe command
+                  # The permission for the stone axe with the /r-give AXE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   stone: re.cmd.give.axe.stone
                                 
-                  # The permission for the golden axe with the /r-giveaxe command
+                  # The permission for the golden axe with the /r-give AXE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   gold: re.cmd.give.axe.gold
                                 
-                  # The permission for the iron axe with the /r-giveaxe command
+                  # The permission for the iron axe with the /r-give AXE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   iron: re.cmd.give.axe.iron
                                 
-                  # The permission for the diamond axe with the /r-giveaxe command
+                  # The permission for the diamond axe with the /r-give AXE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   diamond: re.cmd.give.axe.diamond
                                 
-                  # The permission for the netherite axe with the /r-giveaxe command
+                  # The permission for the netherite axe with the /r-give AXE command
                   # Set to "" to disable the permission (Players need to be OP then)
                   netherite: re.cmd.give.axe.netherite
                                 
                   # The permission for the full-enchanted axe option with the /r-giveaxe command
                   # Set to "" to disable the permission (Players need to be OP then)
                   full-enchanted: re.cmd.give.axe.full-enchanted
+                                
+                """;
+        private final String UPDATE_6 = """
+                # The base permission for the /r-get command
+                # Set to "" to disable the permission (Players need to be OP then)
+                permission-get: re.cmd.get
+                                
+                # The base permission for the /r-give command
+                # Set to "" to disable the permission (Players need to be OP then)
+                permission-give: re.cmd.give
                                 
                 """;
 
@@ -348,6 +358,8 @@ public class MainConfiguration extends ConfigFile {
         CMD_GIVE_AXE_MATERIAL_DIAMOND("permission-give-axe.diamond"),
         CMD_GIVE_AXE_MATERIAL_NETHERITE("permission-give-axe.netherite"),
         CMD_GIVE_AXE_FULL_ENCHANT("permission-give-axe.full-enchanted"),
+        CMD_GET("permission-get"),
+        CMD_GIVE("permission-give"),
         ;
 
         private final String configPath;

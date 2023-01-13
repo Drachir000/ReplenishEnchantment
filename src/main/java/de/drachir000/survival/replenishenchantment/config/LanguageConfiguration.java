@@ -184,6 +184,36 @@ public class LanguageConfiguration extends ConfigFile {
                 give-axe-success: "§aSuccessfully added §e{1}§a to §e{0}'s§a Inventory"
                                 
                 """;
+        private final String UPDATE_5 = """
+                # Placeholders:
+                # None
+                get-usage: "§cUsage: /replenish-get <BOOK/HOE/AXE> [<Material(IRON/DIAMOND/...)>] [<full-enchanted(true/false)>]"
+                                
+                # Placeholders:
+                # None
+                give-usage: "§cUsage: /replenish-give <BOOK/HOE/AXE> <Player> [<Material(IRON/DIAMOND/...)>] [<full-enchanted(true/false)>]"
+                
+                # REPLACES THE OLD VALUE
+                # Placeholders:
+                # None
+                give-axe-usage: "§cUsage: /replenish-give AXE <Player> <Material(IRON/DIAMOND/...)> [<full-enchanted(true/false)>]"
+                
+                # REPLACES THE OLD VALUE
+                # Placeholders:
+                # None
+                get-axe-usage: "§cUsage: /replenish-get AXE <Material(IRON/DIAMOND/...)> [<full-enchanted(true/false)>]"
+                
+                # REPLACES THE OLD VALUE
+                # Placeholders:
+                # None
+                give-hoe-usage: "§cUsage: /replenish-give HOE <Player> <Material(IRON/DIAMOND/...)> [<full-enchanted(true/false)>]"
+                
+                # REPLACES THE OLD VALUE
+                # Placeholders:
+                # None
+                get-hoe-usage: "§cUsage: /replenish-get HOE <Material(IRON/DIAMOND/...)> [<full-enchanted(true/false)>]"
+                                
+                """;
 
         private String getUpdates() {
             StringBuilder update = new StringBuilder();

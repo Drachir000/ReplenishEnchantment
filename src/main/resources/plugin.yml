@@ -6,27 +6,11 @@ authors: [ Drachir000 ]
 description: This plugin adds an enchantment for hoes that automatically replants seeds when harvesting, making farming more efficient
 website: https://github.com/Drachir000/ReplenishEnchantment
 commands:
-  replenish-getbook:
-    description: gives you the Enchantment-Book
-    usage: /replenish-getbook
-    aliases: [r-getbook]
-  replenish-givebook:
-    description: gives a player the Enchantment-Book
-    usage: /replenish-givebook <Player>
-    aliases: [r-givebook]
-  replenish-gethoe:
-    description: gives you a Enchanted Hoe
-    usage: /replenish-gethoe [<Material(WOOD/IRON/etc.)>] [<full-enchanted(true/false)>]
-    aliases: [r-gethoe]
-  replenish-givehoe:
-    description: gives a player a Enchanted Hoe
-    usage: /replenish-givehoe <Player> <Material(WOOD/IRON/etc.)> [<full-enchanted(true/false)>]
-    aliases: [r-givehoe]
-  replenish-getaxe:
-    description: gives you a Enchanted Axe
-    usage: /replenish-getaxe [<Material(WOOD/IRON/etc.)>] [<full-enchanted(true/false)>]
-    aliases: [r-getaxe]
-  replenish-giveaxe:
-    description: gives a player a Enchanted Axe
-    usage: /replenish-giveaxe <Player> <Material(WOOD/IRON/etc.)> [<full-enchanted(true/false)>]
-    aliases: [r-giveaxe]
+  replenish-get:
+    description: gives you the Enchantment-Book, an enchanted hoe or axe
+    usage: /replenish-get <BOOK/HOE/AXE> [<Material(WOOD/IRON/etc.)>] [<full-enchanted(true/false)>]
+    aliases: [r-get]
+  replenish-give:
+    description: gives a player the Enchantment-Book, an enchanted hoe or axe
+    usage: /replenish-give <BOOK/HOE/AXE> <Player> [<Material(WOOD/IRON/etc.)>] [<full-enchanted(true/false)>]
+    aliases: [r-give]
