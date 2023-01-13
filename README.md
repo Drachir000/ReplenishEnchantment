@@ -88,11 +88,12 @@ If you want to give your players the Enchanted Book, or directly an enchanted ho
 // Get the api like above
 
 Material hoeMaterial = // ... The Material of the Hoe (must be a hoe)
+Material axeMaterial = // ... The Material of the Axe (must be a axe)
 boolean fullEnchanted = // ... Whether the hoe or axe should have Efficiency V, Fortune III, Mending and Unbreaking III. If you only want some of theese you have to add them yourself.
 
 ItemStack book = api.buildBook();
 ItemStack hoe = api.buildHoe(hoeMaterial, fullEnchanted);
-ItemStack axe = api.buildAxe(hoeMaterial, fullEnchanted);
+ItemStack axe = api.buildAxe(axeMaterial, fullEnchanted);
 
 player.getInventory.addItem(book, hoe, axe);
 ````
