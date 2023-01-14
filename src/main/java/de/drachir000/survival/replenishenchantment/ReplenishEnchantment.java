@@ -27,7 +27,7 @@ public final class ReplenishEnchantment extends JavaPlugin {
     private Enchantment enchantment;
     private MainConfiguration mainConfiguration;
     private MessageBuilder messageBuilder;
-    public static int CONFIG_VERSION = 6;
+    public static int CONFIG_VERSION = 7;
     public static int LANGUAGE_VERSION = 5;
     private final static int bStatsID = 17348;
     private Metrics metrics;
@@ -45,35 +45,45 @@ public final class ReplenishEnchantment extends JavaPlugin {
         LanguageConfiguration languageConfiguration = new LanguageConfiguration(this, "language.yml");
         this.messageBuilder = new MessageBuilder(languageConfiguration);
 
-        this.enchantment = new Replenish("replenish", this, mainConfiguration.getEnchantmentName());
-        if (!Arrays.stream(Enchantment.values()).toList().contains(enchantment))
-            try {
-                Field fieldAcceptingNew = Enchantment.class.getDeclaredField("acceptingNew");
-                fieldAcceptingNew.setAccessible(true);
-                fieldAcceptingNew.set(null, true);
-                fieldAcceptingNew.setAccessible(false);
-                Enchantment.registerEnchantment(enchantment);
-                Enchantment.stopAcceptingRegistrations();
-            } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException | IllegalStateException e) {
-                e.printStackTrace();
-                getLogger().log(Level.SEVERE, "Failed to register enchantment! Disabling...");
-                getPluginLoader().disablePlugin(this);
-            }
-        else
-            getLogger().log(Level.WARNING, "Enchantment already registered!");
+        String requirement = mainConfiguration.getRequirement().toUpperCase();
+        if (!requirement.equals("ENCHANTMENT") && !requirement.equals("TOOL") && !requirement.equals("NONE")) {
+            getLogger().log(Level.SEVERE, "Unknown requirement: \"" + requirement + "\"");
+            getPluginLoader().disablePlugin(this);
+            return;
+        }
+
+        if (requirement.equals("ENCHANTMENT")) {
+            this.enchantment = new Replenish("replenish", this, mainConfiguration.getEnchantmentName());
+            if (!Arrays.stream(Enchantment.values()).toList().contains(enchantment))
+                try {
+                    Field fieldAcceptingNew = Enchantment.class.getDeclaredField("acceptingNew");
+                    fieldAcceptingNew.setAccessible(true);
+                    fieldAcceptingNew.set(null, true);
+                    fieldAcceptingNew.setAccessible(false);
+                    Enchantment.registerEnchantment(enchantment);
+                    Enchantment.stopAcceptingRegistrations();
+                } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException | IllegalStateException e) {
+                    e.printStackTrace();
+                    getLogger().log(Level.SEVERE, "Failed to register enchantment! Disabling...");
+                    getPluginLoader().disablePlugin(this);
+                }
+            else
+                getLogger().log(Level.WARNING, "Enchantment already registered!");
+        }
 
         this.itemUtils = new ItemUtils(this);
         AnvilUtils anvilUtils = new AnvilUtils(this, mainConfiguration.getItemMultiplier(), mainConfiguration.getBookMultiplier());
         new REAPI(this, itemUtils, anvilUtils);
+        if (requirement.equals("ENCHANTMENT")) {
+            Bukkit.getPluginManager().registerEvents(new ItemWatcher(this, itemUtils, anvilUtils), this);
+            registerEnchantmentsFromConfig(anvilUtils);
+        }
 
-        Replenisher replenisher = new Replenisher(this);
+        Replenisher replenisher = new Replenisher(this, requirement, itemUtils);
 
         Bukkit.getPluginManager().registerEvents(replenisher, this);
-        Bukkit.getPluginManager().registerEvents(new ItemWatcher(this, itemUtils, anvilUtils), this);
 
-        registerCommands();
-
-        registerEnchantmentsFromConfig(anvilUtils);
+        registerCommands(requirement);
 
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             isUpdateAvailable = checkUpdate();
@@ -102,8 +112,8 @@ public final class ReplenishEnchantment extends JavaPlugin {
 
     }
 
-    private void registerCommands() {
-        CommandHandler handler = new CommandHandler(this, itemUtils);
+    private void registerCommands(String requirement) {
+        CommandHandler handler = new CommandHandler(this, itemUtils, requirement.equals("ENCHANTMENT"));
         Objects.requireNonNull(getCommand("replenish-get")).setExecutor(handler);
         Objects.requireNonNull(getCommand("replenish-get")).setPermission(getMainConfiguration().getPermission(MainConfiguration.Permission.CMD_GET));
         Objects.requireNonNull(getCommand("replenish-give")).setExecutor(handler);

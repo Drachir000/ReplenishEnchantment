@@ -23,12 +23,17 @@ public class ItemUtils {
 
     public ItemUtils(ReplenishEnchantment inst) {
         this.enchantment = inst.getEnchantment();
-        Component loreLine = Component.text(enchantment.getName()).color(NamedTextColor.GRAY)
-                .decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, false).decoration(TextDecoration.OBFUSCATED, false)
-                .decoration(TextDecoration.STRIKETHROUGH, false).decoration(TextDecoration.UNDERLINED, false);
-        this.lore = LegacyComponentSerializer.legacySection().serialize(loreLine);
-        Component bookLore = inst.getMessageBuilder().build(MessageBuilder.Message.BOOK_LORE);
-        this.bookLore = LegacyComponentSerializer.legacySection().serialize(bookLore);
+        if (enchantment != null) {
+            Component loreLine = Component.text(enchantment.getName()).color(NamedTextColor.GRAY)
+                    .decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, false).decoration(TextDecoration.OBFUSCATED, false)
+                    .decoration(TextDecoration.STRIKETHROUGH, false).decoration(TextDecoration.UNDERLINED, false);
+            this.lore = LegacyComponentSerializer.legacySection().serialize(loreLine);
+            Component bookLore = inst.getMessageBuilder().build(MessageBuilder.Message.BOOK_LORE);
+            this.bookLore = LegacyComponentSerializer.legacySection().serialize(bookLore);
+        } else {
+            lore = null;
+            bookLore = null;
+        }
     }
 
     public boolean isEnchanted(ItemStack item) {

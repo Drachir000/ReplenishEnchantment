@@ -1,5 +1,6 @@
 package de.drachir000.survival.replenishenchantment;
 
+import de.drachir000.survival.replenishenchantment.api.ItemUtils;
 import de.drachir000.survival.replenishenchantment.api.event.ReplenishEvent;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -18,20 +19,24 @@ import java.util.Map;
 public class Replenisher implements Listener {
 
     private final ReplenishEnchantment inst;
+    private final ItemUtils utils;
+    private String requirement;
 
-    public Replenisher(ReplenishEnchantment inst) {
+    public Replenisher(ReplenishEnchantment inst, String requirement, ItemUtils utils) {
         this.inst = inst;
+        this.requirement = requirement;
+        this.utils = utils;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockBreak(BlockBreakEvent e) {
         if (e.isCancelled())
             return;
-        if (e.getPlayer().getInventory().getItemInMainHand().getType().isAir())
+        if (e.getPlayer().getInventory().getItemInMainHand().getType().isAir() && !requirement.equals("NONE"))
             return;
-        if (!e.getPlayer().getInventory().getItemInMainHand().hasItemMeta())
+        if (requirement.equals("TOOL") && !(utils.isHoe(e.getPlayer().getInventory().getItemInMainHand()) || utils.isAxe(e.getPlayer().getInventory().getItemInMainHand())))
             return;
-        if (!e.getPlayer().getInventory().getItemInMainHand().getItemMeta().hasEnchant(inst.getEnchantment()))
+        if (requirement.equals("ENCHANTMENT") && !utils.isEnchanted(e.getPlayer().getInventory().getItemInMainHand()))
             return;
         if (e.getPlayer().getGameMode() != GameMode.SURVIVAL)
             return;

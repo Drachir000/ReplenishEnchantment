@@ -62,6 +62,9 @@ public class MainConfiguration extends ConfigFile {
     public List<String> getCrops() {
         return getConfig().getStringList("crops");
     }
+    public String getRequirement() {
+        return getConfig().getString("requirement");
+    }
 
     public int configVersion() {
         return getConfig().getInt("config-version");
@@ -278,6 +281,15 @@ public class MainConfiguration extends ConfigFile {
                 permission-give: re.cmd.give
                                 
                 """;
+        private final String UPDATE_7 = """
+                # The prerequisite for replenishing to work.
+                # ENCHANTMENT - The player needs a tool enchanted with the Replenish-Enchantment
+                # TOOL - The player needs a tool (Hoe/Axe) in the main hand
+                # NONE - The player just needs to break the crops, with whatever he wants
+                # Note: when set to "TOOL" or "NONE" all the following enchantment options are redundant!
+                requirement: ENCHANTMENT
+                                
+                """;
 
         private String getUpdates() {
             StringBuilder update = new StringBuilder();
@@ -295,6 +307,8 @@ public class MainConfiguration extends ConfigFile {
                     update.append(UPDATE_5);
                 case 5:
                     update.append(UPDATE_6);
+                case 6:
+                    update.append(UPDATE_7);
             }
 
             update.append(UPDATE_ALERT);

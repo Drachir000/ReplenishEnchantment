@@ -1,5 +1,25 @@
 # DO NOT CHANGE !!!
-config-version: 6
+config-version: 7
+
+crops:
+  # A list of all crops you want to be affected by the replenish-enchantment
+  # Currently supported:
+  # - "WHEAT", "CARROTS", "POTATOES", "BEETROOTS", "NETHER_WART", "CACTUS", "SUGAR_CANE" and "COCOA"
+  - "WHEAT"
+  - "CARROTS"
+  - "POTATOES"
+  - "BEETROOTS"
+  - "NETHER_WART"
+  - "CACTUS"
+  - "SUGAR_CANE"
+  - "COCOA"
+
+# The prerequisite for replenishing to work.
+# ENCHANTMENT - The player needs a tool enchanted with the Replenish-Enchantment
+# TOOL - The player needs a tool (Hoe/Axe) in the main hand
+# NONE - The player just needs to break the crops, with whatever he wants
+# Note: when set to "TOOL" or "NONE" all the following enchantment options are redundant!
+requirement: ENCHANTMENT
 
 # The name of the Enchantment
 name: Replenish
@@ -23,7 +43,7 @@ level-multiplier:
 
 external-enchantment-level-multiplier:
   # Add the level multipliers for custom enchantments from other plugins here,
-  # as this plugin completely overwrites the anvil and the level costs for unknown enchantments defaults to 0
+  # as this plugin completely overwrites the anvil (only when requirement is set to ENCHANTMENT) and the level costs for unknown enchantments defaults to 0
   # Format:
   # key: (you will get a message "Could not identify Enchantment "{key}"! Setting level cost to 0..." whenever this plugin detects an unknown enchantment,
   #       {key} will be replaced with the actual key)
@@ -32,19 +52,6 @@ external-enchantment-level-multiplier:
   example_key:
     item: 6
     book: 3
-
-crops:
-  # A list of all crops you want to be affected by the replenish-enchantment
-  # Currently supported:
-  # - "WHEAT", "CARROTS", "POTATOES", "BEETROOTS", "NETHER_WART", "CACTUS", "SUGAR_CANE" and "COCOA"
-  - "WHEAT"
-  - "CARROTS"
-  - "POTATOES"
-  - "BEETROOTS"
-  - "NETHER_WART"
-  - "CACTUS"
-  - "SUGAR_CANE"
-  - "COCOA"
 
 ################################
 #         Permissions          #

@@ -27,12 +27,14 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
     private final MainConfiguration config;
     private final ItemUtils utils;
     private final BukkitAudiences audiences;
+    private final boolean enabled;
 
-    public CommandHandler(ReplenishEnchantment inst, ItemUtils utils) {
+    public CommandHandler(ReplenishEnchantment inst, ItemUtils utils, boolean enabled) {
         this.messageBuilder = inst.getMessageBuilder();
         this.config = inst.getMainConfiguration();
         this.utils = utils;
         this.audiences = inst.adventure();
+        this.enabled = enabled;
     }
 
     private String getTranslationItemKey(String key) {
@@ -314,6 +316,8 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (!enabled)
+            return true;
         switch (command.getName()) {
             case "replenish-get" -> {
                 if (!sender.hasPermission(config.getPermission(MainConfiguration.Permission.CMD_GET))) {
@@ -368,6 +372,8 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         List<String> list = new ArrayList<>();
+        if (!enabled)
+            return list;
         switch (command.getName()) {
             case "replenish-give" -> {
                 if (args.length < 1)
