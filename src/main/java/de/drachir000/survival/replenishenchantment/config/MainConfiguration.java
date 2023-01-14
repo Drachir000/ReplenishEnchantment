@@ -293,6 +293,8 @@ public class MainConfiguration extends ConfigFile {
                     update.append(UPDATE_4);
                 case 4:
                     update.append(UPDATE_5);
+                case 5:
+                    update.append(UPDATE_6);
             }
 
             update.append(UPDATE_ALERT);

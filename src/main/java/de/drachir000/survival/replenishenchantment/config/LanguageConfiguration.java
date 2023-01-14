@@ -227,6 +227,8 @@ public class LanguageConfiguration extends ConfigFile {
                     update.append(UPDATE_3);
                 case 3:
                     update.append(UPDATE_4);
+                case 4:
+                    update.append(UPDATE_5);
             }
 
             update.append(UPDATE_ALERT);
