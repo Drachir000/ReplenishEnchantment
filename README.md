@@ -174,7 +174,7 @@ to discuss what you would like to change.
 6. [x] Adding Cocoa Beans
 7. [x] Creating a public maven repo
 8. [x] Reworking the commands
-9. [ ] Adding option, to disable the whole enchantment part and enable replenish for every hoe/axe
+9. [x] Adding option, to disable the whole enchantment part and enable replenish for every hoe/axe
 10. [ ] Adding an option for a Crafting-Recipe
 
 ## License
