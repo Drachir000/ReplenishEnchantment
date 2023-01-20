@@ -2,6 +2,7 @@ package de.drachir000.survival.replenishenchantment;
 
 import de.drachir000.survival.replenishenchantment.api.ItemUtils;
 import de.drachir000.survival.replenishenchantment.api.event.ReplenishEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -43,7 +44,8 @@ public class Replenisher implements Listener {
         if (!inst.getMainConfiguration().getCrops().contains(e.getBlock().getType().toString()))
             return;
         Material material = null;
-        switch (e.getBlock().getType()) {
+        Material finalMaterial = e.getBlock().getType();
+        switch (finalMaterial) {
             case WHEAT -> material = Material.WHEAT_SEEDS;
             case CARROTS -> material = Material.CARROT;
             case POTATOES -> material = Material.POTATO;
@@ -76,18 +78,22 @@ public class Replenisher implements Listener {
             }
         }
 
-        if (!replenish && consumeItem(e.getPlayer(), 1, material))
+        boolean tookCropFromInventory = false;
+
+        if (!replenish && consumeItem(e.getPlayer(), 1, material)) {
             replenish = true;
+            tookCropFromInventory = true;
+        }
 
         if (replenish) {
             ReplenishEvent event = new ReplenishEvent(material, drops, e.getPlayer(), e.getBlock());
 
-            if (!event.callEvent()) {
-                e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new ItemStack(material, 1));
+            if (!event.callEvent() && tookCropFromInventory) {
+                e.getPlayer().getInventory().addItem(new ItemStack(material, 1));
                 return;
             }
 
-            e.setCancelled(true);
+            e.setDropItems(false);
             for (ItemStack drop : event.getDrops()) {
                 e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
             }
@@ -97,10 +103,16 @@ public class Replenisher implements Listener {
                     block.setType(Material.AIR);
                     block = block.getRelative(0, 1, 0);
                 }
+                Bukkit.getScheduler().runTaskLater(inst, () -> {
+                    e.getBlock().setType(finalMaterial, true);
+                }, 5);
             } else {
                 Ageable ageable = (Ageable) e.getBlock().getBlockData();
                 ageable.setAge(0);
-                e.getBlock().setBlockData(ageable);
+                Bukkit.getScheduler().runTaskLater(inst, () -> {
+                    e.getBlock().setType(finalMaterial, true);
+                    e.getBlock().setBlockData(ageable);
+                }, 3);
             }
             addAction(material, count);
         }
